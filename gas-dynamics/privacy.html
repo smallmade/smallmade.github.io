@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy &mdash; Gas Dynamics Calculator</title>
+<style>
+:root {
+  --ink: #14171c; --dim: #5b626c; --line: #dfe3e8; --bg: #ffffff;
+  --panel: #f6f8fa; --accent: #b8440e; --accent-ink: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e6e9ee; --dim: #9aa1ab; --line: #2b3038; --bg: #16181c;
+    --panel: #1e2126; --accent: #ff8a5c; --accent-ink: #16181c;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+header { padding: 72px 0 40px; }
+h1 { font-size: 2.6rem; line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.02em; }
+.lede { font-size: 1.2rem; color: var(--dim); margin: 0 0 28px; max-width: 60ch; }
+h2 { font-size: 1.5rem; margin: 56px 0 14px; letter-spacing: -0.01em; }
+h3 { font-size: 1.05rem; margin: 28px 0 8px; }
+p { max-width: 68ch; }
+a { color: var(--accent); }
+.buy {
+  display: inline-block; background: var(--accent); color: var(--accent-ink);
+  padding: 13px 26px; border-radius: 8px; text-decoration: none; font-weight: 600;
+}
+.price { color: var(--dim); margin-left: 14px; }
+figure { margin: 28px 0; }
+img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 10px; }
+figcaption { color: var(--dim); font-size: 0.9rem; margin-top: 8px; }
+.panel {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 18px 22px; margin: 22px 0;
+}
+.grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.grid .panel { margin: 0; }
+table { border-collapse: collapse; width: 100%; margin: 18px 0; font-size: 0.94rem; }
+.scroll { overflow-x: auto; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+th { color: var(--dim); font-weight: 600; }
+code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.92em; }
+footer { margin: 72px 0 48px; padding-top: 24px; border-top: 1px solid var(--line);
+         color: var(--dim); font-size: 0.9rem; }
+footer a { color: var(--dim); }
+</style>
+</head>
+<body><div class="wrap">
+<header><h1>Privacy</h1></header>
+
+<p>The Gas Dynamics Calculator collects nothing.</p>
+<p>It contains no analytics, no crash reporting, no advertising identifier and no
+third-party SDK. It makes no network requests of any kind &mdash; there is no network
+code in it to make one. Nothing you type into it, and nothing it computes, is
+transmitted anywhere.</p>
+<h2>What is stored, and where</h2>
+<p>Your own preferences &mdash; the gas, units and which quantities each module
+shows &mdash; are written to your operating system&rsquo;s ordinary settings store,
+inside the application&rsquo;s own sandbox container.</p>
+<p>The application also keeps your <strong>recent calculations</strong> (the last
+fifty) and your saved <strong>flow paths</strong> in files in that same container, so
+they are still there the next time you open it. Clear History erases the calculation
+log; flow paths can be deleted individually in the application.</p>
+<p>All of this stays on your device and is never sent anywhere. Removing the app from
+an iPad removes its local container. macOS may retain an app&rsquo;s sandbox data after
+the app itself is deleted, so deleting the app alone should not be relied on as a
+secure-erasure method.</p>
+<h2>Buying</h2>
+<p>The application is sold through the Mac App Store. Apple is the seller: it takes
+the payment and holds the receipt, under
+<a href="https://www.apple.com/legal/privacy/">Apple&rsquo;s privacy policy</a> and
+not this one. <strong>We receive no personal information from that transaction at
+all</strong> &mdash; not your name, not your email address, not your country. We do
+not know who has bought a copy, and there is nothing for us to sell or share.</p>
+<p>If you write to us for support we will have whatever you put in that message, and
+we use it to answer you and for nothing else.</p>
+<h2>Contact</h2>
+<p>Questions about this policy: <a href="mailto:softwareone.support@gmail.com">softwareone.support@gmail.com</a>.</p>
+
+<footer><p><a href="support.html">Support</a> &middot;
+<a href="../index.html">All applications</a></p></footer>
+</div></body>
+</html>

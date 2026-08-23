@@ -1,0 +1,18 @@
+# Every application published under this account, in the order the hub lists them.
+#
+# This is the manifest the umbrella site is built from. Adding an application here
+# and re-running `tools/generate_hub.py` puts it on the front page; the application's
+# own support and privacy pages are written by its own repository into its own
+# `slug/` folder, so nothing here has to know what any of them do.
+#
+# `slug` is the folder name and therefore part of every URL the App Store will hold
+# for that app. Once an app is submitted its slug is fixed: changing it breaks the
+# Support and Privacy URLs already recorded in App Store Connect, and a privacy
+# policy that 404s is a rejection.
+
+[[app]]
+slug = "gas-dynamics"
+name = "Gas Dynamics Calculator"
+tagline = "Compressible flow, solved and written up. Shocks, nozzles and duct flow, each relation shown beside the number it produced."
+platforms = "Mac and iPad"
+status = "published"

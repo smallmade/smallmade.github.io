@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support &mdash; Gas Dynamics Calculator</title>
+<style>
+:root {
+  --ink: #14171c; --dim: #5b626c; --line: #dfe3e8; --bg: #ffffff;
+  --panel: #f6f8fa; --accent: #b8440e; --accent-ink: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e6e9ee; --dim: #9aa1ab; --line: #2b3038; --bg: #16181c;
+    --panel: #1e2126; --accent: #ff8a5c; --accent-ink: #16181c;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+header { padding: 72px 0 40px; }
+h1 { font-size: 2.6rem; line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.02em; }
+.lede { font-size: 1.2rem; color: var(--dim); margin: 0 0 28px; max-width: 60ch; }
+h2 { font-size: 1.5rem; margin: 56px 0 14px; letter-spacing: -0.01em; }
+h3 { font-size: 1.05rem; margin: 28px 0 8px; }
+p { max-width: 68ch; }
+a { color: var(--accent); }
+.buy {
+  display: inline-block; background: var(--accent); color: var(--accent-ink);
+  padding: 13px 26px; border-radius: 8px; text-decoration: none; font-weight: 600;
+}
+.price { color: var(--dim); margin-left: 14px; }
+figure { margin: 28px 0; }
+img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 10px; }
+figcaption { color: var(--dim); font-size: 0.9rem; margin-top: 8px; }
+.panel {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 18px 22px; margin: 22px 0;
+}
+.grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.grid .panel { margin: 0; }
+table { border-collapse: collapse; width: 100%; margin: 18px 0; font-size: 0.94rem; }
+.scroll { overflow-x: auto; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+th { color: var(--dim); font-weight: 600; }
+code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.92em; }
+footer { margin: 72px 0 48px; padding-top: 24px; border-top: 1px solid var(--line);
+         color: var(--dim); font-size: 0.9rem; }
+footer a { color: var(--dim); }
+</style>
+</head>
+<body><div class="wrap">
+<header><h1>Support</h1></header>
+
+<p class="lede">Gas Dynamics Calculator computes the classical relations of
+compressible flow &mdash; shock waves, expansion fans, flow in ducts with friction or
+heat addition, and nozzles &mdash; and exports the working, not just the answer.</p>
+
+<h2>What it covers</h2>
+<table>
+<tr><th>Module</th><th>What it is for</th></tr>
+<tr><td><strong>Isentropic flow</strong></td><td>A Mach number fixes every ratio at a point. Two thermodynamic properties fix the absolute values.</td></tr><tr><td><strong>Normal shock</strong></td><td>One number, M₁, fixes everything across the shock. It is the first result that shows Mach number, not velocity, governs compressible flow.</td></tr><tr><td><strong>Oblique shock</strong></td><td>Every ratio is the normal shock relation evaluated at Mn₁ = M₁ sin(β). The module adds only geometry: which wave angle goes with which deflection.</td></tr><tr><td><strong>Prandtl-Meyer expansion</strong></td><td>A continuous succession of Mach waves, each with Δs = 0, so the whole fan is isentropic -- the sharpest possible contrast with a shock.</td></tr><tr><td><strong>Rayleigh flow (heat addition)</strong></td><td>Heat acts directly on the total temperature and always drives the Mach number towards 1. Enough of it chokes the duct.</td></tr><tr><td><strong>Fanno flow (friction)</strong></td><td>Adiabatic, so total temperature is constant and duct length is the driver. Like heat addition it drives the Mach number towards 1, and a long enough duct chokes.</td></tr><tr><td><strong>Nozzle at a back pressure</strong></td><td>The area ratio fixes only two operating points; the back pressure decides everything between and outside them, including where a shock stands inside.</td></tr>
+</table>
+<p>59 displayed relations in all. Each solves in both directions and shows
+the formula it used. Processes can be chained into flow paths, which report what was
+conserved across the whole sequence and what was lost.</p>
+
+<h2>Where the assumptions stop</h2>
+<p>Every relation is exact for a <strong>calorically perfect gas</strong>: &gamma; and
+R constant. That is the assumption classical compressible-flow theory is built on, and
+it is the assumption this software makes everywhere. The application shows a warning
+when a result leaves the range where it holds.</p>
+<p>There is no variable-specific-heat model, no high-temperature chemistry and no CFD.
+It is not offered for flight safety, for certification, or for critical engineering
+decisions taken without independent verification.</p>
+
+<h2>Getting help</h2>
+<p>Write to <a href="mailto:softwareone.support@gmail.com">softwareone.support@gmail.com</a>. Say which module,
+what you entered and what you expected; if a number looks wrong, the exported worked
+solution contains everything needed to reproduce it, and pasting one is the fastest
+way to an answer.</p>
+<p>Reports that a result is wrong are taken seriously and checked against the
+reference sources rather than argued with.</p>
+
+<h2>Refunds</h2>
+<p>Refunds are Apple&rsquo;s to give, because Apple is who you bought from. We cannot
+issue one &mdash; we never receive the payment and are not told who paid it. Go to
+<a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a> and sign in
+with the Apple Account that made the purchase, or open the App Store, click your name
+and choose Purchase History. Apple decides the request under its own terms.</p>
+<p>This is a specialised tool for one subject, and whether it suits your work is not
+something a page can settle. If it turned out not to be what you needed, ask Apple for
+the money back. If you tell us why, it is likely to change the software.</p>
+<p>Consumer rights vary by country or region. Nothing here limits any rights you have
+under applicable law.</p>
+
+<h2>Privacy</h2>
+<p>The application collects nothing and makes no network requests &mdash; there is no
+network code in it to make one. The full statement is on the
+<a href="privacy.html">privacy policy</a> page.</p>
+
+<footer><p><a href="privacy.html">Privacy policy</a> &middot;
+<a href="../index.html">All applications</a></p></footer>
+</div></body>
+</html>
