@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Passthrough</title>
+<style>
+/* 一个文件管两页。刻意做得朴素 —— 审核员和用户来这里是找事实的，不是看设计的。 */
+:root { --fg:#1d1d1f; --muted:#6e6e73; --bg:#fff; --rule:#d2d2d7; --accent:#0066cc; }
+@media (prefers-color-scheme: dark) {
+  :root { --fg:#f5f5f7; --muted:#98989d; --bg:#161617; --rule:#3a3a3c; --accent:#4da3ff; }
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",Helvetica,Arial,sans-serif;
+  -webkit-text-size-adjust:100%; }
+main { max-width:44rem; margin:0 auto; padding:3rem 1.25rem 5rem; }
+h1 { font-size:1.9rem; letter-spacing:-.02em; margin:0 0 .3rem; }
+h2 { font-size:1.15rem; margin:2.4rem 0 .6rem; padding-top:1.4rem; border-top:1px solid var(--rule); }
+h2:first-of-type { border-top:0; padding-top:0; }
+h3 { font-size:1rem; margin:1.4rem 0 .4rem; }
+p, li { color:var(--fg); }
+ul { padding-left:1.2rem; }
+li { margin:.3rem 0; }
+a { color:var(--accent); }
+.sub { color:var(--muted); font-size:.9rem; margin:0 0 2.5rem; }
+.lang { display:flex; gap:.75rem; font-size:.85rem; margin-bottom:2rem; }
+.callout { border-left:3px solid var(--accent); padding:.1rem 0 .1rem 1rem; margin:1.2rem 0; }
+.callout p { margin:.5rem 0; }
+footer { margin-top:3.5rem; padding-top:1.2rem; border-top:1px solid var(--rule);
+  color:var(--muted); font-size:.85rem; }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.9em;
+  background:color-mix(in srgb, var(--fg) 8%, transparent); padding:.1em .35em; border-radius:3px; }
+</style>
+</head>
+<body>
+<main>
+
+<h1>Privacy Policy</h1>
+<p class="sub">Passthrough for macOS, iPadOS and iOS · Effective 21 August 2026 · <a href="#zh">中文版</a></p>
+
+<div class="callout">
+<p><strong>Passthrough does not collect any data.</strong> It has no network access
+whatsoever, no accounts, no analytics, no advertising, and no crash reporting.
+Every video you convert is processed entirely on your own device and never leaves it.</p>
+</div>
+
+<h2>What this app does</h2>
+<p>Passthrough converts video files to MP4 using the hardware video engine built
+into Apple Silicon. All processing happens locally on your device.</p>
+
+<h2>Data we collect</h2>
+<p>None. There is no category of personal or non-personal data that Passthrough
+collects, transmits, sells, or shares — not device identifiers, not usage
+statistics, not file names, not crash logs.</p>
+<p>This is not a policy commitment we ask you to take on faith. On macOS the app
+ships without the network entitlement, so the sandbox refuses network access
+outright. On iPhone and iPad, where no such entitlement exists, the same guarantee
+holds structurally: the app contains no networking code, and the FFmpeg libraries
+it embeds were compiled with <code>--disable-network</code>. In both builds the
+ability to make a network connection is absent from the binary rather than merely
+unused.</p>
+
+<h2>Files you open</h2>
+<p>Passthrough reads only the video files you explicitly choose, and writes the
+converted result where you tell it to. It does not scan your disk, index your
+media library, or access files you have not selected. The app requests no
+permissions at all — it declares no usage descriptions, because it needs none.</p>
+<p><strong>On Mac</strong>, you supply files by dragging them in, using the Open
+dialog, or opening them from the Finder. The app runs in Apple's App Sandbox.
+When you ask it to save results next to the source file, macOS asks you once to
+grant access to that folder, because selecting an individual file does not grant
+write access to its parent directory.</p>
+<p><strong>On iPhone and iPad</strong>, you supply files through the system Files
+picker or the system photo picker. Both run outside the app, in their own process:
+the app never receives access to your Files storage or your photo library, only
+copies of the specific items you picked. This is why iOS never shows you a
+permission prompt for Passthrough — there is no access to grant. Access to a
+chosen file is held only while that file is being converted, and released
+immediately afterwards.</p>
+
+<h2>Data stored on your device</h2>
+<p>What is saved locally stays inside the app's own sandbox container and is never
+transmitted anywhere.</p>
+<p><strong>On Mac:</strong></p>
+<ul>
+  <li><strong>Your preferences</strong> — output location, codec, quality, audio and
+  subtitle handling.</li>
+  <li><strong>Folder permissions</strong> — macOS security-scoped bookmarks for folders
+  you have authorised, so you are not asked again every time. You can erase these
+  at any time from the app's settings, or by deleting the app.</li>
+</ul>
+<p><strong>On iPhone and iPad:</strong> only the converted videos themselves, written
+to the app's own Documents folder, which you can browse in the Files app under
+On My iPhone (or On My iPad) → Passthrough. No folder permissions are stored,
+because iOS has no equivalent mechanism and the app does not need one. Deleting
+the app removes everything it saved.</p>
+
+<h2>Third parties</h2>
+<p>Passthrough contains no third-party analytics, advertising, or tracking SDKs.
+It embeds FFmpeg (LGPL-2.1-or-later) purely as a local media processing library;
+FFmpeg does not collect data and, in this build, cannot access the network.</p>
+
+<h2>Children</h2>
+<p>Because no data is collected from anyone, no data is collected from children.</p>
+
+<h2>Your rights</h2>
+<p>Rights to access, correct, export, or delete personal data (under GDPR, CCPA and
+similar laws) apply to data a developer holds about you. We hold none, so there is
+nothing to request. Everything the app stores is on your own device and under your
+control.</p>
+
+<h2>Changes</h2>
+<p>If a future version of Passthrough ever adds a feature that involves a network
+connection, this policy will be updated before that version ships, and the change
+will be described here with a new effective date.</p>
+
+<h2>Contact</h2>
+<p>Questions about this policy: <a href="mailto:softwareone.support@gmail.com">softwareone.support@gmail.com</a></p>
+
+<hr style="border:0;border-top:1px solid var(--rule);margin:4rem 0 3rem">
+
+<h1 id="zh">隐私政策</h1>
+<p class="sub">Passthrough for macOS、iPadOS 与 iOS · 生效日期 2026 年 8 月 21 日 · <a href="#">English</a></p>
+
+<div class="callout">
+<p><strong>Passthrough 不收集任何数据。</strong>它完全不联网，没有账号、没有统计分析、
+没有广告、没有崩溃上报。你转换的每一个视频都只在你自己的设备上处理，绝不离开这台设备。</p>
+</div>
+
+<h2>这个 App 做什么</h2>
+<p>Passthrough 使用 Apple Silicon 内置的硬件视频引擎把视频转换为 MP4。
+所有处理都在你的设备本地完成。</p>
+
+<h2>我们收集的数据</h2>
+<p>没有。Passthrough 不收集、不传输、不出售、不共享任何个人或非个人数据 ——
+不包括设备标识符、使用统计、文件名，也不包括崩溃日志。</p>
+<p>这不是一句要你凭信任接受的承诺。在 macOS 上，本 App 未申请网络权限，
+沙盒会直接拒绝一切网络访问。在 iPhone 和 iPad 上并没有"网络权限"这种东西，
+但同样的保证靠结构成立：App 里不含任何联网代码，内嵌的 FFmpeg 库在编译时
+使用了 <code>--disable-network</code>。两个平台的构建都一样 ——"联网"这个能力
+在二进制里根本不存在，而不是存在但没用。</p>
+
+<h2>你打开的文件</h2>
+<p>Passthrough 只读取你明确选择的视频文件，并把转换结果写到你指定的位置。
+它不扫描你的磁盘、不建立媒体库索引，也不访问你没有选中的文件。本 App
+不索取任何权限 —— 它没有声明任何权限用途说明，因为根本用不上。</p>
+<p><strong>在 Mac 上</strong>，你可以拖入窗口、通过"打开"对话框选择，或从访达中打开。
+本 App 运行在 Apple 的 App Sandbox 中。当你选择把结果保存到源文件旁边时，
+macOS 会请你为该文件夹授权一次，因为选中单个文件并不等于获得其所在文件夹的写入权限。</p>
+<p><strong>在 iPhone 和 iPad 上</strong>，你通过系统的"文件"选择器或系统相片选择器提供文件。
+这两个选择器都运行在 App 之外的独立进程里：App 拿不到你的文件存储或相册本身，
+只会收到你选中的那几个项目的副本。这就是 iOS 从不为 Passthrough 弹出权限请求的原因
+—— 没有需要授权的东西。对所选文件的访问只在转换期间持有，转换结束立即释放。</p>
+
+<h2>存在你设备上的数据</h2>
+<p>保存在本地的内容都在 App 自己的沙盒容器内，且永远不会被传输到任何地方。</p>
+<p><strong>在 Mac 上：</strong></p>
+<ul>
+  <li><strong>你的偏好设置</strong> —— 输出位置、编码、质量、音轨与字幕处理方式。</li>
+  <li><strong>文件夹授权</strong> —— macOS 的 security-scoped bookmark，
+  记住你已授权的文件夹，免得每次都要重新授权。你可以随时在 App 设置中清除，
+  或直接删除 App。</li>
+</ul>
+<p><strong>在 iPhone 和 iPad 上：</strong>只有转换出来的视频本身，写在 App 自己的
+Documents 目录里，你可以在"文件"App 的「我的 iPhone」（或「我的 iPad」）→ Passthrough
+下浏览。不保存任何文件夹授权，因为 iOS 没有对应机制，App 也不需要。
+删除 App 即可清除它保存的一切。</p>
+
+<h2>第三方</h2>
+<p>Passthrough 不含任何第三方统计、广告或追踪 SDK。
+它内嵌 FFmpeg（LGPL-2.1-or-later）仅作为本地媒体处理库使用；
+FFmpeg 本身不收集数据，且在本构建中无法访问网络。</p>
+
+<h2>儿童隐私</h2>
+<p>由于不从任何人收集数据，自然也不从儿童收集数据。</p>
+
+<h2>你的权利</h2>
+<p>GDPR、CCPA 等法律赋予的访问、更正、导出、删除个人数据的权利，
+针对的是开发者持有的关于你的数据。我们不持有任何此类数据，因此没有可供申请的对象。
+App 保存的一切都在你自己的设备上，由你完全掌控。</p>
+
+<h2>政策变更</h2>
+<p>如果未来某个版本的 Passthrough 加入了涉及网络连接的功能，
+本政策会在该版本发布前更新，并在此处说明变更内容和新的生效日期。</p>
+
+<h2>联系方式</h2>
+<p>关于本政策的问题请联系：<a href="mailto:softwareone.support@gmail.com">softwareone.support@gmail.com</a></p>
+
+<footer>Passthrough · Copyright © 2026</footer>
+
+</main>
+</body>
+</html>

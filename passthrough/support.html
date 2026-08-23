@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support — Passthrough</title>
+<style>
+/* 一个文件管两页。刻意做得朴素 —— 审核员和用户来这里是找事实的，不是看设计的。 */
+:root { --fg:#1d1d1f; --muted:#6e6e73; --bg:#fff; --rule:#d2d2d7; --accent:#0066cc; }
+@media (prefers-color-scheme: dark) {
+  :root { --fg:#f5f5f7; --muted:#98989d; --bg:#161617; --rule:#3a3a3c; --accent:#4da3ff; }
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg);
+  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",Helvetica,Arial,sans-serif;
+  -webkit-text-size-adjust:100%; }
+main { max-width:44rem; margin:0 auto; padding:3rem 1.25rem 5rem; }
+h1 { font-size:1.9rem; letter-spacing:-.02em; margin:0 0 .3rem; }
+h2 { font-size:1.15rem; margin:2.4rem 0 .6rem; padding-top:1.4rem; border-top:1px solid var(--rule); }
+h2:first-of-type { border-top:0; padding-top:0; }
+h3 { font-size:1rem; margin:1.4rem 0 .4rem; }
+p, li { color:var(--fg); }
+ul { padding-left:1.2rem; }
+li { margin:.3rem 0; }
+a { color:var(--accent); }
+.sub { color:var(--muted); font-size:.9rem; margin:0 0 2.5rem; }
+.lang { display:flex; gap:.75rem; font-size:.85rem; margin-bottom:2rem; }
+.callout { border-left:3px solid var(--accent); padding:.1rem 0 .1rem 1rem; margin:1.2rem 0; }
+.callout p { margin:.5rem 0; }
+footer { margin-top:3.5rem; padding-top:1.2rem; border-top:1px solid var(--rule);
+  color:var(--muted); font-size:.85rem; }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.9em;
+  background:color-mix(in srgb, var(--fg) 8%, transparent); padding:.1em .35em; border-radius:3px; }
+</style>
+</head>
+<body>
+<main>
+
+<h1>Passthrough Support</h1>
+<p class="sub">Video converter for Mac, iPad and iPhone · <a href="#zh">中文版</a></p>
+
+<h2>Requirements</h2>
+<ul>
+  <li><strong>Mac</strong> — macOS 14.0 or later, Apple Silicon (M1 or newer).
+  Intel Macs are not supported.</li>
+  <li><strong>iPad and iPhone</strong> — iPadOS or iOS 17.0 or later.</li>
+</ul>
+<p>One purchase covers all three. Buy it once and it installs on your Mac, iPad
+and iPhone.</p>
+
+<h2>Frequently asked</h2>
+
+<h3>Why did one file take two seconds and another take five minutes?</h3>
+<p>Many MKV, MOV and TS files already contain video in a format MP4 can hold
+directly (H.264 or HEVC). In that case nothing is re-encoded — the content is
+moved into an MP4 container as-is. That is <em>passthrough</em>: no quality loss,
+and speed limited only by your disk. Formats MP4 cannot hold (WMV, RMVB, some
+AVI) genuinely have to be re-encoded, which takes minutes. Each row in the list
+tells you which path it will take before you start.</p>
+
+<h3>CPU and GPU usage stay low. Is it using my hardware?</h3>
+<p>Yes — and low readings are the sign that it is. On Apple Silicon, video
+encoding runs on a dedicated Media Engine that is neither the CPU nor the GPU,
+so it appears in neither graph in Activity Monitor. If the CPU were pegged, that
+would mean the work had fallen back to slower software encoding.</p>
+
+<h3>Why is it asking permission for a folder? <em>(Mac only)</em></h3>
+<p>macOS grants a sandboxed app access to the files you select, not to the folders
+containing them. Saving results next to the source therefore needs one-time
+permission for that folder. The permission is remembered, and you can clear all
+saved permissions in the app's settings.</p>
+
+<h3>Conversion is slow from my external drive. <em>(Mac only)</em></h3>
+<p>If the source is on an external mechanical hard drive and the output is written
+back to the same drive, the drive head has to move constantly between reading and
+writing. Measured on one 8&nbsp;TB USB drive: about 47&nbsp;MB/s same-drive versus
+about 182&nbsp;MB/s writing to the internal disk. Passthrough detects this and
+offers a one-click switch to the internal disk.</p>
+
+<h3>It said the conversion was incomplete and deleted the output.</h3>
+<p>Passthrough checks every result against the source before saving it. If the
+length or the track layout does not match what was planned, the job is reported
+as failed and the partial file is removed. It will never hand you half a file and
+call it done. The usual cause is a damaged or incompletely downloaded source.</p>
+
+<h3>Where did my subtitles go?</h3>
+<p>Text subtitles (SRT, ASS) are embedded in the MP4. Graphic subtitles (PGS,
+VobSub) cannot go inside MP4, so they are exported as separate files alongside
+the video. The row tells you when this has happened.</p>
+
+<h3>Where do converted files go on iPad and iPhone? <em>(iPad and iPhone only)</em></h3>
+<p>Into the app's own folder, which you can open in the Files app under
+<strong>On My iPad</strong> (or On My iPhone) → <strong>Passthrough</strong> →
+Converted. To put a result anywhere else — Photos, iCloud Drive, another app —
+use the share button on the finished row.</p>
+
+<h3>Does it need access to my photos or files? <em>(iPad and iPhone only)</em></h3>
+<p>No, and it never asks. Both the Files picker and the photo picker run outside
+the app in their own process, so Passthrough only ever receives the specific
+items you chose — it has no access to your photo library or your file storage,
+which is why iOS shows no permission prompt for it.</p>
+
+<h3>Can I get the FFmpeg source code?</h3>
+<p>Yes. Passthrough embeds FFmpeg as dynamically linked LGPL-2.1-or-later
+libraries. The About window contains the licence text, relinking instructions, a
+button that reveals the bundled libraries, and the exact corresponding FFmpeg
+source archive — all included in the app itself.</p>
+
+<h2>Reporting a problem</h2>
+<p>If a file fails to convert, the following makes it far easier to fix:</p>
+<ul>
+  <li>Your device and OS version — Mac model and macOS version, or iPhone/iPad
+  model and iOS version</li>
+  <li>The exact message shown on the failed row</li>
+  <li>The source file's format (the app shows codec and resolution on each row)</li>
+  <li>Which preset you used</li>
+</ul>
+<p>Please do not send video files unless asked — most problems can be reproduced
+from the format description alone.</p>
+
+<h2>Contact</h2>
+<p><a href="mailto:softwareone.support@gmail.com">softwareone.support@gmail.com</a></p>
+<p>See also the <a href="privacy.html">Privacy Policy</a>.</p>
+
+<hr style="border:0;border-top:1px solid var(--rule);margin:4rem 0 3rem">
+
+<h1 id="zh">Passthrough 支持</h1>
+<p class="sub">Mac、iPad 与 iPhone 上的视频转换工具 · <a href="#">English</a></p>
+
+<h2>系统要求</h2>
+<ul>
+  <li><strong>Mac</strong> —— macOS 14.0 或更高版本，Apple Silicon（M1 及以后）。
+  不支持 Intel 机型。</li>
+  <li><strong>iPad 与 iPhone</strong> —— iPadOS / iOS 17.0 或更高版本。</li>
+</ul>
+<p>一次购买覆盖三个平台。买一次，Mac、iPad 和 iPhone 上都能装。</p>
+
+<h2>常见问题</h2>
+
+<h3>为什么有的文件两秒就完了，有的要五分钟？</h3>
+<p>很多 MKV、MOV、TS 文件里装的本来就是 MP4 能直接容纳的编码（H.264 或 HEVC）。
+这种情况下不需要重新编码，只是把内容原样搬进 MP4 外壳 —— 这就是<em>直通</em>：
+画质零损失，速度只受磁盘限制。而 MP4 装不下的编码（WMV、RMVB、部分 AVI）
+必须真正重新编码，那才是分钟级的工作。开始之前，任务列表上每一行都会写明走哪条路。</p>
+
+<h3>CPU 和 GPU 占用都很低，是没用上硬件吗？</h3>
+<p>正好相反 —— 占用低恰恰说明用上了。Apple Silicon 上视频编码跑在一块叫
+Media Engine 的专用芯片上，它既不是 CPU 也不是 GPU，因此在活动监视器的两条曲线里都不显示。
+如果 CPU 被压满，反而意味着退回了慢得多的软件编码。</p>
+
+<h3>为什么要我给文件夹授权？<em>（仅 Mac）</em></h3>
+<p>macOS 只把你选中的<strong>文件</strong>的权限交给沙盒 App，不包括文件所在的文件夹。
+所以把结果保存到源文件旁边时，需要为那个文件夹授权一次。授权会被记住，
+你也可以随时在 App 设置里清除全部已保存的授权。</p>
+
+<h3>从外接硬盘转换很慢。<em>（仅 Mac）</em></h3>
+<p>如果源文件在外接机械硬盘上，输出又写回同一块盘，磁头要在读写位置之间反复移动。
+实测一块 8&nbsp;TB USB 机械盘：同盘读写约 47&nbsp;MB/s，写入内置磁盘约 182&nbsp;MB/s。
+Passthrough 会自动识别这种情况，并提供一键切换到内置磁盘。</p>
+
+<h3>它说"转换不完整"并把产出删掉了。</h3>
+<p>Passthrough 在保存之前会拿产出和源文件逐项比对。如果时长或轨道构成与计划不符，
+任务判为失败，半成品文件被删除。它绝不会把半截文件当成功交给你。
+最常见的原因是源文件本身损坏或没有下载完整。</p>
+
+<h3>字幕去哪了？</h3>
+<p>文本字幕（SRT、ASS）会内嵌进 MP4。图形字幕（PGS、VobSub）MP4 装不下，
+会导出为独立文件放在视频旁边。发生这种情况时，任务那一行会写明。</p>
+
+<h3>iPad 和 iPhone 上转换好的文件在哪？<em>（仅 iPad 与 iPhone）</em></h3>
+<p>在 App 自己的目录里。打开「文件」App，进入<strong>我的 iPad</strong>（或我的 iPhone）
+→ <strong>Passthrough</strong> → Converted 即可看到。想把结果放到别处 ——
+相册、iCloud 云盘、其他 App —— 用完成那一行上的分享按钮。</p>
+
+<h3>它需要访问我的相册或文件吗？<em>（仅 iPad 与 iPhone）</em></h3>
+<p>不需要，也从不索取。「文件」选择器和相片选择器都运行在 App 之外的独立进程里，
+Passthrough 只会收到你选中的那几个项目 —— 它拿不到你的相册，也拿不到你的文件存储，
+所以 iOS 不会为它弹出任何权限请求。</p>
+
+<h3>能拿到 FFmpeg 的源码吗？</h3>
+<p>可以。Passthrough 以动态链接方式内嵌 FFmpeg（LGPL-2.1-or-later）。
+「关于」窗口里有许可证全文、重新链接说明、一个直接定位到内嵌库的按钮，
+以及完全对应的 FFmpeg 源码包 —— 全都随 App 一起分发。</p>
+
+<h2>反馈问题</h2>
+<p>某个文件转换失败时，提供以下信息能让问题好定位得多：</p>
+<ul>
+  <li>你的设备和系统版本 —— Mac 型号与 macOS 版本，或 iPhone/iPad 型号与 iOS 版本</li>
+  <li>失败那一行显示的完整提示文字</li>
+  <li>源文件的格式（App 会在每行显示编码和分辨率）</li>
+  <li>你用的是哪个转换用途</li>
+</ul>
+<p>请不要主动发送视频文件 —— 大多数问题只凭格式描述就能复现。</p>
+
+<h2>联系方式</h2>
+<p><a href="mailto:softwareone.support@gmail.com">softwareone.support@gmail.com</a></p>
+<p>另见<a href="privacy.html">隐私政策</a>。</p>
+
+<footer>Passthrough · Copyright © 2026</footer>
+
+</main>
+</body>
+</html>

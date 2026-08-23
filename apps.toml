@@ -16,3 +16,24 @@ name = "Gas Dynamics Calculator"
 tagline = "Compressible flow, solved and written up. Shocks, nozzles and duct flow, each relation shown beside the number it produced."
 platforms = "Mac and iPad"
 status = "published"
+
+[[app]]
+slug = "passthrough"
+name = "Passthrough"
+tagline = "Convert video without waiting. Hardware-accelerated on Apple silicon, and nothing leaves the machine."
+platforms = "Mac, iPad and iPhone"
+status = "published"
+
+[[app]]
+slug = "plot4mac"
+name = "Plot4Mac"
+tagline = "Journal figures from your data, reproducible to the pixel."
+platforms = "Mac and iPad"
+status = "published"
+
+[[app]]
+slug = "texone"
+name = "TexOne"
+tagline = "A local LaTeX editor with live preview -- the typesetting engine runs on your device, not a server."
+platforms = "Mac and iPad"
+status = "published"

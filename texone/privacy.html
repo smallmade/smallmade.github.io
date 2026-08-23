@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy — TexOne</title>
+<style>
+:root { --ink:#14171c; --dim:#5b626c; --line:#dfe3e8; --bg:#ffffff; --accent:#b8440e; }
+@media (prefers-color-scheme: dark) {
+  :root { --ink:#e6e9ee; --dim:#9aa1ab; --line:#2b3038; --bg:#16181c; --accent:#ff8a5c; }
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink);
+  font:16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+.wrap { max-width:880px; margin:0 auto; padding:0 24px; }
+header { padding:72px 0 24px; }
+h1 { font-size:2.2rem; margin:0 0 12px; letter-spacing:-0.02em; }
+h2 { font-size:1.4rem; margin:44px 0 12px; }
+p { max-width:68ch; }
+a { color:var(--accent); }
+footer { margin:72px 0 56px; padding-top:24px; border-top:1px solid var(--line);
+  color:var(--dim); font-size:0.9rem; }
+</style>
+</head>
+<body><div class="wrap">
+<header><h1>Privacy</h1></header>
+
+<p>TexOne collects nothing.</p>
+
+<p>It contains no analytics, no crash reporting, no advertising identifier and no
+third-party SDK. It makes no network requests of any kind &mdash; there is no
+network code in it to make one. The typesetting engine runs inside the app's own
+process, and every font, package and format file it needs ships inside the app.</p>
+
+<p>Your documents &mdash; the LaTeX you write, the Word files you import, the PDFs
+the engine produces &mdash; stay in the files you keep them in, on your device or in
+locations you choose. Nothing you type and nothing the engine typesets is
+transmitted anywhere, because there is nowhere for it to go.</p>
+
+<h2>What the app stores</h2>
+<p>Your preferences, on your device, using the standard mechanism the operating
+system provides for exactly that. Deleting the app deletes them.</p>
+
+<h2>Questions</h2>
+<p>Write to <a href="mailto:softwareone.support@gmail.com">softwareone.support@gmail.com</a>.</p>
+
+<footer><p><a href="support.html">Support</a> &middot;
+<a href="../index.html">All applications</a></p></footer>
+</div></body>
+</html>
