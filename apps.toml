@@ -26,7 +26,7 @@ status = "published"
 
 [[app]]
 slug = "plot4mac"
-name = "Plot4Mac"
+name = "PlotOne"
 tagline = "Journal figures from your data, reproducible to the pixel."
 platforms = "Mac and iPad"
 status = "published"
