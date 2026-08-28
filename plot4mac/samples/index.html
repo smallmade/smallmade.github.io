@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PlotOne — sample data</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+table { border-collapse: collapse; margin: 24px 0; width: 100%; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid #dfe3e8; vertical-align: top; }
+th { font-weight: 600; }
+code { font-size: 0.92em; }
+@media (prefers-color-scheme: dark) { th, td { border-bottom-color: #2b3038; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Sample data for PlotOne</h1>
+
+<p>Four small files, one for each kind of data PlotOne draws. Download one,
+then in the app choose <strong>File &gt; Import Data</strong> (⌘I on Mac) or
+<strong>Import Data</strong> at the top right on iPad, and pick it. The import
+sheet shows the parsed columns before anything is imported.</p>
+
+<p>The first two import with the settings the sheet opens on. The other two are
+there to exercise the other plot kinds, so set <em>Kind of data</em> to the
+value in the last column first.</p>
+
+<table>
+<tr><th>File</th><th>What it is</th><th>Kind of data</th></tr>
+
+<tr>
+  <td><a href="line_measured_vs_theory.csv">line_measured_vs_theory.csv</a></td>
+  <td>A damped sine sampled 60 times: column 1 is X, then a measured curve and
+      a theoretical one.</td>
+  <td>Vectors · line plot <em>(the default)</em></td>
+</tr>
+
+<tr>
+  <td><a href="line_with_errors.csv">line_with_errors.csv</a></td>
+  <td>A pressure decay with a per-point uncertainty: X, Y, ΔY. Turn on the
+      error-column layout to draw the error bars.</td>
+  <td>Vectors · line plot <em>(the default)</em></td>
+</tr>
+
+<tr>
+  <td><a href="matrix_field.csv">matrix_field.csv</a></td>
+  <td>A 40 × 60 grid of numbers with no header row — one scalar value per cell,
+      drawn as a colour map.</td>
+  <td>Matrix · field</td>
+</tr>
+
+<tr>
+  <td><a href="bars_by_category.csv">bars_by_category.csv</a></td>
+  <td>Five named cases with two values each. The first column is text, so this
+      one is a bar chart rather than a line plot.</td>
+  <td>Categories · bar chart</td>
+</tr>
+</table>
+
+<p>Any CSV, tab- or space-separated text file, or Excel workbook (.xlsx) of
+your own works too. Nothing is uploaded anywhere: the file is read on your
+device and stays there.</p>
+
+<p><a href="../">Back to PlotOne</a></p>
+
+</div>
+</body>
+</html>
