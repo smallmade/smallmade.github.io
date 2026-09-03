@@ -32,6 +32,13 @@ platforms = "Mac and iPad"
 status = "published"
 
 [[app]]
+slug = "structuremechone"
+name = "Truss Frame — StructureMechOne"
+tagline = "Beams, deflection and buckling -- forty-five screens, each opening on a worked example and redrawing as you type. Offline, no account."
+platforms = "Mac and iPad"
+status = "published"
+
+[[app]]
 slug = "texone"
 name = "TexOne"
 tagline = "A local LaTeX editor with live preview -- the typesetting engine runs on your device, not a server."

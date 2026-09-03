@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy — Truss &amp; Frame — StructureOne</title>
+<style>
+:root {
+  --ink: #1a1815; --dim: #6b6459; --rule: #ddd7cd; --paper: #fbf9f6;
+  --accent: #b4581f; --panel: #f2eee8;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --ink: #eae4da; --dim: #a09689; --rule: #3a352e; --paper: #17150f;
+          --accent: #e0863f; --panel: #201d17; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink);
+       font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+.wrap { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+a { color: var(--accent); }
+h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 .3rem; letter-spacing: -.01em; }
+h2 { font-size: 1.15rem; margin: 2.6rem 0 .6rem; padding-top: 1.1rem;
+     border-top: 1px solid var(--rule); }
+h3 { font-size: 1rem; margin: 1.7rem 0 .35rem; }
+.lede { color: var(--dim); margin: 0 0 2rem; font-size: 1.05rem; }
+nav.top { display: flex; gap: 1.2rem; flex-wrap: wrap; font-size: .9rem;
+          padding-bottom: 1.4rem; border-bottom: 1px solid var(--rule);
+          margin-bottom: 1.8rem; }
+.formula { background: var(--panel); border-radius: 7px; padding: .7rem .9rem;
+           font: .92rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+           overflow-x: auto; white-space: pre-wrap; word-break: break-word; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: .6rem 0 0; }
+th, td { text-align: left; padding: .38rem .6rem .38rem 0;
+         border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--dim); font-weight: 600; font-size: .82rem;
+     text-transform: uppercase; letter-spacing: .04em; }
+code { font: .9em ui-monospace, SFMono-Regular, Menlo, monospace; }
+ul.plain { list-style: none; padding: 0; }
+ul.plain li { padding: .3rem 0; border-bottom: 1px solid var(--rule); }
+.note { border-left: 3px solid var(--accent); padding: .1rem 0 .1rem .9rem;
+        margin: 1rem 0; color: var(--dim); font-size: .93rem; }
+.sev-error { border-left-color: #c0392b; }
+.sev-warning { border-left-color: #d38b1a; }
+footer { margin-top: 4rem; padding-top: 1.2rem; border-top: 1px solid var(--rule);
+         color: var(--dim); font-size: .85rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+        gap: .9rem; margin: 1.2rem 0; }
+.card { background: var(--panel); border-radius: 9px; padding: .9rem 1rem; }
+.card h3 { margin: 0 0 .2rem; font-size: .95rem; }
+.card p { margin: 0; font-size: .87rem; color: var(--dim); }
+
+/* The theory manual's own furniture. */
+.chapter { page-break-before: always; }
+.entry { page-break-inside: avoid; }
+.entry h3 { margin-top: 2.2rem; }
+.sub { margin: 1.1rem 0 .3rem; font-size: .82rem; letter-spacing: .06em;
+       text-transform: uppercase; color: var(--dim); font-weight: 600; }
+.assume { margin: .2rem 0 .9rem 1.1rem; padding: 0; }
+.assume li { margin: .22rem 0; }
+.implements { font-size: .82rem; color: var(--dim); margin: .3rem 0 1rem; }
+.implements code { font-size: .82rem; }
+table.verify { font-size: .87rem; }
+table.verify td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+@media print {
+  :root { --ink: #000; --dim: #444; --rule: #999; --paper: #fff; --panel: #f2f2f2;
+          --accent: #000; }
+  @page { size: A4; margin: 20mm 18mm; }
+  body { font-size: 10.5pt; line-height: 1.5; }
+  .wrap { max-width: none; }
+  nav.top, footer { display: none; }
+  h1 { page-break-before: always; }
+  h1:first-of-type { page-break-before: avoid; }
+  h2 { page-break-after: avoid; }
+  h3 { page-break-after: avoid; }
+  .formula, table, .note { page-break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+}
+</style>
+<body><div class="wrap">
+<nav class="top"><a href="index.html">Product</a> <a href="manual/index.html">Usage</a> <a href="theory/index.html">Theory</a> <a href="support.html">Support</a> <span>Privacy</span></nav>
+
+<h1>Privacy</h1>
+<p class="lede">This app collects nothing. There is no network code in it.</p>
+
+<h2>Data collected</h2>
+<p><strong>None.</strong> Not analytics, not crash reports, not usage counts,
+not an identifier of any kind. The app has no account system and no server to
+talk to.</p>
+
+<h2>Data leaving your device</h2>
+<p><strong>None.</strong> Everything you type stays on the device you typed it
+on. The shipped binary contains no networking symbols at all, which is checked
+mechanically before every release.</p>
+
+<h2>Third parties</h2>
+<p>There are none. The app links only against Apple's own system frameworks.</p>
+
+<h2>Children</h2>
+<p>Since nothing is collected, nothing is collected from anyone of any age.</p>
+
+<h2>Changes</h2>
+<p>If this ever stops being true, this page will say so before the version that
+changes it ships. Questions:
+<a href="mailto:support@smallmade.dev">support@smallmade.dev</a>.</p>
+
+<footer>
+<p>Truss &amp; Frame — StructureOne. Runs entirely on your device: no network, no accounts,
+no analytics.</p>
+<p>These pages are generated from the app's own specification, so what they
+describe is what the app computes.</p>
+</footer>
+</div></body></html>
