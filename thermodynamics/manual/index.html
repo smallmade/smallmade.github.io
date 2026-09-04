@@ -1,0 +1,1125 @@
+<!--
+  Hand-written, not generated. Unlike the theory manual (which is fully
+  mechanical -- see tools/docs/generate_theory_manual.py), this page
+  describes actual built screens, so it can only grow as fast as the app
+  does.
+
+  As of this pass, all 29 v1.0 modules have a built screen, and all 29 are
+  documented below -- each checked against its own *View.swift file (not
+  just the module's spec entry) and, this session, against a screenshot
+  from the iOS Simulator compared to an independently run Python reference
+  value. Update this file directly when a screen's behaviour changes: pull
+  inputs, outputs and symbol meanings from spec/specification.json the way
+  the State Explorer section does, but trust the screen's own header
+  comment and body over the module's one-line spec summary when the two
+  disagree -- they have disagreed before (State Explorer implements 5 of
+  the 9 state-fixing pairs the canon lists, and only one of two roots
+  where a pair admits two). Several other screens narrow their module's
+  canon scope in similar, deliberate ways documented in their own
+  headers, and are described that way below rather than as if the canon's
+  full branching were on screen.
+
+  This repository has no version control, and this page was rewritten
+  while other work was happening on the same source files in parallel --
+  re-read a screen's current source immediately before describing it here
+  rather than trusting an earlier read, even one from minutes earlier in
+  the same sitting. A formula card was added to the top of every screen
+  partway through this rewrite, which is exactly the kind of change a
+  stale read would have missed silently.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Usage Manual &mdash; Thermodynamics Calculator</title>
+<meta name="description" content="How to use Thermodynamics Calculator's 29 screens: state and property lookups, first- and second-law devices and balances, power cycles, and refrigeration.">
+<style>
+:root {
+  --ink: #14171c; --dim: #5b626c; --line: #dfe3e8; --bg: #ffffff;
+  --panel: #f6f8fa; --accent: #b8380e; --accent-ink: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e6e9ee; --dim: #9aa1ab; --line: #2b3038; --bg: #16181c;
+    --panel: #1e2126; --accent: #ff874c; --accent-ink: #16181c;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+header { padding: 72px 0 40px; }
+h1 { font-size: 2.6rem; line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.02em; }
+.lede { font-size: 1.2rem; color: var(--dim); margin: 0 0 20px; max-width: 62ch; }
+h2 { font-size: 1.5rem; margin: 56px 0 14px; letter-spacing: -0.01em; }
+h3 { font-size: 1.1rem; margin: 30px 0 8px; }
+h4 { font-size: 1rem; margin: 22px 0 8px; }
+p { max-width: 68ch; }
+.summary { color: var(--dim); }
+a { color: var(--accent); }
+table { border-collapse: collapse; width: 100%; margin: 10px 0 18px; font-size: 0.92rem; }
+.scroll { overflow-x: auto; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--dim); font-weight: 600; white-space: nowrap; }
+code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.92em; }
+.dim { color: var(--dim); }
+.not-built { color: var(--dim); font-style: italic; }
+.cell-note { color: var(--dim); font-size: 0.88rem; margin-top: 3px; }
+.scope-note {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+  padding: 16px 20px; margin: 8px 0 32px;
+}
+.scope-note p { max-width: none; }
+.note-card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+  padding: 14px 18px; margin: 12px 0;
+}
+.note-card p:first-child { margin-top: 0; }
+.note-card p:last-child { margin-bottom: 0; }
+.badge {
+  display: inline-block; font-size: 0.78rem; font-weight: 600; padding: 2px 9px;
+  border-radius: 999px; white-space: nowrap;
+}
+.badge-warning { background: #fdecd2; color: #7a4a05; }
+.badge-info    { background: #e4e9ef; color: #3b4552; }
+@media (prefers-color-scheme: dark) {
+  .badge-warning { background: #4a3814; color: #ffce85; }
+  .badge-info    { background: #2a3038; color: #b7c1cd; }
+}
+footer { margin: 72px 0 48px; padding-top: 24px; border-top: 1px solid var(--line);
+         color: var(--dim); font-size: 0.9rem; }
+footer a { color: var(--dim); }
+</style>
+</head>
+<body><div class="wrap">
+<header>
+  <h1>Usage Manual</h1>
+  <p class="lede">How to use the screens that exist today. All 29 modules
+    planned for this release are built; this page documents each one
+    against the app itself, not against a plan for it.</p>
+</header>
+
+<div class="scope-note">
+<p><strong>What's covered:</strong> all 29 v1.0 screens, described below in
+the same groups the app's own sidebar uses. Every screen has been opened on
+its own default inputs and checked against an independently run Python
+reference value. Depth varies with how much a screen actually does &mdash; a
+five-field lookup gets a paragraph, a nine-station cycle with a live diagram
+gets a full section &mdash; but every entry says what the screen computes,
+what you type in, and, where a screen deliberately implements less than its
+module's full canon (several do &mdash; a second cycle root, a
+control-volume entropy balance, multistage compression and more are each a
+real, named gap rather than an oversight), what's missing and why. Each
+section links to its formula, full symbol table and derivation context in
+the <a href="../theory/index.html">theory manual</a>, which covers the
+physics regardless of whether a screen exists for it; this manual covers the
+screens.</p>
+</div>
+
+<p>One pattern is common to all 29 and worth knowing before the screens
+themselves: every one opens with a small, monospaced formula card showing
+its headline relation, transcribed by hand into plain notation &mdash;
+fractions written inline, Greek letters as ordinary characters, rates marked
+with a dot over the symbol. SwiftUI has no built-in renderer for the
+typeset version the theory manual shows, so this plain-text card is what the
+app itself displays. It's a reminder of the relation in play, not a
+substitute for the derivation &mdash; for that, follow the theory-manual
+link at the end of each section below.</p>
+
+<h2>State &amp; Properties</h2>
+
+<h3>State Explorer</h3>
+<p class="summary">Two independent properties fix the state of a simple
+compressible substance. This screen accepts an admissible pair of properties
+for water/steam and reports the rest, with the phase region named rather than
+implied.</p>
+
+<h4>Choosing what you know</h4>
+<p>A picker at the top offers five pairs of properties. Pick the pair you
+have; the two matching input fields are open for typing and every other field
+on the screen shows, in place of a value, the reason it isn't open &mdash;
+never just a greyed-out blank.</p>
+<div class="scroll"><table>
+<tr><th>Pair</th><th>The other three fields show</th></tr>
+<tr><td>pressure and temperature</td><td>quality &mdash; not a two-phase state, quality does not apply; enthalpy and entropy &mdash; computed from pressure and temperature</td></tr>
+<tr><td>pressure and quality</td><td>temperature &mdash; fixed by the saturation line at this pressure; enthalpy and entropy &mdash; computed from the quality</td></tr>
+<tr><td>temperature and quality</td><td>pressure &mdash; fixed by the saturation line at this temperature; enthalpy and entropy &mdash; computed from the quality</td></tr>
+<tr><td>pressure and enthalpy</td><td>temperature &mdash; solved for from pressure and enthalpy; quality &mdash; solved for, if the state is a mixture; entropy &mdash; computed from the state</td></tr>
+<tr><td>pressure and entropy</td><td>temperature &mdash; solved for from pressure and entropy; quality &mdash; solved for, if the state is a mixture; enthalpy &mdash; computed from the state</td></tr>
+</table></div>
+<p class="cell-note">The canon behind this screen lists nine state-fixing
+pairs in total (it also allows fixing from temperature-and-specific-volume,
+pressure-and-specific-volume, enthalpy-and-entropy, or internal-energy-and-
+specific-volume). Only the five above are wired up today; the rest are a
+later pass, not a decision that they don't matter.</p>
+
+<h4>The five properties</h4>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit on screen</th><th>Meaning</th></tr>
+<tr><td>temperature</td><td><code>T</code></td><td>K</td><td>Temperature: the property two bodies share when nothing flows between them on contact. Always absolute inside the app.</td></tr>
+<tr><td>pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure: the normal force a fluid exerts per unit of the area it pushes on. Always absolute inside the app; gauge is a display mode.</td></tr>
+<tr><td>quality</td><td><code>x</code></td><td>&mdash; (0 to 1)</td><td>Quality: the fraction of a liquid-vapour mixture that is vapour, by mass. Meaningful only between the two saturation lines.</td></tr>
+<tr><td>enthalpy</td><td><code>h</code></td><td>kJ/kg</td><td>Specific enthalpy: internal energy plus pressure times specific volume. It exists because that combination appears every time a substance flows across a boundary.</td></tr>
+<tr><td>entropy</td><td><code>s</code></td><td>kJ/(kg&nbsp;K)</td><td>Specific entropy: the property that counts how much of a system's energy is no longer available to do work.</td></tr>
+</table></div>
+<p class="cell-note">The two open input fields don't print a unit next to
+them while you type &mdash; type the same units shown in the table above and
+in the output rows (temperature in kelvin, pressure in MPa). Water is
+validated from about 0.0006 MPa (the triple point) to 100 MPa, and from
+273.15 K up to 2273.15 K.</p>
+
+<h4>What comes back</h4>
+<p>A fixed state reports temperature, pressure, specific volume, density,
+internal energy, enthalpy and entropy, each printed beside the relation that
+produced it (in the app's own words, not retypeset &mdash; e.g. next to
+enthalpy you'll see the plain line <code>h = u + pv</code>). The number of
+digits shown is fixed per quantity, not uniform: temperature to 2 decimal
+places, pressure to 4 significant figures, specific volume to 5, enthalpy to
+2 decimals, entropy to 4.</p>
+<p>Quality is the one exception: it only appears when the state is strictly
+inside the two-phase dome (between 0 and 1). A superheated or compressed
+state doesn't print <code>x&nbsp;=&nbsp;1.0000</code> or
+<code>x&nbsp;=&nbsp;0.0000</code> &mdash; both would teach the wrong idea, so
+the row is left off entirely rather than shown as a number that doesn't mean
+anything there.</p>
+<p>Above the results, the screen names the phase region rather than leaving
+you to infer it from the numbers: <em>compressed liquid</em>, <em>saturated
+liquid</em>, <em>saturated mixture</em>, <em>saturated vapour</em>,
+<em>superheated vapour</em>, or <em>supercritical</em>.</p>
+
+<h4>Notes the screen adds on its own</h4>
+<div class="note-card">
+<p><span class="badge badge-info">Always shown</span></p>
+<p>Values come from the current international formulation. Older printed
+tables were computed from an earlier one and differ in the fourth figure,
+most visibly in the saturated-vapour columns. Neither is a mistake; they are
+different formulations, and this one is the one still maintained.</p>
+</div>
+<div class="note-card">
+<p><span class="badge badge-info">Compressed liquid states</span></p>
+<p>The saturated-liquid approximation is being used. Its error grows with
+pressure; the pressure-corrected form and the exact value are both
+available.</p>
+</div>
+<div class="note-card">
+<p><span class="badge badge-warning">Near the critical point</span></p>
+<p>Within about 0.6 K of the critical point the latent quantities vanish and
+quality loses meaning. Values here carry an absolute error floor, not a
+relative one.</p>
+</div>
+
+<h4>When a pair doesn't work</h4>
+<p>Two situations end without a result, and both say why in place of a
+number rather than showing a wrong one or crashing:</p>
+<ul>
+<li>The pair is outside the water formulation's validated range, or lands
+somewhere the solver doesn't converge.</li>
+<li>Pressure and temperature are given together on the saturation line itself
+&mdash; there, every quality from 0 to 1 shares the same pressure and
+temperature, so the pair doesn't fix a state at all. The screen says this
+explicitly and suggests giving quality, enthalpy, or entropy instead.</li>
+</ul>
+<p class="cell-note">One thing this screen doesn't do yet: where a pair
+genuinely admits two different states (some enthalpy-and-entropy inputs land
+near the dome twice), the canon calls for showing both as a visible choice.
+Today only one root comes back. Not a silent wrong answer, but not the full
+behaviour either.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M01">theory manual</a>.</p>
+
+<h3>M02 &middot; Ideal Gas Properties</h3>
+<p>Temperature alone fixes every caloric property of an ideal gas. Pick one
+of eight pure species and a temperature, and the screen reads off its molar
+mass, gas constant, <code>cp</code>, <code>cv</code>, specific heat ratio
+<code>k</code>, enthalpy, internal energy, the standard-state entropy
+function, and the relative pressure and relative volume used for isentropic
+shortcuts &mdash; all from a seven-term polynomial fit in temperature. A
+second, independent panel on the same screen takes a start and end
+temperature and pressure and reports the entropy change between them.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>substance</td><td><code>substance</code></td><td>&mdash;</td><td>Which of eight species (N&#8322;, O&#8322;, H&#8322;O, CO&#8322;, CO, H&#8322;, CH&#8324;, Ar) the polynomial is evaluated for.</td></tr>
+<tr><td>temperature</td><td><code>T</code></td><td>K</td><td>Temperature: the property two bodies share when nothing flows between them on contact.</td></tr>
+<tr><td>temperature, in / out</td><td><code>T</code></td><td>K</td><td>The two temperatures of the entropy-change panel.</td></tr>
+<tr><td>pressure, in / out</td><td><code>p</code></td><td>MPa</td><td>The two pressures of the entropy-change panel.</td></tr>
+</table></div>
+<p>What comes back: molar mass <code>M</code> (kg/kmol), gas constant
+<code>R</code> (kJ/(kg&nbsp;K)), <code>cp</code> and <code>cv</code>
+(kJ/(kg&nbsp;K)), <code>k</code>, enthalpy <code>h</code> and internal energy
+<code>u</code> (kJ/kg), the standard-state entropy function
+<code>s&deg;</code> (kJ/(kg&nbsp;K)), and the relative pressure
+<code>pr</code> and relative volume <code>vr</code> used for isentropic
+process shortcuts elsewhere in the app &mdash; then, from the second panel,
+the entropy change <code>&Delta;S</code> between the two given states.</p>
+<p class="cell-note">The canon lists three specific-heat models for this
+module: variable <code>cp</code> read straight from the polynomial, a
+constant <code>cp</code> evaluated once at a stated temperature, and a
+cold-air-standard constant <code>k</code>. The first two are really the same
+calculation used two ways &mdash; holding <code>cp</code> constant just means
+reading it once at one temperature and using that number by hand, not a
+separate mode switch. The third has no backing constant anywhere in the
+underlying engine yet; the same gap recurs in the four piston-cycle screens
+and the Brayton screens further down, and is noted again there. The
+substance picker also offers only pure species, not the humid-air mixture the
+app's psychrometric engine separately knows about: the mixture functions
+cover <code>cp</code>, <code>h</code>, <code>s&deg;</code> and <code>k</code>
+but not <code>cv</code> or a mixture gas constant, so this screen doesn't
+guess at <code>cv = cp &minus; R</code> for a mixture without a stated
+mixture <code>R</code>.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M02">theory manual</a>.</p>
+
+<h3>M34 &middot; Real Gas: Compressibility and Cubic Equations of State</h3>
+<p>At one pressure and temperature, this screen puts six equations of state
+side by side &mdash; the ideal gas law, the generalised compressibility
+relation (evaluated from its own equation rather than read off a digitised
+chart), and four cubic equations of state (van der Waals, Redlich-Kwong,
+Soave-Redlich-Kwong, Peng-Robinson) &mdash; and measures each one's molar
+volume and compressibility factor <code>Z</code> against the IAPWS-IF97
+reference formulation for water. It's an accuracy demonstration as much as a
+calculator: the point is seeing where each model stops being usable, not
+picking one to trust.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure: the normal force a fluid exerts per unit of the area it pushes on.</td></tr>
+<tr><td>temperature</td><td><code>T</code></td><td>K</td><td>Temperature: the property two bodies share when nothing flows between them on contact.</td></tr>
+</table></div>
+<p>There's no substance picker, and that's deliberate rather than a missing
+field: this screen always compares against IAPWS-IF97 water as the fixed,
+exact reference, because showing how far a cubic equation of state drifts
+from the real formulation is the whole point &mdash; modelling an arbitrary
+gas is a different screen's job. What comes back is a reference block
+(molar volume, compressibility <code>Z</code>, reduced temperature
+<code>Tr</code>, reduced pressure <code>Pr</code>) and then a table with one
+row per model &mdash; volume, <code>Z</code>, and percent error against the
+reference, the error highlighted when it passes 5%. The shipped default sits
+where the models visibly disagree (the ideal gas law is off by about 38%,
+the better cubics by under 2%) rather than at a point where every model
+reads the same and the comparison teaches nothing.</p>
+<p class="cell-note">The canon also describes a visible choice between the
+two physical roots a cubic equation can return in the two-phase region (the
+larger root is vapour, the smaller is liquid, and the middle root is
+mechanically unstable and never returned). This screen doesn't show a
+control for choosing between them; whichever root the comparison settles on
+is what's shown.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M34">theory manual</a>.</p>
+
+<h2>First Law</h2>
+
+<h3>M03 &middot; Process Path</h3>
+<p>A quasi-equilibrium path between two states &mdash; isothermal, isobaric,
+isochoric, isentropic, or polytropic &mdash; with the boundary work computed
+from the path itself, <code>W = &int; p&nbsp;dV</code>. Isentropic and
+polytropic share one calculation: leaving the polytropic exponent blank
+fits it from the two given states either way, so there's no separate
+isentropic-only code path to reason about.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>kind</td><td><code>process</code></td><td>&mdash;</td><td>Which of the five paths the screen applies.</td></tr>
+<tr><td>pressure, in / out</td><td><code>p</code></td><td>MPa</td><td>Pressure at each end of the path.</td></tr>
+<tr><td>specific volume, in / out</td><td><code>v</code></td><td>m&sup3;/kg</td><td>Specific volume at each end of the path.</td></tr>
+<tr><td>exponent (polytropic only)</td><td><code>n</code></td><td>&mdash;</td><td>Polytropic exponent: the constant in <code>pv&#8319; = const</code>. Left blank, it's fitted from the two states instead of typed in.</td></tr>
+<tr><td>mass</td><td><code>m</code></td><td>kg</td><td>Mass of the system, used only to turn the specific (per-kilogram) results into totals.</td></tr>
+<tr><td>internal energy, in / out</td><td><code>u</code></td><td>kJ/kg</td><td>Given directly &mdash; see below.</td></tr>
+<tr><td>enthalpy, in / out</td><td><code>h</code></td><td>kJ/kg</td><td>Given directly &mdash; see below.</td></tr>
+<tr><td>entropy, in / out</td><td><code>s</code></td><td>kJ/(kg&nbsp;K)</td><td>Given directly &mdash; see below.</td></tr>
+</table></div>
+<p>What comes back: boundary work <code>w</code> (kJ/kg) and its total
+<code>W</code> (kJ); then, from the first law, <code>&Delta;U</code>, heat
+<code>q</code> and its total <code>Q</code>, <code>&Delta;H</code> and
+<code>&Delta;S</code>. Every specific quantity has its own total row rather
+than folding mass into it silently &mdash; the same lesson Closed System
+Energy Balance's residual is there to catch applies here too.</p>
+<p class="cell-note">This screen does not derive <code>&Delta;U</code>,
+<code>&Delta;H</code> or <code>&Delta;S</code> from the path or from State
+Explorer automatically. The underlying calculation only knows pressure and
+volume; it doesn't know the substance and can't compute a property change on
+its own. So the internal energy, enthalpy and entropy at each end are typed
+in directly rather than looked up &mdash; matching what the canon's own entry
+list actually declares as given, but worth knowing before you go looking for
+a substance picker that isn't there.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M03">theory manual</a>.</p>
+
+<h3>M04 &middot; Closed System Energy Balance</h3>
+<p>The first law for a closed system, <code>&Delta;U + &Delta;KE + &Delta;PE
+= Q &minus; W</code>, solved for whichever of heat, work or the internal
+energy change is unknown. Kinetic and potential energy terms are included
+(inlet/exit velocity and elevation, defaulting to zero) so a problem that
+actually uses them doesn't need a second screen.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>solve for</td><td>&mdash;</td><td>&mdash;</td><td>Which of <code>Q</code>, <code>W</code> or <code>&Delta;U</code> the screen computes; the other two are given.</td></tr>
+<tr><td>mass</td><td><code>m</code></td><td>kg</td><td>Mass of the system.</td></tr>
+<tr><td>heat</td><td><code>Q</code></td><td>kJ</td><td>Heat transferred across the boundary, positive into the system. Given unless it's the unknown.</td></tr>
+<tr><td>work</td><td><code>W</code></td><td>kJ</td><td>Work transferred across the boundary, positive out of the system. Given unless it's the unknown.</td></tr>
+<tr><td>internal energy change</td><td><code>&Delta;U</code></td><td>kJ</td><td>Given unless it's the unknown.</td></tr>
+<tr><td>velocity, in / out</td><td><code>vel</code></td><td>m/s</td><td>Defaults to zero; only matters when it's fast enough to compete with the other terms.</td></tr>
+<tr><td>elevation, in / out</td><td><code>z</code></td><td>m</td><td>Defaults to zero, measured from whatever datum you choose.</td></tr>
+</table></div>
+<p>What comes back: <code>Q</code>, <code>W</code>, <code>&Delta;U</code>,
+<code>&Delta;KE</code>, <code>&Delta;PE</code> (all kJ), and a
+<strong>residual</strong> &mdash; how far from zero the balance still sits at
+the solved answer, reported rather than assumed, so convergence is something
+you can see rather than take on faith.</p>
+<p class="cell-note">The canon lists a fourth quantity you might solve for
+&mdash; mass &mdash; but the underlying calculation refuses it outright and
+points back to State Explorer instead: solving for mass needs a full state,
+not just a balance, so the picker here only ever offers the three that
+actually resolve. The canon also lists six work modes that can act at once
+(moving boundary, shaft, electrical, spring, surface tension, a generalised
+force and displacement) and notes they add together; this screen takes
+<code>W</code> as a single already-summed number rather than breaking it down
+by mode, so combining several modes is arithmetic you do before typing the
+total in.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M04">theory manual</a>.</p>
+
+<h3>M05 &middot; Cycle Energy Accounting</h3>
+<p>The bookkeeping every cycle shares, reduced to its simplest form: given
+heat in and heat out over one complete cycle, net work is their difference,
+and three ratios of that same arithmetic &mdash; thermal efficiency, a
+refrigeration coefficient of performance, a heat-pump coefficient of
+performance &mdash; are shown together rather than behind a device-kind
+picker. They're three readings of one energy balance, not three separate
+calculations, and Reversible Limits further down makes the same choice for
+the same reason.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>heat in</td><td><code>Qin</code></td><td>kJ</td><td>Total heat supplied to the cycle over one complete circuit.</td></tr>
+<tr><td>heat out</td><td><code>Qout</code></td><td>kJ</td><td>Total heat rejected by the cycle over one complete circuit.</td></tr>
+</table></div>
+<p>What comes back: net work <code>Wnet</code> (kJ), thermal efficiency
+<code>&eta;</code>, refrigeration COP <code>&beta;</code>, heat-pump COP
+<code>&gamma;</code>. Both heat quantities have to be zero or positive, or
+the screen says so instead of returning a number.</p>
+<p class="cell-note">This module has no screen-specific engine of its own
+and no other screen builds on it &mdash; it's the generic version of the
+bookkeeping underneath the nine cycle-topology screens further down (Rankine
+and its variants, the piston cycles, Brayton and its variants), not a
+front end for any one of them.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M05">theory manual</a>.</p>
+
+<h2>Control-Volume Devices</h2>
+
+<h3>M06 &middot; Nozzle and Diffuser</h3>
+<p>Two devices, one balance: choose nozzle (velocity rises, pressure falls)
+or diffuser (velocity falls, pressure rises) and the screen solves the same
+steady-flow energy balance either way. This is the one control-volume device
+in the app where the kinetic-energy term is the point rather than a
+quantity everyone else safely drops.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>kind</td><td><code>device</code></td><td>&mdash;</td><td>Nozzle or diffuser &mdash; which direction the conversion is declared to run.</td></tr>
+<tr><td>inlet pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure entering the device.</td></tr>
+<tr><td>inlet temperature</td><td><code>T</code></td><td>K</td><td>Temperature entering the device.</td></tr>
+<tr><td>exit pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure leaving the device.</td></tr>
+<tr><td>inlet velocity</td><td><code>vel</code></td><td>m/s</td><td>Velocity of the stream, which matters only when it's fast enough for its kinetic energy to compete with enthalpy.</td></tr>
+<tr><td>mass flow</td><td><code>mdot</code></td><td>kg/s</td><td>Mass flow rate, used to size the inlet and exit areas.</td></tr>
+<tr><td>isentropic efficiency</td><td><code>&eta;</code></td><td>&mdash;</td><td>How close the actual expansion (or compression) comes to an ideal, entropy-preserving one.</td></tr>
+</table></div>
+<p>Inlet and exit states are shown as compact blocks &mdash; temperature,
+pressure, enthalpy, entropy, quality and phase, six figures and a phase name
+together, with quality left off outside the two-phase dome and the whole
+block replaced by a reason when a state doesn't resolve. The same block
+reappears through the rest of this section and, later, in Closed-System
+Exergy and Flow Exergy, so it isn't re-described each time it comes up
+below. Beyond the two states, this screen reports exit velocity, stagnation
+enthalpy, inlet and exit area, and exit Mach number.</p>
+<p class="cell-note">The underlying calculation covers only the energy
+balance and the stagnation/area/Mach bookkeeping that follows directly from
+it &mdash; it does not implement the area-Mach relation itself, and it does
+not model choking. A note (not an error) appears when the exit comes out
+transonic or lands inside the vapour dome; the shipped defaults stay
+comfortably subsonic so the screen opens clean, and reaching the sonic case
+is one exit-pressure edit away.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M06">theory manual</a>.</p>
+
+<h3>M07 &middot; Turbine</h3>
+<p>Work out of an expanding steam stream: given the inlet state, the exit
+pressure, and an isentropic efficiency, the screen reports the actual exit
+state, the isentropic (ideal) exit state alongside it, and the specific work
+out.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>inlet pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure entering the turbine.</td></tr>
+<tr><td>inlet temperature</td><td><code>T</code></td><td>K</td><td>Temperature entering the turbine.</td></tr>
+<tr><td>exit pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure leaving the turbine.</td></tr>
+<tr><td>isentropic efficiency</td><td><code>&eta;_t</code></td><td>&mdash;</td><td>Actual work out divided by the work an ideal expansion to the same exit pressure would have produced.</td></tr>
+</table></div>
+<p>What comes back: inlet, actual-exit and isentropic-exit state blocks, and
+work out (kJ/kg). A note appears whenever the actual exit quality drops
+below about 0.90 &mdash; below that, the exit stream carries enough liquid to
+erode real blades &mdash; read directly off the solved exit state rather than
+computed separately.</p>
+<p class="cell-note">The canon lists three things you might give a turbine
+screen: the exit state, an isentropic efficiency, or a power output, each
+fixing the other two in a different direction. Only the middle one &mdash;
+efficiency given, exit state and work solved for &mdash; is built here.
+Given the actual exit state and solving backward for the efficiency it
+implies is a related but different question, and it's answered by
+Isentropic Efficiency further down, not by this screen.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M07">theory manual</a>.</p>
+
+<h3>M08 &middot; Compressor and Pump</h3>
+<p>Work into a compressed stream, on one screen with two structurally
+different halves: a "pump" toggle sends liquid water through the same kind
+of calculation Turbine uses, and a "compressor" toggle sends one of eight
+gas species through a single-stage compression instead.</p>
+
+<h4>Pump</h4>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>inlet pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure entering the pump.</td></tr>
+<tr><td>inlet temperature</td><td><code>T</code></td><td>K</td><td>Temperature entering the pump.</td></tr>
+<tr><td>exit pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure leaving the pump.</td></tr>
+<tr><td>isentropic efficiency</td><td><code>&eta;_p</code></td><td>&mdash;</td><td>The work an ideal compression would have taken, divided by the work actually taken.</td></tr>
+</table></div>
+<p>Returns inlet, actual-exit and isentropic-exit state blocks and work in
+(kJ/kg) &mdash; the same shape Turbine uses, since a pump is the water-side
+device Turbine already covers, read in the other direction.</p>
+
+<h4>Compressor</h4>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>substance</td><td><code>substance</code></td><td>&mdash;</td><td>One of eight gas species (N&#8322;, O&#8322;, H&#8322;O, CO&#8322;, CO, H&#8322;, CH&#8324;, Ar).</td></tr>
+<tr><td>inlet pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure entering the compressor.</td></tr>
+<tr><td>inlet temperature</td><td><code>T</code></td><td>K</td><td>Temperature entering the compressor.</td></tr>
+<tr><td>exit pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure leaving the compressor.</td></tr>
+<tr><td>isentropic efficiency</td><td><code>&eta;_c</code></td><td>&mdash;</td><td>The work an ideal compression would have taken, divided by the work actually taken.</td></tr>
+</table></div>
+<p>Returns inlet, actual-exit and isentropic-exit gas states as a plainer
+readout (temperature, pressure and enthalpy only, no quality or entropy
+row), plus isentropic work, actual work in, and an efficiency figure
+recomputed from those two work values as a consistency check against the
+efficiency you typed in.</p>
+
+<p class="cell-note">This is the one module in the app where the canon
+itself marks both branching decisions unresolved, and the screen exists
+without either being a finished, citable design. There is no shared
+underlying calculation for gas compression the way there is for the
+water-side pump and turbine &mdash; the compressor half is assembled here
+from lower-level pieces (an isentropic exit calculation, then a real exit
+from the efficiency-scaled work) rather than one clean function call.
+Multistage compression with intercooling &mdash; the canon's stated reason
+for pairing compressors and pumps on one screen, since the optimum
+intermediate pressure between stages is the point of the section &mdash; is
+not built at all; this screen is single-stage only. Of the four compression
+models the canon lists (isentropic, isothermal, polytropic, actual from a
+stated efficiency), only the last is offered.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M08">theory manual</a>.</p>
+
+<h3>M09 &middot; Heat Exchanger</h3>
+<p>An energy balance between two streams &mdash; each independently water or
+air &mdash; solved for exactly one of four unknowns: the hot exit
+temperature, the cold exit temperature, the hot flow rate, or the cold flow
+rate. The picker enforces exactly one choice; passing zero or more than one
+unknown to the underlying balance is refused rather than guessed at.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>solve for</td><td>&mdash;</td><td>&mdash;</td><td>Which one of the four terminal quantities below is the unknown.</td></tr>
+<tr><td>hot / cold fluid</td><td><code>substance</code></td><td>&mdash;</td><td>Water or air, chosen independently for each stream.</td></tr>
+<tr><td>hot / cold pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure of each stream, assumed constant through the exchanger.</td></tr>
+<tr><td>hot / cold inlet temperature</td><td><code>T</code></td><td>K</td><td>Always given for both streams.</td></tr>
+<tr><td>hot / cold exit temperature</td><td><code>T</code></td><td>K</td><td>Given unless it's the unknown.</td></tr>
+<tr><td>hot / cold flow</td><td><code>mdot</code></td><td>kg/s</td><td>Given unless it's the unknown.</td></tr>
+</table></div>
+<p>What comes back: duty (kW), hot and cold exit temperatures, hot and cold
+flow rates, the pinch &mdash; the closest temperature approach between the
+two streams anywhere in the exchanger, the tightest constraint on how much
+duty is actually possible &mdash; entropy production (kW/K), and a closure
+figure (kW) reporting how far the energy balance is from actually closing,
+the same idea Closed System Energy Balance calls its residual.</p>
+<p class="cell-note">The canon's second variant &mdash; direct-contact
+mixing, where the two streams combine into one instead of staying separate
+&mdash; is not implemented. It needs a different mass balance (three
+terminal states instead of four) rather than just a different display, so
+it's left for its own pass rather than folded into this screen's picker.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M09">theory manual</a>.</p>
+
+<h3>M10 &middot; Throttling Device</h3>
+<p>A constant-enthalpy expansion across a restriction: given the inlet state
+and the exit pressure, the screen holds enthalpy fixed to find the exit
+state, and reports the entropy this necessarily irreversible process
+produces &mdash; a throttle is adiabatic by construction, so the entropy
+balance behind this number has no boundary heat-transfer term to enter.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>inlet pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure entering the throttle.</td></tr>
+<tr><td>inlet temperature</td><td><code>T</code></td><td>K</td><td>Temperature entering the throttle.</td></tr>
+<tr><td>exit pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure leaving the throttle, lower than the inlet.</td></tr>
+</table></div>
+<p>What comes back: the inlet state (labelled as the enthalpy held constant
+across the valve), the exit state, and the entropy production
+<code>&sigma;</code> (kJ/(kg&nbsp;K)).</p>
+<p class="cell-note">The canon lists three uses for this module: finding the
+downstream state, a throttling calorimeter (inferring an unmeasurable
+upstream quality from a measurable downstream pressure and temperature after
+throttling), and mapping the Joule-Thomson inversion locus. Only the first
+is built. Neither the calorimeter direction nor the Joule-Thomson
+coefficient itself &mdash; whose sign decides whether throttling cools or
+warms a given gas &mdash; is on this screen; the coefficient needs a
+volume-expansivity derivative the screen doesn't otherwise compute.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M10">theory manual</a>.</p>
+
+<h3>M11 &middot; Transient Filling and Emptying</h3>
+<p>Charging a vessel from a supply line, or discharging one to a lower
+pressure, tracking how its contents evolve. A direction toggle switches
+between two genuinely different calculations: charging solves one energy
+balance in a single step, while discharging integrates the vessel's state
+through many intermediate steps as it empties, because the properties of the
+stream leaving keep changing as the vessel's own state changes.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>direction</td><td>&mdash;</td><td>&mdash;</td><td>Charging or discharging.</td></tr>
+<tr><td>fluid</td><td><code>substance</code></td><td>&mdash;</td><td>Water or air.</td></tr>
+<tr><td>volume</td><td><code>V</code></td><td>m&sup3;</td><td>Volume of the (rigid) vessel.</td></tr>
+<tr><td>supply pressure / temperature (charging)</td><td><code>p</code>, <code>T</code></td><td>MPa, K</td><td>State of the line the vessel is charged from.</td></tr>
+<tr><td>final pressure (charging)</td><td><code>p</code></td><td>MPa</td><td>Pressure the vessel is charged up to.</td></tr>
+<tr><td>heat added (charging)</td><td><code>Qcv</code></td><td>kJ</td><td>Heat crossing the vessel wall during charging; zero for an adiabatic fill.</td></tr>
+<tr><td>starts evacuated (charging)</td><td>&mdash;</td><td>&mdash;</td><td>Toggle; if off, the vessel's own initial pressure and temperature are given instead.</td></tr>
+<tr><td>initial / final pressure, initial temperature (discharging)</td><td><code>p</code>, <code>T</code></td><td>MPa, K</td><td>The vessel's own state at the start and end of discharge.</td></tr>
+</table></div>
+<p>What comes back: final temperature (K), final pressure (MPa), final mass
+(kg), mass transferred (kg), and heat (kJ). There's no boundary-work field
+because the vessel is rigid by construction &mdash; that's not a wiring gap,
+just nothing for the balance to do work against.</p>
+<div class="note-card">
+<p><span class="badge badge-warning">Near water's triple point</span></p>
+<p>The discharge defaults (water, 0.5 to 0.2 MPa starting at 373.15 K) were
+chosen to stay clear of a real numerical edge found while building this
+screen, not picked arbitrarily. An earlier, equally plausible set of
+starting numbers drove the vessel's temperature, over the course of the
+several-hundred-step integration discharge uses internally, to within a few
+thousandths of a kelvin of water's own solver floor near 274 K. Both
+languages the app is built from agree on the physically correct answer right
+at that edge &mdash; but that close to it, two independently written
+bounded root-finders can take different floating-point paths to the same
+nominal algorithm, and one can fail to bracket a root where the other still
+finds one. It isn't a wrong answer; it's a domain edge neither solver is
+obliged to handle identically to the other. Numbers that push a discharge
+close to 274 K are worth double-checking rather than trusting on the first
+try.</p>
+</div>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M11">theory manual</a>.</p>
+
+<h2>Second Law</h2>
+
+<h3>M12 &middot; Reversible Limits</h3>
+<p>The bound every other cycle screen is measured against. Given a hot and a
+cold reservoir temperature, this screen always shows all three reversible
+(Carnot) bounds together &mdash; heat-engine efficiency, refrigeration COP,
+heat-pump COP &mdash; rather than behind a device-kind picker, since they're
+three readings of the same two temperatures rather than three separate
+calculations (Cycle Energy Accounting above makes the same choice for the
+same reason). Given an actual cycle's heat in and heat out as well, it adds
+a verdict.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>hot reservoir temperature</td><td><code>TH</code></td><td>K</td><td>Temperature of the hot reservoir.</td></tr>
+<tr><td>cold reservoir temperature</td><td><code>TC</code></td><td>K</td><td>Temperature of the cold reservoir.</td></tr>
+<tr><td>heat in (optional)</td><td><code>Qin</code></td><td>kJ</td><td>Heat supplied to an actual cycle running between those reservoirs.</td></tr>
+<tr><td>heat out (optional)</td><td><code>Qout</code></td><td>kJ</td><td>Heat rejected by that actual cycle.</td></tr>
+</table></div>
+<p>What comes back: <code>&eta;_max</code>, <code>&beta;_max</code>,
+<code>&gamma;_max</code> &mdash; the reversible bounds &mdash; and, once
+actual heat quantities are given, a verdict banner: a colour-coded headline
+(<em>impossible</em>, <em>reversible</em> or <em>irreversible</em>), a
+plain-language detail sentence, and a margin figure reporting how far from
+zero the entropy production actually came out. The same banner is used again
+by Entropy Balance just below. The hot reservoir has to be strictly warmer
+than the cold one, and both above absolute zero, or the screen says so
+instead of returning a bound.</p>
+<p class="cell-note">This is one of two screens in the app (Entropy Balance
+is the other) where the honest answer to a set of numbers can be that no
+such device can exist &mdash; the verdict states that plainly rather than
+softening it.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M12">theory manual</a>.</p>
+
+<h3>M13 &middot; Entropy Balance</h3>
+<p>Entropy production <code>&sigma;</code> for a closed system's own
+contents, from the entropy change between two states and one or two boundary
+heat-transfer segments, each at its own boundary temperature &mdash; the
+temperature of the boundary the heat actually crosses, not the system's own
+temperature, since using the wrong one is the standard mistake this screen's
+field labelling is there to prevent.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>entropy, state 1 / 2</td><td><code>s</code></td><td>kJ/(kg&nbsp;K)</td><td>Specific entropy of the contents at each end.</td></tr>
+<tr><td>mass</td><td><code>m</code></td><td>kg</td><td>Mass of the system.</td></tr>
+<tr><td>heat transfer (segment 1)</td><td><code>Q</code></td><td>kJ</td><td>Heat crossing the boundary in this segment.</td></tr>
+<tr><td>boundary temperature (segment 1)</td><td><code>Tb</code></td><td>K</td><td>Temperature of the boundary where that heat crosses.</td></tr>
+<tr><td>second boundary segment (optional)</td><td>&mdash;</td><td>&mdash;</td><td>A toggle adds exactly one more heat/boundary-temperature pair; it isn't an open-ended list.</td></tr>
+</table></div>
+<p>What comes back: <code>&Delta;S</code> of the contents (kJ/K), the entropy
+transfer that crossed the boundary (kJ/K), the entropy production
+<code>&sigma;</code> (kJ/K), and the same verdict banner Reversible Limits
+uses above.</p>
+<p class="cell-note">Only the closed-system branch is built &mdash; entropy
+change of a fixed amount of matter. The control-volume, steady-flow branch
+(entropy carried in and out continuously by flowing streams) needs a
+different, stream-list-shaped input and isn't offered here. Of the three
+ways the canon lists for specifying the boundary temperature (a single
+value, several segments, or a continuous integral along a varying boundary
+temperature), the first two are implemented as one calculation given a
+longer list &mdash; a second segment is a toggle, not a separate code path
+&mdash; and the third isn't offered at all.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M13">theory manual</a>.</p>
+
+<h3>M14 &middot; Isentropic Efficiency</h3>
+<p>The reverse direction from Turbine and Compressor and Pump above: instead
+of an efficiency you already know, this screen takes an inlet state and an
+<em>actual</em> exit state &mdash; one you measured, or one a problem gives
+you &mdash; and works out the isentropic efficiency they imply, for a
+turbine, a compressor, or a pump.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>device</td><td><code>device</code></td><td>&mdash;</td><td>Turbine or pump (water) or compressor (gas).</td></tr>
+<tr><td>inlet pressure / temperature</td><td><code>p</code>, <code>T</code></td><td>MPa, K</td><td>State entering the device.</td></tr>
+<tr><td>exit pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure leaving the device.</td></tr>
+<tr><td>actual exit temperature</td><td><code>T</code></td><td>K</td><td>The measured or given exit temperature &mdash; this, not an efficiency, is what you supply.</td></tr>
+<tr><td>substance (compressor only)</td><td><code>substance</code></td><td>&mdash;</td><td>One of eight gas species.</td></tr>
+</table></div>
+<p>What comes back: for the turbine and pump, inlet, actual-exit and
+isentropic-exit state blocks plus isentropic work, actual work and the
+resulting isentropic efficiency; for the compressor, the same three figures
+without the state blocks (gas states are shown as a plainer T/p/h readout
+elsewhere in the app, not this screen's compact water-state block).</p>
+<div class="note-card">
+<p><span class="badge badge-info">Sign convention</span></p>
+<p>Turbine work and pump or compressor work are opposite in sign by
+convention. A turbine's ideal and actual work are each (inlet enthalpy minus
+exit enthalpy), positive because enthalpy drops as the device does work; a
+pump's or compressor's are each (exit enthalpy minus inlet enthalpy),
+positive because enthalpy rises as work is done on the fluid. The screen
+applies whichever is correct for the selected device automatically. If the
+actual exit state you type in would call for negative work from a turbine
+&mdash; enthalpy rising instead of falling &mdash; the efficiency is shown
+as <code>--</code> rather than a number, because a work-producing device
+can't have a negative isentropic efficiency.</p>
+</div>
+<p class="cell-note">The canon's fourth device, the nozzle, is left out: a
+nozzle's efficiency is defined on a ratio of kinetic energies, not the
+enthalpy-drop work ratio the other three devices share, so it doesn't fit
+this screen's shared work-in/work-out shape without a second, differently
+structured set of inputs.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M14">theory manual</a>.</p>
+
+<h3>M15 &middot; Reversible Steady-Flow Work</h3>
+<p>The reversible steady-flow work integral, <code>w = &minus;&int; v&nbsp;dp</code>,
+shown as two independent panels rather than one shared set of inputs: an
+incompressible (liquid, pump) shortcut, and a compressible (gas, compressor)
+case worked two ways, isothermal and polytropic.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>specific volume (liquid)</td><td><code>v</code></td><td>m&sup3;/kg</td><td>Held constant along the path; defaults to water at standard conditions.</td></tr>
+<tr><td>pressure, in / out (liquid)</td><td><code>p</code></td><td>MPa</td><td>Pressure at each end of the liquid path.</td></tr>
+<tr><td>specific volume, in (gas)</td><td><code>v</code></td><td>m&sup3;/kg</td><td>Specific volume entering the compressible path.</td></tr>
+<tr><td>pressure, in / out (gas)</td><td><code>p</code></td><td>MPa</td><td>Pressure at each end of the compressible path.</td></tr>
+<tr><td>polytropic exponent</td><td><code>n</code></td><td>&mdash;</td><td>The constant in <code>pv&#8319; = const</code> for the polytropic figure.</td></tr>
+</table></div>
+<p>What comes back: reversible work <code>w</code> (kJ/kg) for the
+incompressible case, and for the compressible case both an isothermal and a
+polytropic figure, side by side.</p>
+<p class="cell-note">The canon's three options here aren't three answers to
+the same question &mdash; pairing a liquid's specific volume with a gas
+calculation, or the reverse, would be physically meaningless &mdash; so this
+screen deliberately keeps two separate input sets rather than one shared
+one, matching the canon's own two named use cases (a pump scenario and a
+compressor scenario) staying separate. The third canon option, numerically
+integrating a path sampled from a full equation of state, isn't implemented
+at all: the underlying calculation only integrates a path it's handed, and
+generating that sampled path in the first place is its own separate piece of
+work.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M15">theory manual</a>.</p>
+
+<h3>M16 &middot; Closed-System Exergy</h3>
+<p>How much work the contents of a system could still do against a stated
+environment. Rather than typing eight raw property values (internal energy,
+specific volume and entropy, for both the system and the dead state), this
+screen takes pressure and temperature for each and derives the rest the same
+way State Explorer fixes a state.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure of the system.</td></tr>
+<tr><td>temperature</td><td><code>T</code></td><td>K</td><td>Temperature of the system.</td></tr>
+<tr><td>dead-state pressure</td><td><code>p0</code></td><td>MPa</td><td>Pressure of the environment the system will eventually equilibrate with.</td></tr>
+<tr><td>dead-state temperature</td><td><code>T0</code></td><td>K</td><td>Temperature of that environment. Exergy is meaningless without it.</td></tr>
+</table></div>
+<p>What comes back: state blocks for the system and the dead state, and the
+specific closed-system exergy <code>&phi;</code> (kJ/kg). The dead state is
+always shown as its own visible section rather than a hidden default,
+because every exergy number on this screen depends on it.</p>
+<p class="cell-note">This screen reports only the specific exergy of one
+state relative to the dead state. It does not show the fuller exergy
+balance the underlying relations also support &mdash; the exergy that
+travelled with a stated heat transfer, the exergy that travelled with a
+stated work transfer, exergy destroyed, or the exergy change between two
+given states. Those figures aren't surfaced here.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M16">theory manual</a>.</p>
+
+<h3>M17 &middot; Flow Exergy and Exergetic Efficiency</h3>
+<p>Two independent calculators on one screen. The first is flow exergy
+<code>&psi;</code> for a water state against a dead state, derived the same
+way Closed-System Exergy derives its own dead state, just for the flow
+relation instead of the closed-system one. The second is a generic
+exergetic efficiency &mdash; product exergy divided by supplied exergy
+&mdash; from two numbers you type in directly.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>pressure / temperature</td><td><code>p</code>, <code>T</code></td><td>MPa, K</td><td>The flowing state.</td></tr>
+<tr><td>dead-state pressure / temperature</td><td><code>p0</code>, <code>T0</code></td><td>MPa, K</td><td>The environment.</td></tr>
+<tr><td>product exergy</td><td>&mdash;</td><td>kJ</td><td>Exergy actually delivered by whatever component you're evaluating.</td></tr>
+<tr><td>supplied exergy</td><td>&mdash;</td><td>kJ</td><td>Exergy given to that component to work with.</td></tr>
+</table></div>
+<p>What comes back: the flow and dead-state blocks and <code>&psi;</code>
+(kJ/kg); and, from the two typed-in numbers, the exergetic efficiency
+<code>&epsilon;</code>.</p>
+<p class="cell-note">The canon describes a per-component breakdown of
+exergetic efficiency &mdash; a turbine, a compressor or pump, a non-mixing
+heat exchanger, a direct-contact heat exchanger, a throttle, a combustor,
+each with its own definition of "product" and "input" exergy &mdash; and
+marks that breakdown unresolved in the canon itself: encoding each
+component's own definition is real design work the canon hasn't committed to
+yet. This screen offers the generic ratio the underlying engine actually
+implements instead, letting you supply whichever product and supplied
+figures apply to your own component rather than choosing one from a list.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M17">theory manual</a>.</p>
+
+<h2>Power Cycles</h2>
+<p>Eight screens below share one shape: a form of cycle-specific inputs at
+the top, and, below a divider, the same results panel underneath. That
+panel is worth describing once rather than eight times:</p>
+<ul>
+<li>A segmented control choosing which pair of properties to plot the cycle
+against &mdash; temperature-entropy (the default, the plane the second law
+is visible as geometry on), pressure-specific-volume, pressure-enthalpy, or
+enthalpy-entropy. The two pressure-based planes use a logarithmic pressure
+axis, because pressure spans about four decades across a real power cycle
+and a linear axis would crush the condenser end of the diagram against
+zero.</li>
+<li>A live chart below the picker: the cycle's own state points, connected
+leg by leg, with the two-phase dome drawn in behind them as a dashed
+reference curve. It redraws immediately when any input changes.</li>
+<li>A station table, one row per state point: phase, temperature, pressure,
+enthalpy, entropy, quality.</li>
+<li>A performance section, each figure shown beside the relation that
+produced it &mdash; the same "never a number alone" rule State Explorer's
+result rows follow.</li>
+<li>A "worth knowing" notes section when the underlying calculation has
+something to say.</li>
+</ul>
+<p>If a cycle doesn't resolve for the given inputs, the panel shows why in
+place of a chart. Only the input form below is specific to each of the eight
+screens that follow; none of them need this panel re-explained.</p>
+
+<h3>M18 &middot; Rankine Cycle</h3>
+<p>The basic vapour power cycle: boiler, turbine, condenser, pump.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>boiler pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure the working fluid boils at.</td></tr>
+<tr><td>turbine inlet temperature</td><td><code>T</code></td><td>K</td><td>Superheat temperature entering the turbine.</td></tr>
+<tr><td>condenser pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure the working fluid condenses at.</td></tr>
+<tr><td>turbine efficiency</td><td><code>&eta;_t</code></td><td>&mdash;</td><td>Isentropic efficiency of the turbine.</td></tr>
+<tr><td>pump efficiency</td><td><code>&eta;_p</code></td><td>&mdash;</td><td>Isentropic efficiency of the pump.</td></tr>
+</table></div>
+<p class="cell-note">There's no separate ideal/actual switch &mdash; set
+both efficiencies to 1.0 for the fully ideal cycle. The turbine inlet
+condition is always specified as a temperature (superheated steam); there's
+no toggle for saturated vapour at the boiler pressure instead.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M18">theory manual</a>.</p>
+
+<h3>M19 &middot; Rankine with Reheat</h3>
+<p>Two-stage expansion with reheat in between: the steam expands partway,
+returns to the boiler pressure range to be reheated, then finishes
+expanding, keeping the exit out of the wet region and raising the average
+temperature of heat addition.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>boiler pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure the working fluid boils at.</td></tr>
+<tr><td>turbine inlet temperature</td><td><code>T</code></td><td>K</td><td>Superheat entering the first turbine stage.</td></tr>
+<tr><td>reheat pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure at which the steam is pulled out and reheated.</td></tr>
+<tr><td>reheat temperature</td><td><code>T</code></td><td>K</td><td>Temperature the steam is reheated to before the second stage.</td></tr>
+<tr><td>condenser pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure the working fluid condenses at.</td></tr>
+<tr><td>turbine / pump efficiency</td><td><code>&eta;_t</code>, <code>&eta;_p</code></td><td>&mdash;</td><td>Isentropic efficiencies of the turbine stages and the pump.</td></tr>
+</table></div>
+<p class="cell-note">Single reheat only, not double. The reheat pressure is
+a direct input and efficiency is a result; this screen doesn't run the other
+direction &mdash; solving for whichever reheat pressure hits a target exit
+quality &mdash; it only reports the exit quality you get from the pressure
+you typed in.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M19">theory manual</a>.</p>
+
+<h3>M20 &middot; Regenerative Rankine</h3>
+<p>Steam bled from the turbine at one intermediate pressure, mixed directly
+with the feedwater to preheat it before the boiler. The extraction fraction
+isn't an input &mdash; it comes out of the feedwater heater's own energy
+balance.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>boiler pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure the working fluid boils at.</td></tr>
+<tr><td>turbine inlet temperature</td><td><code>T</code></td><td>K</td><td>Superheat entering the turbine.</td></tr>
+<tr><td>extraction pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure at which steam is bled off to the feedwater heater.</td></tr>
+<tr><td>condenser pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure the working fluid condenses at.</td></tr>
+<tr><td>turbine / pump efficiency</td><td><code>&eta;_t</code>, <code>&eta;_p</code></td><td>&mdash;</td><td>Isentropic efficiencies.</td></tr>
+</table></div>
+<p>The extraction fraction <code>y</code> appears in the performance section
+alongside efficiency, net power and exit quality.</p>
+<p class="cell-note">One feedwater heater, in the open (mixing) arrangement
+&mdash; the extracted steam and the feedwater combine directly at the
+extraction pressure. The canon also describes two closed-heater
+arrangements (condensate trapped forward to the condenser, or pumped
+forward instead) and any number of heaters staged in series, with their
+extraction fractions coupled and solved together; none of that is built
+here.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M20">theory manual</a>.</p>
+
+<h3>M22 &middot; Otto Cycle</h3>
+<p>The air-standard spark-ignition cycle: isentropic compression, heat added
+at constant volume, isentropic expansion, heat rejected at constant
+volume.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>inlet temperature</td><td><code>T</code></td><td>K</td><td>Temperature at the start of compression.</td></tr>
+<tr><td>inlet pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure at the start of compression.</td></tr>
+<tr><td>compression ratio</td><td><code>r</code></td><td>&mdash;</td><td>Volume before compression divided by volume after it.</td></tr>
+<tr><td>peak temperature</td><td><code>T</code></td><td>K</td><td>Temperature reached after heat addition.</td></tr>
+</table></div>
+<p>What comes back (in the shared results panel above): thermal efficiency
+<code>&eta;</code>, mean effective pressure, net cycle work, and the station
+table and diagram.</p>
+<p class="cell-note">Only the variable-specific-heat calculation is used
+&mdash; the cold-air-standard closed form (constant <code>k</code>) the
+canon describes alongside it, for comparison, isn't computed or shown; see
+Ideal Gas Properties above for why (the same missing constant). Heat
+addition is specified only by peak temperature; specifying it directly as
+heat added per unit mass isn't offered.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M22">theory manual</a>.</p>
+
+<h3>M23 &middot; Diesel Cycle</h3>
+<p>Compression ignition: isentropic compression, heat added at constant
+pressure, isentropic expansion, heat rejected at constant volume.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>inlet temperature</td><td><code>T</code></td><td>K</td><td>Temperature at the start of compression.</td></tr>
+<tr><td>inlet pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure at the start of compression.</td></tr>
+<tr><td>compression ratio</td><td><code>r</code></td><td>&mdash;</td><td>Volume before compression divided by volume after it.</td></tr>
+<tr><td>peak temperature</td><td><code>T</code></td><td>K</td><td>Temperature reached after constant-pressure heat addition.</td></tr>
+</table></div>
+<p>The cutoff ratio <code>rc</code> &mdash; how far the piston has travelled
+by the time heat addition stops &mdash; is not a field you fill in; it comes
+back as a result, computed from the compression ratio and peak temperature
+you gave.</p>
+<p class="cell-note">Same gap as Otto: no cold-air-standard comparison
+alongside the variable-specific-heat result. Of the three ways the canon
+lists for specifying heat addition (cutoff ratio, peak temperature, heat per
+unit mass), only peak temperature is offered.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M23">theory manual</a>.</p>
+
+<h3>M24 &middot; Dual Cycle</h3>
+<p>Heat added partly at constant volume and partly at constant pressure
+&mdash; closer to what a real engine actually does than Otto or Diesel
+alone, and checked in the underlying engine partly by confirming it
+degenerates back to both of them at the limits.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>inlet temperature</td><td><code>T</code></td><td>K</td><td>Temperature at the start of compression.</td></tr>
+<tr><td>inlet pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure at the start of compression.</td></tr>
+<tr><td>compression ratio</td><td><code>r</code></td><td>&mdash;</td><td>Volume before compression divided by volume after it.</td></tr>
+<tr><td>constant-volume pressure ratio</td><td><code>rp</code></td><td>&mdash;</td><td>Pressure rise during the constant-volume part of heat addition.</td></tr>
+<tr><td>peak temperature</td><td><code>T</code></td><td>K</td><td>Temperature reached after both stages of heat addition.</td></tr>
+</table></div>
+<p class="cell-note">Same cold-air-standard gap as Otto and Diesel. The
+canon lists two ways to split the heat addition between the constant-volume
+and constant-pressure stages &mdash; by pressure ratio and cutoff ratio
+together, or by stating what fraction of the total heat goes in at constant
+volume &mdash; and only the first (pressure ratio plus peak temperature) is
+offered; you can't specify "40% at constant volume" directly.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M24">theory manual</a>.</p>
+
+<h3>M25 &middot; Brayton Cycle</h3>
+<p>The basic gas-turbine cycle: compressor, constant-pressure heat addition,
+turbine. The pressure ratio that maximises net specific work is a different,
+smaller number than the one that maximises efficiency, and this screen
+computes both together rather than making you pick an objective first.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>inlet temperature</td><td><code>T</code></td><td>K</td><td>Temperature entering the compressor.</td></tr>
+<tr><td>inlet pressure</td><td><code>p</code></td><td>MPa</td><td>Pressure entering the compressor.</td></tr>
+<tr><td>pressure ratio</td><td><code>rp</code></td><td>&mdash;</td><td>Compressor pressure ratio.</td></tr>
+<tr><td>turbine inlet temperature</td><td><code>T</code></td><td>K</td><td>Peak temperature, after combustion.</td></tr>
+<tr><td>compressor / turbine efficiency</td><td><code>&eta;_c</code>, <code>&eta;_t</code></td><td>&mdash;</td><td>Isentropic efficiencies.</td></tr>
+</table></div>
+<p>What comes back: thermal efficiency, back-work ratio, net power, specific
+net work, and both optimum pressure ratios (for maximum work, and for
+maximum efficiency) shown side by side.</p>
+<p class="cell-note">No separate ideal/actual switch, same as Rankine above
+&mdash; set both efficiencies to 1.0 for the ideal cycle. Only the
+variable-specific-heat calculation (via relative pressure) is used; the
+cold-air-standard comparison isn't shown.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M25">theory manual</a>.</p>
+
+<h3>M26 &middot; Brayton with Regeneration, Reheat and Intercooling</h3>
+<p>Three independent upgrades to the basic Brayton cycle on one screen,
+because they interact: a regenerator, multi-stage compression with
+intercooling, and multi-stage expansion with reheat, each switched off at
+its own neutral default (zero effectiveness, one stage) rather than forced
+into a single "interesting" combination.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>inlet temperature / pressure</td><td><code>T</code>, <code>p</code></td><td>K, MPa</td><td>State entering the compressor.</td></tr>
+<tr><td>overall pressure ratio</td><td><code>rp</code></td><td>&mdash;</td><td>Total pressure ratio across all compression stages together.</td></tr>
+<tr><td>turbine inlet temperature</td><td><code>T</code></td><td>K</td><td>Peak temperature.</td></tr>
+<tr><td>compressor / turbine efficiency</td><td><code>&eta;_c</code>, <code>&eta;_t</code></td><td>&mdash;</td><td>Isentropic efficiencies.</td></tr>
+<tr><td>regenerator effectiveness</td><td><code>&eta;_reg</code></td><td>&mdash;</td><td>How much of the available temperature rise the regenerator actually delivers; 0 turns it off.</td></tr>
+<tr><td>compression stages</td><td><code>nstage_c</code></td><td>&mdash;</td><td>Number of compression stages with ideal intercooling between them; 1 turns intercooling off.</td></tr>
+<tr><td>expansion stages</td><td><code>nstage_t</code></td><td>&mdash;</td><td>Number of expansion stages with ideal reheat between them; 1 turns reheat off.</td></tr>
+</table></div>
+<p class="cell-note">Stage count is a single numeric field for each of
+intercooling and reheat, not a discrete two-stage/many-stage choice &mdash;
+any integer from 1 upward goes in the same field, a superset of the
+canon's separately named "two-stage" option rather than a distinct mode.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M26">theory manual</a>.</p>
+
+<h2>Second Law &amp; Exergy</h2>
+<p class="cell-note">The app's own sidebar keeps this one screen in a
+section separate from the Second Law group above, rather than folding it
+in with Closed-System Exergy and Flow Exergy &mdash; this manual follows
+that grouping.</p>
+
+<h3>M21 &middot; Vapour Plant Exergy Audit</h3>
+<p>Component-by-component exergy destruction for a Rankine cycle, built
+right on this screen from a compact form, given a heat-source temperature
+and a dead-state environment. Where the energy balance can only ever say
+where the energy went, this answers where the <em>ability to do work</em>
+was lost, ranked from the biggest loss down.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>boiler / condenser pressure</td><td><code>p</code></td><td>MPa</td><td>Same cycle inputs as Rankine Cycle above &mdash; this screen builds its own cycle rather than reading one from elsewhere.</td></tr>
+<tr><td>turbine inlet temperature</td><td><code>T</code></td><td>K</td><td>Superheat entering the turbine.</td></tr>
+<tr><td>turbine / pump efficiency</td><td><code>&eta;_t</code>, <code>&eta;_p</code></td><td>&mdash;</td><td>Isentropic efficiencies.</td></tr>
+<tr><td>source temperature</td><td><code>Tsource</code></td><td>K</td><td>Temperature at which heat enters the plant &mdash; fixes how much exergy came in with it.</td></tr>
+<tr><td>dead-state temperature / pressure</td><td><code>T0</code>, <code>p0</code></td><td>K, MPa</td><td>The reference environment everything is measured against.</td></tr>
+</table></div>
+<p>What comes back: a horizontal bar showing at a glance how the incoming
+exergy splits between net work delivered and exergy destroyed by each cause;
+a summary (exergy supplied, net work, exergetic efficiency, and whether the
+breakdown actually closes); and a per-component table, one row per device,
+each with the exergy it destroys and its share of the total. Components
+destroying less than half a percent of the total are folded into one
+"smaller components" line rather than cluttering the ranking with noise.
+The screen also calls out in words whichever component destroys the most
+&mdash; typically the heat transfer into the working fluid, before any work
+has been produced, for a plant like this one.</p>
+<div class="note-card">
+<p><span class="badge badge-info">Where the boundary is drawn</span></p>
+<p>The audit draws its system boundary either at the environment itself, in
+which case the whole temperature drop across heat rejection counts as
+destroyed exergy and nothing is carried out unaccounted for, or at a warmer
+sink temperature, in which case part of the rejected heat's exergy is
+carried out of the plant rather than destroyed inside it. The screen states
+which case applies as one of its notes, since the two read very
+differently.</p>
+</div>
+<div class="note-card">
+<p><span class="badge badge-warning">If the numbers don't add up</span></p>
+<p>The screen checks its own arithmetic: if net work plus everything
+destroyed and carried out doesn't sum back to the exergy supplied within a
+tight tolerance, it says so explicitly and calls the breakdown unreliable
+until that's resolved, rather than presenting a ranking that quietly doesn't
+balance.</p>
+</div>
+<p class="cell-note">The underlying audit only ever works on water/Rankine
+cycles &mdash; it cannot be pointed at a Brayton, Otto, Diesel or any other
+gas cycle built elsewhere in the app, which is why this screen builds its
+own compact Rankine form rather than offering a picker over cycles built on
+other screens. The exergy supplied is specified only as heat crossing the
+boundary at a stated source temperature; the canon's other listed option,
+accounting for fuel chemical exergy once combustion is modelled, doesn't
+exist yet, so a real plant's combustion irreversibility &mdash; typically
+the largest single loss of all &mdash; sits outside this audit's boundary.
+The boundary note the screen prints says as much rather than omitting it
+silently.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M21">theory manual</a>.</p>
+
+<h2>Refrigeration &amp; Heat Pumps</h2>
+
+<h3>M29 &middot; Vapour-Compression Refrigeration</h3>
+<p>The cycle in every refrigerator and air conditioner: evaporator,
+compressor, condenser or gas cooler, expansion device. Works subcritical or
+transcritical, with independently settable superheat and subcool.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>refrigerant</td><td><code>substance</code></td><td>&mdash;</td><td>One of eight species &mdash; see the note below on which one actually resolves.</td></tr>
+<tr><td>evaporator temperature</td><td><code>T</code></td><td>K</td><td>Temperature in the evaporator.</td></tr>
+<tr><td>rejection temperature</td><td><code>T</code></td><td>K</td><td>Temperature heat is rejected at.</td></tr>
+<tr><td>duty</td><td><code>Qdot_L</code></td><td>kW</td><td>Refrigeration load the cycle is sized to meet.</td></tr>
+<tr><td>superheat</td><td>&mdash;</td><td>K</td><td>Superheat added before the compressor inlet.</td></tr>
+<tr><td>subcool</td><td>&mdash;</td><td>K</td><td>Subcooling added after the condenser.</td></tr>
+<tr><td>compressor efficiency</td><td><code>&eta;_c</code></td><td>&mdash;</td><td>Isentropic efficiency of the compressor.</td></tr>
+<tr><td>discharge pressure (transcritical, optional)</td><td><code>p</code></td><td>MPa</td><td>Only shown once the transcritical toggle is on.</td></tr>
+</table></div>
+<p>What comes back: a compact station table (phase, temperature, pressure,
+enthalpy, quality) for the four cycle states, then COP, a reversible COP for
+comparison, capacity (kW and tons), compressor power, rejection duty, mass
+flow, flash fraction, and whether the cycle came out transcritical.</p>
+<p class="cell-note">The picker lists eight refrigerants, but CO&#8322; is
+deliberately the only one the shipped defaults are guaranteed to resolve.
+An audit of textbook coverage earlier in this project traced most of the
+gaps in this area to one missing ingredient &mdash; critical-point data for
+the refrigerant most problems in this area actually use &mdash; which this
+screen has no way to supply. The other species stay selectable, and the
+screen explains rather than crashes when one doesn't resolve, but a working
+result for most of the picker's other options isn't guaranteed.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M29">theory manual</a>.</p>
+
+<h3>M31 &middot; Heat Pump</h3>
+<p>The same hardware as Vapour-Compression Refrigeration above, read from
+the heating end. Outputs here are scalar performance figures only &mdash;
+there's no station list, since the underlying calculation doesn't build
+one.</p>
+<div class="scroll"><table>
+<tr><th>Field</th><th>Symbol</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>refrigerant</td><td><code>substance</code></td><td>&mdash;</td><td>One of eight species; same CO&#8322;-only-guaranteed caveat as the refrigeration screen.</td></tr>
+<tr><td>source</td><td>&mdash;</td><td>&mdash;</td><td>Outdoor air, or ground/water at a stated temperature.</td></tr>
+<tr><td>outdoor / indoor temperature</td><td><code>T</code></td><td>K</td><td>The two temperatures the machine works between.</td></tr>
+<tr><td>source temperature</td><td><code>T</code></td><td>K</td><td>Only shown when the source isn't outdoor air.</td></tr>
+<tr><td>evaporator / condenser approach</td><td>&mdash;</td><td>K</td><td>Temperature difference the heat exchangers are sized to work across.</td></tr>
+<tr><td>compressor displacement</td><td>&mdash;</td><td>m&sup3;/s</td><td>Physical swept volume of the compressor &mdash; see the note below on why this, not mass flow, is the fixed quantity.</td></tr>
+<tr><td>volumetric / compressor efficiency</td><td>&mdash;</td><td>&mdash;</td><td>How much of the swept volume is actually drawn in, and the compressor's isentropic efficiency.</td></tr>
+</table></div>
+<p>What comes back: heating COP <code>&gamma;</code>, cooling COP
+<code>&beta;</code>, a reversible heating COP for comparison, heating
+capacity (kW), compressor power (kW), heat absorbed (kW), mass flow, suction
+volume, the evaporator temperature the machine actually runs at, and a
+yes/no frosting-risk flag.</p>
+<div class="note-card">
+<p><span class="badge badge-info">Why displacement, not mass flow</span></p>
+<p>The machine is sized by a fixed compressor displacement rather than a
+fixed mass flow rate, and that choice matters for reading the numbers
+correctly. As the outdoor temperature falls, the suction gas gets less
+dense, so the mass flow a fixed-displacement compressor can actually move
+falls too &mdash; on top of, and independent from, the COP already falling.
+A model that assumed constant mass flow instead would systematically
+overstate how much heat the machine can still deliver in cold weather.</p>
+</div>
+<p class="cell-note">Same refrigerant caveat as the refrigeration screen: CO&#8322;
+is the substance the shipped defaults are guaranteed to resolve, and the
+modest default indoor temperature is deliberate too &mdash; CO&#8322;'s
+critical point is only about 31&deg;C, and a warmer indoor default combined
+with the condenser approach would push the condensing side past it. A
+related but different question &mdash; the outdoor balance-point temperature
+below which this machine's capacity can no longer meet a building's heat
+loss &mdash; is explicitly not this screen's job; the calculation behind it
+exists, but plotting it against a load line is left for a possible separate
+screen, matching the app's own one-screen-one-thing rule.</p>
+<p>Formula, full symbol table and derivation: <a href="../theory/index.html#M31">theory manual</a>.</p>
+
+<footer>
+<p><a href="../index.html">Thermodynamics Calculator</a> &middot;
+<a href="../theory/index.html">Theory manual</a> &middot;
+<a href="../support.html">Support</a> &middot;
+<a href="../privacy.html">Privacy</a></p>
+</footer>
+</div>
+</body>
+</html>

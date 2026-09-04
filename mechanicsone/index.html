@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beam &amp; Stress — MechanicsOne</title>
+<style>
+:root { color-scheme: light dark; --ink:#1a1a1a; --dim:#666; --rule:#d8d8d8;
+        --bg:#fff; --card:#fafafa; --accent:#a14b1e; }
+@media (prefers-color-scheme: dark) {
+  :root { --ink:#e8e6e3; --dim:#a3a3a3; --rule:#3a3a3a; --bg:#151515;
+          --card:#1e1e1e; --accent:#e08a4e; } }
+* { box-sizing:border-box }
+body { margin:0 auto; max-width:46rem; padding:2.5rem 1.25rem 6rem;
+       background:var(--bg); color:var(--ink);
+       font:16px/1.7 ui-sans-serif, system-ui, -apple-system, sans-serif; }
+h1 { font-size:2.1rem; margin:0 0 .3rem; letter-spacing:-.01em }
+h2 { font-size:1.25rem; margin:2.5rem 0 .6rem; padding-bottom:.3rem;
+     border-bottom:2px solid var(--rule) }
+h3 { font-size:1rem; margin:1.5rem 0 .3rem; color:var(--accent) }
+.lede { color:var(--dim); font-size:1.1rem; margin:0 0 2rem }
+ul { padding-left:1.2rem } li { margin:.35rem 0 }
+a { color:var(--accent) }
+.card { background:var(--card); padding:1rem 1.25rem; border-radius:6px;
+        margin:1rem 0 }
+.plain { font-size:1.05rem; font-weight:600; margin:.4rem 0 }
+nav.top { font-size:.88rem; margin-bottom:2rem }
+nav.top a { margin-right:1.2rem; text-decoration:none }
+nav.top a:hover { text-decoration:underline }
+footer { margin-top:4rem; padding-top:1rem; border-top:1px solid var(--rule);
+         color:var(--dim); font-size:.82rem }
+code { font-family:ui-monospace, Menlo, monospace; font-size:.9em }
+</style>
+</head><body>
+<nav class="top">
+<a href="https://smallmade.github.io/mechanicsone/">Overview</a>
+<a href="https://smallmade.github.io/mechanicsone/manual/">Usage manual</a>
+<a href="https://smallmade.github.io/mechanicsone/theory/">Theory manual</a>
+<a href="https://smallmade.github.io/mechanicsone/support.html">Support</a>
+<a href="https://smallmade.github.io/mechanicsone/privacy.html">Privacy</a>
+</nav>
+<h1>Beam &amp; Stress</h1>
+<p class="lede">Sections, shear, torsion, Mohr &mdash; mechanics of materials,
+worked interactively. For macOS and iPadOS.</p>
+
+<div class="card">
+<p class="plain">Eighteen screens. Every one is a live figure.</p>
+<p>Drag a load along a span and the moment diagram redraws in the same frame.
+Rotate a stress element and the circle point travels twice as far, beside it,
+while you watch. Raise the shear on a section and the governing point jumps from
+the extreme fibre to the neutral axis &mdash; and the app tells you it did.</p>
+</div>
+
+<h2>What it covers</h2>
+<ul>
+<li>Stress and strain at a point &mdash; circle, element, absolute maximum
+shear, generalised elastic relations</li>
+<li>Beam diagrams and deflection &mdash; simple, cantilever, propped, fixed;
+by integration, by standard case, by superposition</li>
+<li>Section properties &mdash; nine primitives, added or cut away</li>
+<li>Bending, shear, torsion, columns, failure criteria, strain rosettes,
+axial and thermal, thin-walled vessels</li>
+<li>Combined loading &mdash; five actions at once, with a scan for the point
+that actually governs</li>
+</ul>
+
+<h2>Why the answers can be checked</h2>
+<p>Results are verified against public-domain reference solutions &mdash; the
+NASA <em>Astronautic Structures Manual</em>, the Air Force <em>Stress Analysis
+Manual</em>, and MIL-HDBK-5J &mdash; and against an independent sixty-digit
+recomputation. The identities that must always hold are swept over thousands of
+parameter combinations, not checked at a handful of points.</p>
+<p>The <a href="https://smallmade.github.io/mechanicsone/theory/">theory manual</a> states every assumption and
+every limit of applicability, module by module. It is generated from the same
+specification file the application carries, so it cannot drift away from what
+the software does.</p>
+
+<h2>Three screens check themselves in front of you</h2>
+<ul>
+<li><strong>Section Builder</strong> adds up tabulated properties and also walks
+the outline it is drawing, and prints how far apart the two came out.</li>
+<li><strong>Shear Stress</strong> integrates its own distribution back to the
+shear force that produced it.</li>
+<li><strong>Beam Deflection</strong> puts a standard case's closed form beside
+the same beam solved by integration.</li>
+</ul>
+<p>None of the three pairs shares any algebra with the other half of its pair.
+That is why their agreeing means something.</p>
+
+<h2>Offline, and private</h2>
+<p>No account, no network, no data collected. There is no networking code in the
+binary. See <a href="https://smallmade.github.io/mechanicsone/privacy.html">privacy</a>.</p>
+
+<footer><p>Copyright &copy; 2026 Yu Dehai. This application collects no data.</p></footer>
+</body></html>

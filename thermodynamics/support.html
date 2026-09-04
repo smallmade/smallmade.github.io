@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support &mdash; Thermodynamics Calculator</title>
+<style>
+:root {
+  --ink: #14171c; --dim: #5b626c; --line: #dfe3e8; --bg: #ffffff;
+  --panel: #f6f8fa; --accent: #b8380e; --accent-ink: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e6e9ee; --dim: #9aa1ab; --line: #2b3038; --bg: #16181c;
+    --panel: #1e2126; --accent: #ff874c; --accent-ink: #16181c;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+header { padding: 72px 0 40px; }
+h1 { font-size: 2.6rem; line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.02em; }
+.lede { font-size: 1.2rem; color: var(--dim); margin: 0 0 28px; max-width: 60ch; }
+h2 { font-size: 1.5rem; margin: 56px 0 14px; letter-spacing: -0.01em; }
+h3 { font-size: 1.05rem; margin: 28px 0 8px; }
+p { max-width: 68ch; }
+a { color: var(--accent); }
+table { border-collapse: collapse; width: 100%; margin: 18px 0; font-size: 0.94rem; }
+.scroll { overflow-x: auto; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+th { color: var(--dim); font-weight: 600; }
+code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.92em; }
+footer { margin: 72px 0 48px; padding-top: 24px; border-top: 1px solid var(--line);
+         color: var(--dim); font-size: 0.9rem; }
+footer a { color: var(--dim); }
+</style>
+</head>
+<body><div class="wrap">
+<header><h1>Support</h1></header>
+
+<p class="lede">Thermodynamics Calculator fixes a state, runs it through a
+cycle, and shows where the work potential goes &mdash; computed live from the
+IAPWS-IF97 industrial water formulation and NASA ideal-gas polynomials, not
+read off a printed table.</p>
+
+<h2>What it covers</h2>
+<div class="scroll">
+<table>
+<tr><th>Area</th><th>What it is for</th></tr>
+<tr><td><strong>State &amp; properties</strong></td><td>Fix a water/steam state from any two of pressure, temperature, quality, enthalpy or entropy. Ideal-gas properties from NASA polynomials. Real-gas behaviour from generalised compressibility charts and four cubic equations of state.</td></tr>
+<tr><td><strong>First law</strong></td><td>Process paths (polytropic, isothermal, isobaric, isochoric), closed-system energy balances, and cycle energy accounting &mdash; each solved for whichever quantity is missing.</td></tr>
+<tr><td><strong>Control-volume devices</strong></td><td>Nozzles, diffusers, turbines, compressors, pumps, heat exchangers, throttling devices, and transient filling/emptying of a vessel.</td></tr>
+<tr><td><strong>Second law &amp; exergy</strong></td><td>Reversible limits, entropy balances, isentropic efficiency, reversible steady-flow work, and a per-component exergy audit that ranks where a cycle destroys its own work potential.</td></tr>
+<tr><td><strong>Power &amp; refrigeration cycles</strong></td><td>Rankine (with reheat and regeneration), Otto, Diesel, Dual, Brayton (with regeneration, reheat and intercooling), vapour-compression refrigeration, and heat pumps.</td></tr>
+</table>
+</div>
+
+<h2>Where the assumptions stop</h2>
+<p>Every property routine is checked against the IAPWS-IF97 formulation&rsquo;s
+own published verification tables and against NIST reference data. Where a
+result differs from an older printed table, the app says so on screen and
+explains why &mdash; the formulations have moved on since those tables were
+typeset, and a fourth-figure difference is not an error.</p>
+<p>The property engine does not model moist air, combustion, chemical
+equilibrium, or refrigerants beyond water and carbon dioxide; those are
+planned for later versions, not silently approximated now. It is not offered
+for flight safety, for certification, or for critical engineering decisions
+taken without independent verification.</p>
+
+<h2>Getting help</h2>
+<p>Write to <a href="mailto:softwareone.support@gmail.com">softwareone.support@gmail.com</a>.
+Say which screen, what you entered, and what you expected. If a number looks
+wrong, include the exact inputs so it can be reproduced.</p>
+<p>Reports that a result is wrong are taken seriously and checked against the
+reference sources rather than argued with.</p>
+
+<h2>Refunds</h2>
+<p>Refunds are Apple&rsquo;s to give, because Apple is who you bought from. We
+cannot issue one &mdash; we never receive the payment and are not told who
+paid it. Go to <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>
+and sign in with the Apple Account that made the purchase, or open the App
+Store, tap your name and choose Purchase History. Apple decides the request
+under its own terms.</p>
+<p>Consumer rights vary by country or region. Nothing here limits any rights
+you have under applicable law.</p>
+
+<h2>Privacy</h2>
+<p>The application collects nothing and makes no network requests &mdash;
+there is no network code in it to make one. The full statement is on the
+<a href="privacy.html">privacy policy</a> page.</p>
+
+<footer><p><a href="privacy.html">Privacy policy</a> &middot;
+<a href="index.html">Thermodynamics Calculator</a></p></footer>
+</div></body>
+</html>

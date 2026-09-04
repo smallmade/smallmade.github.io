@@ -18,6 +18,13 @@ platforms = "Mac and iPad"
 status = "published"
 
 [[app]]
+slug = "mechanicsone"
+name = "Beam & Stress — MechanicsOne"
+tagline = "Sections, shear, torsion and Mohr's circle -- build a section, load a beam, and watch every screen redraw as you drag. Offline, no account."
+platforms = "Mac and iPad"
+status = "published"
+
+[[app]]
 slug = "passthrough"
 name = "Passthrough"
 tagline = "Convert video without waiting. Hardware-accelerated on Apple silicon, and nothing leaves the machine."
@@ -42,5 +49,12 @@ status = "published"
 slug = "texone"
 name = "TexOne"
 tagline = "A local LaTeX editor with live preview -- the typesetting engine runs on your device, not a server."
+platforms = "Mac and iPad"
+status = "published"
+
+[[app]]
+slug = "thermodynamics"
+name = "Thermodynamics Calculator"
+tagline = "Steam tables, cycles and exergy -- states from the IAPWS-IF97 industrial formulation, cycles drawn on live T-s and p-v diagrams. Offline, no account."
 platforms = "Mac and iPad"
 status = "published"

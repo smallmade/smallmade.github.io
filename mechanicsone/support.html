@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support — Beam &amp; Stress</title>
+<style>
+:root { color-scheme: light dark; --ink:#1a1a1a; --dim:#666; --rule:#d8d8d8;
+        --bg:#fff; --card:#fafafa; --accent:#a14b1e; }
+@media (prefers-color-scheme: dark) {
+  :root { --ink:#e8e6e3; --dim:#a3a3a3; --rule:#3a3a3a; --bg:#151515;
+          --card:#1e1e1e; --accent:#e08a4e; } }
+* { box-sizing:border-box }
+body { margin:0 auto; max-width:46rem; padding:2.5rem 1.25rem 6rem;
+       background:var(--bg); color:var(--ink);
+       font:16px/1.7 ui-sans-serif, system-ui, -apple-system, sans-serif; }
+h1 { font-size:2.1rem; margin:0 0 .3rem; letter-spacing:-.01em }
+h2 { font-size:1.25rem; margin:2.5rem 0 .6rem; padding-bottom:.3rem;
+     border-bottom:2px solid var(--rule) }
+h3 { font-size:1rem; margin:1.5rem 0 .3rem; color:var(--accent) }
+.lede { color:var(--dim); font-size:1.1rem; margin:0 0 2rem }
+ul { padding-left:1.2rem } li { margin:.35rem 0 }
+a { color:var(--accent) }
+.card { background:var(--card); padding:1rem 1.25rem; border-radius:6px;
+        margin:1rem 0 }
+.plain { font-size:1.05rem; font-weight:600; margin:.4rem 0 }
+nav.top { font-size:.88rem; margin-bottom:2rem }
+nav.top a { margin-right:1.2rem; text-decoration:none }
+nav.top a:hover { text-decoration:underline }
+footer { margin-top:4rem; padding-top:1rem; border-top:1px solid var(--rule);
+         color:var(--dim); font-size:.82rem }
+code { font-family:ui-monospace, Menlo, monospace; font-size:.9em }
+</style>
+</head><body>
+<nav class="top">
+<a href="https://smallmade.github.io/mechanicsone/">Overview</a>
+<a href="https://smallmade.github.io/mechanicsone/manual/">Usage manual</a>
+<a href="https://smallmade.github.io/mechanicsone/theory/">Theory manual</a>
+<a href="https://smallmade.github.io/mechanicsone/support.html">Support</a>
+<a href="https://smallmade.github.io/mechanicsone/privacy.html">Privacy</a>
+</nav>
+<h1>Support</h1>
+<p class="lede">Beam &amp; Stress &mdash; MechanicsOne</p>
+
+<h2>Get in touch</h2>
+<p>Email <a href="mailto:softwareone.support@gmail.com">softwareone.support@gmail.com</a>. Please
+say which screen you were on and what you expected instead &mdash; for a
+calculation question, the inputs you used are usually enough to reproduce it.</p>
+
+<h2>Before you write</h2>
+<h3>A number looks wrong</h3>
+<p>Check the <a href="https://smallmade.github.io/mechanicsone/theory/">theory manual</a> for that module first:
+it lists the assumptions and the range each relation is valid over, and many
+surprising answers are a relation being read outside its range. If the manual
+says the relation applies and the number still looks wrong, that is worth an
+email, and please include the inputs.</p>
+
+<h3>A field shows a dash</h3>
+<p>A dash means there is no answer, not that the answer is zero. Something it
+needs is missing, or the question has no answer as posed &mdash; a hole larger
+than the plate it is cut from, a beam with no span.</p>
+
+<h3>Two numbers disagree and the app says so</h3>
+<p>That is deliberate. Several screens compute a quantity two independent ways
+and print the difference. For a section with curved edges the two routes cannot
+agree exactly, and the app explains why on the spot.</p>
+
+<h3>The app asks me to choose</h3>
+<p>Some questions genuinely have two defensible answers &mdash; which side of a
+width step, which axis a column buckles about, which point on a section governs.
+The app shows both with the reason beside each, and never picks one quietly.
+The wrong pick there is not a different answer; it is an unsafe one.</p>
+
+<h2>Requirements</h2>
+<ul>
+<li>macOS 14 or later, iPadOS 17 or later</li>
+<li>No network connection required, ever</li>
+</ul>
+
+<h2>Documentation</h2>
+<ul>
+<li><a href="https://smallmade.github.io/mechanicsone/manual/">Usage manual</a> &mdash; every screen, every input
+and output (<a href="https://smallmade.github.io/mechanicsone/manual/MechanicsOne-Usage-Manual.pdf">PDF</a>)</li>
+<li><a href="https://smallmade.github.io/mechanicsone/theory/">Theory manual</a> &mdash; every relation, its
+assumptions, and how it is verified
+(<a href="https://smallmade.github.io/mechanicsone/theory/MechanicsOne-Theory-Manual.pdf">PDF</a>)</li>
+</ul>
+
+<footer><p>Copyright &copy; 2026 Yu Dehai. This application collects no data.</p></footer>
+</body></html>

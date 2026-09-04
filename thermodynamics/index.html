@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thermodynamics Calculator</title>
+<meta name="description" content="State, cycle and exergy calculations for iPadOS and macOS, verified against IAPWS-IF97 and NIST reference data. Interactive T-s and p-v diagrams. Fully offline.">
+<style>
+:root {
+  --ink: #14171c; --dim: #5b626c; --line: #dfe3e8; --bg: #ffffff;
+  --panel: #f6f8fa; --accent: #b8380e; --accent-ink: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e6e9ee; --dim: #9aa1ab; --line: #2b3038; --bg: #16181c;
+    --panel: #1e2126; --accent: #ff874c; --accent-ink: #16181c;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+header { padding: 88px 0 40px; }
+h1 { font-size: 3rem; line-height: 1.1; margin: 0 0 16px; letter-spacing: -0.02em; }
+.lede { font-size: 1.25rem; color: var(--dim); margin: 0 0 28px; max-width: 58ch; }
+.platforms { color: var(--dim); font-size: 0.95rem; }
+h2 { font-size: 1.6rem; margin: 64px 0 16px; letter-spacing: -0.01em; }
+h3 { font-size: 1.05rem; margin: 4px 0 6px; }
+p { max-width: 68ch; }
+a { color: var(--accent); }
+.grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin: 24px 0; }
+.card {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 12px; padding: 20px 22px;
+}
+.card p { margin: 0; color: var(--dim); font-size: 0.95rem; }
+.pillars { list-style: none; padding: 0; margin: 20px 0; }
+.pillars li { padding: 10px 0 10px 28px; border-bottom: 1px solid var(--line); position: relative; }
+.pillars li:before { content: "—"; position: absolute; left: 0; color: var(--accent); }
+.pillars li:last-child { border-bottom: none; }
+.links { display: flex; gap: 24px; flex-wrap: wrap; margin: 20px 0; }
+footer { margin: 72px 0 48px; padding-top: 24px; border-top: 1px solid var(--line);
+         color: var(--dim); font-size: 0.9rem; }
+footer a { color: var(--dim); }
+</style>
+</head>
+<body><div class="wrap">
+<header>
+  <h1>Fix a state. Run a cycle.<br>See where the work goes.</h1>
+  <p class="lede">Thermodynamics Calculator computes water/steam and
+    ideal-gas states, control-volume devices, and power and refrigeration
+    cycles live &mdash; from the IAPWS-IF97 industrial water formulation and
+    NASA ideal-gas polynomials, not a printed table.</p>
+  <p class="platforms">iPadOS 17+ and macOS 14+ &middot; one-time purchase &middot; fully offline</p>
+</header>
+
+<h2>What it covers</h2>
+<div class="grid">
+  <div class="card"><h3>State &amp; properties</h3><p>Water/steam from any two of p, T, x, h, s. Ideal-gas properties. Real-gas cubic equations of state.</p></div>
+  <div class="card"><h3>First law</h3><p>Process paths, closed-system energy balances, and cycle energy accounting, solved for the unknown term.</p></div>
+  <div class="card"><h3>Control-volume devices</h3><p>Nozzles, diffusers, turbines, compressors, pumps, heat exchangers, throttles, transient charging.</p></div>
+  <div class="card"><h3>Second law &amp; exergy</h3><p>Entropy balances, isentropic efficiency, and a per-component exergy audit that ranks where work potential is destroyed.</p></div>
+  <div class="card"><h3>Power cycles</h3><p>Rankine with reheat and regeneration; Otto, Diesel, Dual; Brayton with regeneration, reheat and intercooling.</p></div>
+  <div class="card"><h3>Refrigeration &amp; heat pumps</h3><p>Vapour-compression refrigeration and heat pump cycles.</p></div>
+</div>
+
+<h2>Why it's not a printed table</h2>
+<ul class="pillars">
+  <li><strong>Interactive.</strong> Drag an input and every output, and every point on the T-s or p-v diagram, updates in the same frame.</li>
+  <li><strong>Verifiable.</strong> Every property routine is checked against IAPWS-IF97's own published verification tables and against NIST reference data &mdash; public sources, cited on screen.</li>
+  <li><strong>Offline.</strong> No network connection of any kind. Works in a lab basement, an exam hall, or mid-flight.</li>
+  <li><strong>Honest about limits.</strong> Where a result leaves a validated range, or differs from an older table's formulation, the app says so on screen instead of staying quiet.</li>
+</ul>
+
+<h2>Read more</h2>
+<div class="links">
+  <a href="theory/index.html">Theory manual &mdash; every formula, assumption and validated range</a>
+  <a href="manual/index.html">Usage manual</a>
+</div>
+
+<footer><p><a href="support.html">Support</a> &middot;
+<a href="privacy.html">Privacy</a></p></footer>
+</div></body>
+</html>
