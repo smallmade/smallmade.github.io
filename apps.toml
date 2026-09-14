@@ -58,3 +58,10 @@ name = "Thermodynamics Calculator"
 tagline = "Steam tables, cycles and exergy -- states from the IAPWS-IF97 industrial formulation, cycles drawn on live T-s and p-v diagrams. Offline, no account."
 platforms = "Mac and iPad"
 status = "published"
+
+[[app]]
+slug = "electrodynamics"
+name = "Electrodynamics - VoltOne"
+tagline = "Classical electrodynamics, nineteen modules from point charges to the relativistic transformation of fields. Every relation shown beside the number it produced, in SI or Gaussian. Offline, no account."
+platforms = "Mac and iPad"
+status = "published"

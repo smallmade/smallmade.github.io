@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoltOne &mdash; user manual</title>
+<style>
+:root { --ink:#14171c; --dim:#5b626c; --line:#dfe3e8; --bg:#fff; --panel:#f6f8fa; --accent:#1f5fa8; }
+@media (prefers-color-scheme: dark) {
+  :root { --ink:#e6e9ee; --dim:#9aa1ab; --line:#2b3038; --bg:#16181c; --panel:#1e2126; --accent:#6fa8e8; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:0 24px 72px}
+h1{font-size:2.4rem;margin:64px 0 8px;letter-spacing:-.02em}
+h2{font-size:1.6rem;margin:64px 0 8px;padding-top:16px;border-top:2px solid var(--line)}
+h3{font-size:1.25rem;margin:44px 0 4px}
+h4{font-size:1rem;margin:26px 0 6px;color:var(--dim);text-transform:uppercase;letter-spacing:.04em}
+p,ul,ol{max-width:70ch}
+.sub{color:var(--dim);margin:0 0 14px;font-size:.95rem}
+.gap{color:var(--dim);font-style:italic}
+a{color:var(--accent)}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:.94rem}
+.scroll{overflow-x:auto}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--dim);font-weight:600}
+figure{margin:20px 0}
+img{width:100%;height:auto;border:1px solid var(--line);border-radius:10px}
+figcaption{color:var(--dim);font-size:.9rem;margin-top:6px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin:20px 0}
+nav ul{columns:2;list-style:none;padding:0}
+footer{margin-top:72px;padding-top:20px;border-top:1px solid var(--line);color:var(--dim);font-size:.9rem}
+</style></head><body><div class="wrap">
+
+<h1>VoltOne &mdash; user manual</h1>
+<p class="sub">How to work the app. For why the numbers are what they are, see
+the theory manual instead.</p>
+
+<div class="panel">
+<h4 style="margin-top:0">Three things worth knowing before anything else</h4>
+<p><strong>It opens ready.</strong> A module is already selected and a result is
+already computed. Nothing needs creating first.</p>
+<p><strong>You choose the branch.</strong> Where a relation has more than one
+physically distinct case, the choice is a control you set. Nothing is picked for
+you quietly.</p>
+<p><strong>Units are how you read, not what you compute.</strong> The toolbar
+switches SI and Gaussian. It re-spells the numbers; it never changes the
+physical situation.</p>
+</div>
+
+<nav><h4>Screens</h4><ul><li><a href="#pointCharges">Point Charges</a></li>
+<li><a href="#gaussSymmetry">Gauss's Law</a></li>
+<li><a href="#multipole">Multipole Expansion</a></li>
+<li><a href="#imageCharges">Method of Images</a></li>
+<li><a href="#capacitance">Capacitance &amp; Energy</a></li>
+<li><a href="#dielectrics">Dielectrics</a></li>
+<li><a href="#biotSavart">Biot-Savart Law</a></li>
+<li><a href="#ampereLaw">Ampere's Law</a></li>
+<li><a href="#inductance">Inductance &amp; Magnetic Energy</a></li>
+<li><a href="#planeWave">Plane Waves</a></li>
+<li><a href="#conductorPropagation">Waves in Conductors</a></li>
+<li><a href="#rectangularWaveguide">Rectangular Waveguide</a></li>
+<li><a href="#fresnel">Reflection &amp; Transmission</a></li>
+<li><a href="#dispersion">Dispersion</a></li>
+<li><a href="#dipoleRadiation">Dipole Radiation</a></li>
+<li><a href="#pointChargeRadiation">Moving Point Charge</a></li>
+<li><a href="#magneticMaterials">Magnetic Materials</a></li>
+<li><a href="#fieldTransformation">Moving Frames</a></li>
+<li><a href="#unitsConstants">Units &amp; Constants</a></li></ul></nav>
+
+<h2>Electrostatics</h2><h3 id="pointCharges">Point Charges</h3>
+<p class="sub">Electrostatics &middot; Field and potential of a charge configuration</p>
+<p>The electric field and the potential produced at any point in space by a set of stationary point charges, obtained by adding up the contribution of each charge separately.</p>
+<figure><img src="screenshots/01-point-charges.png" alt="The Point Charges screen on iPad"><figcaption>Point Charges, on iPad.</figcaption></figure>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Where the potential is zero</td><td>Always, and it must be visible. Different choices of the zero give potentials differing by a constant, with identical fields and identical differences, so this is a convention rather than two competing answers. But an absolute potential printed without saying where its zero is is a number with no meaning, and every formula in this module assumes that zero is at infinity.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>qᵢ</code></td><td>The i-th source charge: one of the charges whose positions you specify, and which this module holds still.</td></tr>
+<tr><td><code>Q</code></td><td>A test charge: the one whose force or motion you want, rather than one of the sources. It divides out of the definition of the field, which is why the field does not depend on it.</td></tr>
+<tr><td><code>r</code></td><td>The field point: the place where you are asking what the field or the potential is, given as a position measured from the origin.</td></tr>
+<tr><td><code>r′ᵢ</code></td><td>The source point of the i-th charge: where that charge sits, measured from the same origin. A prime always marks a source here, never a derivative.</td></tr>
+<tr><td><code>Rᵢ</code></td><td>The separation distance: the straight-line distance from the i-th charge to the field point. It is not the distance from the origin, and confusing the two makes every result wrong.</td></tr>
+<tr><td><code>R̂ᵢ</code></td><td>The direction of that separation, as a unit vector pointing from the charge towards the field point.</td></tr>
+<tr><td><code>ε₀</code></td><td>The permittivity of empty space: the constant that makes the units of force, charge and distance agree with each other.</td></tr>
+<tr><td><code>E</code></td><td>The electric field: the force a unit test charge would feel at the field point. A vector at every point in space.</td></tr>
+<tr><td><code>V</code></td><td>The potential: a single number at each point, obtained by integrating the field inwards from an agreed zero. Only differences of it mean anything.</td></tr>
+<tr><td><code>O</code></td><td>The reference point: the place where the potential is declared to be zero. Every potential formula in this module takes it to be infinitely far away.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>The source charges are held still. The test charge is allowed to move; the sources are not.</li>
+<li>The charges sit in empty space. No correction for surrounding matter is applied here, and none is available in this module: matter is treated separately.</li>
+<li>Adding the separate contributions is an experimental fact about electric forces, not a logical necessity. A force law that went as the square of the total source charge would not permit it.</li>
+<li>The potential exists only because the static field has no curl. Every statement about potential in this module rests on that.</li>
+<li>Every potential formula here places the zero of potential infinitely far away. Used with a charge distribution that itself reaches to infinity, the integral does not converge and the formula returns nothing meaningful.</li>
+<li>A point charge is an idealisation. Nothing in this module says how small a real object must be before it counts as one; no such bound is stated.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>The field point may not coincide with a source charge. Both the field and the potential diverge there. The material this module was built from does not discuss that point at all, so the guard the app places around it is an engineering choice of this project, not a result that can be attributed to the physics literature it draws on.</li>
+<li>Charge arrangements that extend to infinity, such as an unbounded line or sheet, break the choice of zero at infinity. For those, the zero has to be moved somewhere finite and the formulas here rewritten accordingly.</li>
+<li>Only potential differences carry physical content. The absolute value is a bookkeeping convenience.</li>
+<li>The separation unit vector points from the charge to the field point. Reverse it and every magnitude stays correct while every sign flips, which is precisely the kind of error a comparison against four printed digits will not catch.</li>
+<li>Recovering the charge arrangement from a measured potential is a different and much harder question, and is not what this module does.</li>
+</ul><h3 id="gaussSymmetry">Gauss's Law</h3>
+<p class="sub">Electrostatics &middot; Five symmetric closed-form geometries</p>
+<p>Closed-form fields for the handful of charge arrangements symmetric enough that the total flux through a well-chosen closed surface can be turned directly into the field strength on it.</p>
+<figure><img src="screenshots/02-gauss-law-shell.png" alt="The Gauss's Law screen on iPad"><figcaption>Gauss's Law, on iPad.</figcaption></figure>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Uniform solid sphere at its own surface</td><td>At the surface radius. There is no surface charge there, so the perpendicular component is continuous: the inside and outside expressions give the same value and either may be used. This is the safe case.</td></tr>
+<tr><td>Spherical shell at its own surface</td><td>At the shell radius. The field jumps across the shell by the surface charge over the permittivity, and the material assigns no value to the surface itself. This must be presented as a genuine discontinuity with both one-sided values shown; picking a side silently hands the user a number that is wrong by the full jump. The contrast with the solid sphere, where the same radius needs no choice at all, is the single most useful thing in this module.</td></tr>
+<tr><td>Inside or outside, for every piecewise geometry</td><td>Whenever a radius is entered. The solid sphere, the shell and the pair of concentric shells all have region-dependent answers, and the region has to be a visible part of the result rather than an inference the user is left to make.</td></tr>
+<tr><td>Which side of an infinite plane</td><td>For the single sheet. One magnitude, two directions: the field points away from the sheet on both sides, so the sign of the answer depends on which side you are on. The sheet itself carries no assigned value.</td></tr>
+<tr><td>Three regions for a pair of parallel sheets</td><td>Left of both, between them, right of both. The two outer regions give exactly zero, which users routinely mistake for an error.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>Φ</code></td><td>Electric flux: the field summed over a surface, weighted by how squarely it crosses that surface.</td></tr>
+<tr><td><code>Q_enc</code></td><td>The total charge sitting inside the closed surface you chose. Charge outside it contributes nothing to the total flux.</td></tr>
+<tr><td><code>ρ</code></td><td>Charge per unit volume.</td></tr>
+<tr><td><code>σ</code></td><td>Charge per unit area, on a surface.</td></tr>
+<tr><td><code>λ</code></td><td>Charge per unit length, along a line.</td></tr>
+<tr><td><code>R</code></td><td>The radius of the charged object itself: the sphere, the shell, the cylinder.</td></tr>
+<tr><td><code>r</code></td><td>Distance from the centre, for the spherical cases.</td></tr>
+<tr><td><code>s</code></td><td>Distance from the axis, for the cylindrical and line cases.</td></tr>
+<tr><td><code>n̂</code></td><td>A unit vector pointing away from the charged surface, out of whichever side you are on.</td></tr>
+<tr><td><code>ε₀</code></td><td>The permittivity of empty space.</td></tr>
+<tr><td><code>q</code></td><td>The total charge carried by the object.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>The flux law is always true but only sometimes useful. It yields a field only when the geometry lets you argue that the field strength is the same everywhere on your chosen surface and crosses it squarely.</li>
+<li>Exactly three kinds of symmetry qualify: spherical, with a concentric spherical surface; cylindrical, with a coaxial cylinder; and planar, with a box straddling the sheet.</li>
+<li>Uniform charge is not required. Symmetry is. A cylindrical charge density that varies with distance from the axis is still solvable; a lumpy sphere is not.</li>
+<li>The cylindrical and planar results strictly require a cylinder of unlimited length and a plane unbounded in every direction. They are used as approximations for long cylinders and large sheets at points far from the edges, and no numerical threshold is given anywhere for how long, how large, or how far.</li>
+<li>Empty space surrounds everything here. This is not stated outright in the material: it is inferred from the constant being the vacuum one and from matter being handled as a separate subject.</li>
+<li>Arrangements that reach to infinity, such as the line and the plane, cannot use infinity as the zero of potential. Their fields are still valid; their potentials need a finite zero.</li>
+<li>Two objects each with one of the qualifying symmetries can be superposed even though the pair as a whole is not symmetric. That is how the two-sheet result is reached.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>A cylinder carrying a uniform volume charge, and a cylindrical shell carrying surface charge, are not offered. No closed form for either was established at the standard this canon requires, and nothing was supplied from memory to fill the gap.</li>
+<li>The statement that a shell has no field inside it is established for spheres only. It is not carried over to cylinders here, because it is not established for them in the material used.</li>
+<li>The line-charge result is singular on the axis, and that point is nowhere discussed.</li>
+<li>For the pair of concentric shells, only the region between them is given. Inside the inner shell and outside the outer one are left open rather than filled in by assumption.</li>
+<li>Every one of these formulas returns a number for any input, including inputs where the symmetry it assumes does not hold. Nothing in the arithmetic signals that the premise has failed.</li>
+<li>The approximations for finite cylinders and finite sheets degrade smoothly and silently as you approach an edge. There is no printed criterion for when they stop being usable.</li>
+</ul><h3 id="multipole">Multipole Expansion</h3>
+<p class="sub">Electrostatics &middot; Moments and truncated potential vs. the exact one</p>
+<p>A systematic way of describing a bounded lump of charge as seen from far away: a series whose first non-vanishing term gives the leading potential, and whose later terms refine it.</p>
+<p class="gap">No screenshot of this screen yet. Said here rather than left blank, because a blank space and "not done" look the same on a page.</p>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Where to stop the series</td><td>Every evaluation. Truncation order is the user's choice, not a hidden default: it changes the answer, and since no remainder bound exists, the only honest guidance the app can give is to show the size of the terms it kept.</td></tr>
+<tr><td>A dipole made of two charges, or an ideal dipole</td><td>Whenever a dipole is being specified. Give a charge and a separation, and you have a real pair whose potential contains higher terms as well; give a dipole moment directly, and you have the idealisation. They agree far away and are entirely different close up. The idealisation is a limit in which the separation goes to zero while the charge goes to infinity with their product fixed, and even in that limit an infinitesimal region near the centre behaves unlike the formula.</td></tr>
+<tr><td>Dipole field with or without the term at the origin</td><td>Whenever the region of interest contains the dipole itself. Integrating the plain form over such a region contradicts the known average field; the form with the extra term is the one that does not. Outside the origin the two are identical.</td></tr>
+<tr><td>Which moment leads</td><td>Determined by the distribution, but it must be shown rather than assumed. With net charge, the leading behaviour is the total charge. With no net charge, the dipole leads. With neither, the quadrupole. The leading non-vanishing moment is also the only one that does not depend on where the origin was placed.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>r</code></td><td>The field point: how far away you are looking from, measured from the origin you chose.</td></tr>
+<tr><td><code>r′</code></td><td>A source point: somewhere inside the charge distribution, measured from the same origin. The integrals in this module run over these, never over the field point.</td></tr>
+<tr><td><code>θ′</code></td><td>The angle between the direction you are looking from and the direction of the source point being integrated over. It depends on both, and is not a polar angle of any fixed coordinate system.</td></tr>
+<tr><td><code>θ</code></td><td>Used only for the field of a single dipole, where the polar axis is deliberately aligned with the dipole moment: then it is the ordinary polar angle measured from that axis.</td></tr>
+<tr><td><code>ρ</code></td><td>Charge per unit volume at a source point.</td></tr>
+<tr><td><code>Q</code></td><td>Total charge: the whole distribution added up. The first moment in the hierarchy.</td></tr>
+<tr><td><code>p</code></td><td>Dipole moment: the source positions averaged with charge as the weight. A vector, and the second moment in the hierarchy.</td></tr>
+<tr><td><code>Qᵢⱼ</code></td><td>Quadrupole moment: a three-by-three array whose definition deliberately subtracts off a spherically symmetric part, so that it records only how the distribution departs from being round.</td></tr>
+<tr><td><code>Pₙ</code></td><td>The polynomial of order n that appears as the coefficient of each power in the expansion. The same family also solves the angular part of the potential problem in spherical coordinates.</td></tr>
+<tr><td><code>n</code></td><td>The order of a term: zero for the total charge, one for the dipole, two for the quadrupole, and so on upward.</td></tr>
+<tr><td><code>d</code></td><td>For a two-charge dipole, the vector running from the negative charge to the positive one.</td></tr>
+<tr><td><code>δᵢⱼ</code></td><td>One when the two indices match, zero when they do not.</td></tr>
+<tr><td><code>ε₀</code></td><td>The permittivity of empty space.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>The charge occupies a bounded region. A distribution reaching to infinity has no far field in this sense and the expansion does not apply to it.</li>
+<li>The field point lies well outside that region. The expansion parameter, built from the ratio of source distance to field distance, must be small.</li>
+<li>For a dipole made of two real charges, the dipole formulas additionally need the viewing distance to be much larger than the charge separation. No number is attached to 'much larger'.</li>
+<li>The series as written is an equality; its value is as an approximation scheme, where the lowest non-vanishing term gives the far potential and later terms improve it.</li>
+<li>There is a tension here that the material does not resolve: the step that produces the series assumes a small expansion parameter, yet the resulting series is described as exact. What 'exact' is meant to cover is not spelled out.</li>
+<li>No general radius of convergence and no remainder bound are stated anywhere. The only printed convergence statement covers one specific worked case, a uniformly charged rod seen from beyond its half-length; that is an example, not a theorem.</li>
+<li>The rule this app uses as a guard, that the field distance should exceed the largest source distance, is an engineering choice of this project. It is consistent with everything the material says but is not something the material asserts.</li>
+<li>The angle inside the integrals is between the field direction and the source direction. It is not a fixed polar angle, and treating it as one makes every integral wrong.</li>
+<li>The requirement that nothing depend on the azimuthal angle belongs to the separation-of-variables results, not to the expansion itself. The expansion holds for any charge distribution whatever, symmetric or not, and the restriction must not be carried across.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>The expansion says nothing about the potential at or inside the charge distribution. It is a description of the far field only.</li>
+<li>No error bound on truncation is available. A user who needs a guaranteed accuracy cannot get one from this module.</li>
+<li>The next moment after the quadrupole is not offered. Its definition is left open in the material used and no answer is printed; it was not invented here.</li>
+<li>Moving the origin changes most of the moments. A dipole moment quoted without saying where the origin sits is incomplete unless the total charge is zero.</li>
+<li>Two charge distributions can share every low moment and differ completely up close. Matching the far field is not the same as identifying the source.</li>
+</ul><h3 id="imageCharges">Method of Images</h3>
+<p class="sub">Electrostatics &middot; Grounded plane and grounded sphere</p>
+<p>Two geometries, a grounded plane and a grounded sphere, where the effect of a conductor on a nearby point charge can be reproduced exactly by a single fictitious charge placed on the far side of the surface.</p>
+<p class="gap">No screenshot of this screen yet. Said here rather than left blank, because a blank space and "not done" look the same on a page.</p>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Energy: two real charges, or a charge and a conductor</td><td>Whenever the plane geometry's energy is asked for. The two differ by exactly a factor of two, and every other quantity in the problem, the potential in the upper region, the force, the field, is identical between them. This is the single easiest place in the module to hand someone a wrong number that looks entirely reasonable, so the app must say which arrangement it is reporting rather than offering one unlabelled energy.</td></tr>
+<tr><td>Plane or sphere</td><td>At the start. The two share no parameters: the plane is set by a perpendicular distance, the sphere by a radius and a distance from its centre. Feeding a surface-to-charge distance where a centre-to-charge distance is wanted produces a plausible wrong answer.</td></tr>
+<tr><td>Which region</td><td>Whenever a field point is given. Outside the sphere, or above the plane, the answer is the image construction. Inside the sphere, or below the plane, it is not, and returning the image formula there would be silently false rather than merely inaccurate.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>q</code></td><td>The real point charge, held at rest near the conductor.</td></tr>
+<tr><td><code>q′</code></td><td>The image charge: not a real object, but a stand-in whose field happens to match what the conductor's own surface charge produces in the region of interest.</td></tr>
+<tr><td><code>d</code></td><td>For the plane, the perpendicular distance from the charge to the conducting surface.</td></tr>
+<tr><td><code>R</code></td><td>For the sphere, its radius.</td></tr>
+<tr><td><code>a</code></td><td>For the sphere, the distance from the centre to the real charge. Measured from the centre, not from the surface.</td></tr>
+<tr><td><code>b</code></td><td>For the sphere, the distance from the centre out to the image charge, on the same side as the real charge.</td></tr>
+<tr><td><code>σ</code></td><td>Charge per unit area induced on the conductor's surface. It is real charge that has moved there, not a bookkeeping device.</td></tr>
+<tr><td><code>n̂</code></td><td>A unit vector pointing out of the conductor's surface.</td></tr>
+<tr><td><code>θ</code></td><td>For the sphere, the polar angle measured from the axis that runs from the centre through the real charge.</td></tr>
+<tr><td><code>F</code></td><td>The force on the real charge, always an attraction towards the conductor.</td></tr>
+<tr><td><code>W</code></td><td>The energy of the arrangement: the work needed to bring the charge in from far away.</td></tr>
+<tr><td><code>ε₀</code></td><td>The permittivity of empty space.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>The conductor is ideal: it holds an unlimited supply of perfectly free charge. Everything else follows from that, including a vanishing field inside it, no net charge in its interior, a constant potential throughout, and a field that meets its outer surface squarely.</li>
+<li>The charge is held at rest. The method extends to any stationary arrangement of charge near a grounded plane, by mirroring the whole arrangement.</li>
+<li>Both conductors here are grounded, that is, held at zero potential by something outside the problem.</li>
+<li>The plane is unbounded. A finite plate is a different problem and no correction for one is given.</li>
+<li>The solution holds only in the region containing the real charge. Behind the plane, or inside the sphere, the real system does not look like the substitute at all.</li>
+<li>The image must never be placed in the region where the potential is being computed. That is the rule that makes the whole construction legitimate rather than a coincidence.</li>
+<li>The charge must lie outside the sphere. The material states this as the image landing inside the surface, which is the same condition seen from the other end.</li>
+<li>That a single image works at all is special to these two shapes. For a cube, for instance, no single charge placed anywhere inside would hold the surface at zero potential.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>Only the grounded sphere is offered. A sphere held at some other potential, or an isolated neutral one, needs a second image; the material says so but prints neither its size nor its position, and nothing was supplied from memory to complete it.</li>
+<li>A charge inside a spherical cavity is not offered. The treatment used here is entirely about charges outside the sphere.</li>
+<li>The energy of the sphere arrangement is not offered. It is left open in the material, and a value was not invented for it here.</li>
+<li>As the charge approaches the sphere's surface the force diverges. That limit is not discussed anywhere, so the behaviour there is undefined rather than simply large, and the app should refuse rather than report an enormous number.</li>
+<li>Grounding is essential. A conductor left floating redistributes charge but keeps its total, and none of these results describe it.</li>
+<li>The induced surface charge and the total induced charge on the sphere were worked out here rather than taken from the material. They are checked against each other, but that check confirms internal consistency, not correctness against an outside authority.</li>
+</ul><h3 id="capacitance">Capacitance &amp; Energy</h3>
+<p class="sub">Electrostatics &middot; Parallel plate and concentric shells, plus stored energy</p>
+<p>How much charge a pair of conductors holds per volt between them, and how much work it took to assemble any static arrangement of charge, counted either on the charges or on the field.</p>
+<p class="gap">No screenshot of this screen yet. Said here rather than left blank, because a blank space and "not done" look the same on a page.</p>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Energy counted on the charges, or counted on the field</td><td>Whenever an energy is reported for anything containing point charges. The sum over charges leaves out the work of manufacturing each point charge in the first place, and can come out negative. The field integral includes that work, is never negative, and diverges outright for a single point charge. Both are correct; they answer different questions, and swapping one for the other without saying so is how a user ends up with an infinity they cannot explain.</td></tr>
+<tr><td>A pair of conductors, or one conductor alone</td><td>When the geometry is entered. For a single conductor the missing second one is an imagined shell infinitely far away, and the voltage is then measured from infinity rather than from a second electrode. The definition is unchanged but what the voltage means is not, and the app must say which it is using.</td></tr>
+<tr><td>Point charges, or a continuous distribution</td><td>At the input. The two energy expressions look almost identical and differ exactly in whether the self-contribution is excluded. Applying the continuous form to point charges gives infinity; applying the discrete form to a continuum is simply wrong.</td></tr>
+<tr><td>Which stored-energy form</td><td>When reporting the energy of a charged capacitor. The three forms are equal given the definition of capacitance, so this is a question of which quantity the user is holding fixed rather than of which answer is right, and showing all three keeps the user from converting by hand and slipping.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>C</code></td><td>Capacitance: how many coulombs a pair of conductors takes on for each volt placed across them. Fixed entirely by their sizes, shapes and separation; nothing about the charge or the voltage enters it.</td></tr>
+<tr><td><code>Q</code></td><td>The charge on the positively charged conductor. The other one carries exactly the opposite.</td></tr>
+<tr><td><code>V</code></td><td>The potential of the positive conductor minus that of the negative one. Defined this way round so that capacitance always comes out positive.</td></tr>
+<tr><td><code>A</code></td><td>The area of one plate of a parallel-plate pair.</td></tr>
+<tr><td><code>d</code></td><td>The gap between the plates.</td></tr>
+<tr><td><code>a</code></td><td>The radius of the inner sphere of a concentric pair.</td></tr>
+<tr><td><code>b</code></td><td>The radius of the outer shell of a concentric pair, larger than the inner one.</td></tr>
+<tr><td><code>W</code></td><td>The work needed to assemble an arrangement from infinitely dispersed pieces, which is also what you get back by taking it apart.</td></tr>
+<tr><td><code>Rᵢⱼ</code></td><td>The distance between charges i and j once both are in their final positions.</td></tr>
+<tr><td><code>ρ</code></td><td>Charge per unit volume.</td></tr>
+<tr><td><code>E</code></td><td>The electric field; where it appears squared it is the magnitude that is squared, a number rather than a vector.</td></tr>
+<tr><td><code>ε₀</code></td><td>The permittivity of empty space.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>Capacitance is defined for a pair of conductors carrying equal and opposite charge. The charge is that of the positive one and the voltage is measured from the negative one up to it.</li>
+<li>The parallel-plate result assumes the charge spreads evenly across each plate, which requires the plate area to be large and the gap small. Note where the condition bites: it is a condition on the charge being uniform, and once it fails the very first step of the derivation is gone.</li>
+<li>No error estimate, correction term or threshold accompanies the parallel-plate result. The one quantitative form of the condition printed anywhere in the material, that the plate area should greatly exceed the square of the gap, appears in an unrelated worked problem rather than alongside the capacitance itself. Even for round plates the exact solution is acknowledged to be difficult.</li>
+<li>Everything here is in empty space. Filling the gap with material is a separate subject and multiplies the capacitance by a factor this module does not supply.</li>
+<li>The field-energy integral must run over all space. Over a bounded region there is an additional surface term, and dropping it changes the answer.</li>
+<li>In the sum over point charges, the potential at each charge excludes that charge's own contribution. In the continuous version no such exclusion is needed or possible.</li>
+<li>In the other common system of units, capacitance is measured in centimetres of length. A capacitance displayed in that system will look nothing like the value a reader expects, and the unit has to be stated.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>The parallel-plate formula returns a number for any area and any gap. It loses accuracy quietly as the gap grows or the plates shrink, with nothing in the arithmetic to signal it and no printed criterion to test against. This is the easiest place in the module to get a confident wrong answer.</li>
+<li>The field energy of an ideal point charge is infinite. That is a property of the idealisation, not a defect of the formula.</li>
+<li>Electrostatic energy does not obey superposition. The energy of two arrangements together is not the sum of their separate energies; there is a cross term between the two fields.</li>
+<li>Coaxial cylinders and a single isolated sphere are not offered in this version. Neither closed form was established to the standard this canon requires from the material this module was built on, and nothing was filled in from memory.</li>
+<li>Asking where the energy is actually stored is not answerable at this level. The two bookkeepings integrate over entirely different regions and agree on the total; for a charged shell one places it all on the surface and the other all outside it.</li>
+<li>Filling the gap with an insulating material changes the capacitance and the stored energy, and this module does not cover that case.</li>
+</ul><h3 id="dielectrics">Dielectrics</h3>
+<p class="sub">Electrostatics &middot; Linear media, bound charge, sphere in a field, and D vs. E</p>
+<p>What happens to electric fields inside insulating material: how polarization shows up as real accumulated charge, what the displacement field can and cannot tell you, and the small set of geometries whose self-consistent answer is known in closed form.</p>
+<p class="gap">No screenshot of this screen yet. Said here rather than left blank, because a blank space and "not done" look the same on a page.</p>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Whether the geometry is symmetric enough to give the displacement</td><td>Before anything else. With spherical, cylindrical or planar symmetry, the free charge determines the displacement and the calculation proceeds. Without it, the free charge does not determine the displacement, and assuming otherwise produces a definite wrong answer with nothing to flag it. The standard counterexample is a bar of permanently polarized material, which carries no free charge anywhere yet has a displacement that is not zero.</td></tr>
+<tr><td>Getting the field from the displacement</td><td>At every point where an answer is wanted. In a linear material with a known permittivity, divide by that permittivity. In empty space, divide by the vacuum permittivity. Where the polarization is not known, the field simply cannot be determined, and that is a legitimate result which the app must display as such. Falling back to the vacuum permittivity in that third case would be silently wrong.</td></tr>
+<tr><td>Which energy is being asked for</td><td>Whenever an energy is reported. One form answers the work of assembling every charge, free and bound, and excludes what it cost to stretch the molecules. The other answers the work of bringing in the free charge and letting the material respond, and includes it. Neither is wrong, and the second is usually what people mean, since free charge is what one actually moves about. The second also requires linearity, and applied to a permanently polarized material it gives an absurd result.</td></tr>
+<tr><td>Charge held fixed, or voltage held fixed</td><td>For the force on a slab in a capacitor. The physical force is the same either way, being fixed entirely by where the charge sits. But the constant-voltage route must also account for the work the battery does, and the shortcut that forgets it delivers the right magnitude with the wrong sign, that is, a slab that appears to be pushed out rather than pulled in.</td></tr>
+<tr><td>Which surface a bound surface charge belongs to</td><td>Whenever a bound surface charge is reported. The normal points out of the material, so the inner surface of a shell and its outer surface carry opposite signs from the same formula. A bound surface charge quoted without naming the surface and the direction of its normal is ambiguous by a sign.</td></tr>
+<tr><td>Which system of units a susceptibility or permittivity is quoted in</td><td>Whenever either is displayed or entered. The two systems' susceptibilities differ by a factor of four pi, and the permittivity is dimensionless in one and dimensioned in the other. Only the dielectric constant is safe to quote bare.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>P</code></td><td>Polarization: the dipole moment per unit volume, obtained by adding up an enormous number of tiny molecular dipoles and dividing by the volume they occupy.</td></tr>
+<tr><td><code>σ_b</code></td><td>Bound surface charge: charge left stranded at a surface because polarization pushed it there and it had nowhere further to go. Perfectly real charge, not a fiction.</td></tr>
+<tr><td><code>ρ_b</code></td><td>Bound volume charge: the pile-up that occurs inside the material wherever the polarization is not uniform.</td></tr>
+<tr><td><code>ρ_f</code></td><td>Free charge: everything that is not a result of polarization. Electrons on a conductor, ions stirred into a material, anything you put there yourself.</td></tr>
+<tr><td><code>D</code></td><td>Displacement: the combination of the field and the polarization built so that only free charge appears on the right-hand side of its flux law. A convenience, and a dangerous one.</td></tr>
+<tr><td><code>χ</code></td><td>Susceptibility: how readily a material polarizes in a given field. Dimensionless, but the same material has two different numerical values for it in the two common systems of units.</td></tr>
+<tr><td><code>ε</code></td><td>Permittivity of the material: the constant relating displacement directly to field. Carries units in one system and is dimensionless in the other.</td></tr>
+<tr><td><code>ε_r</code></td><td>Relative permittivity, also called the dielectric constant: the permittivity of the material divided by that of empty space. Dimensionless and the same number in both systems of units.</td></tr>
+<tr><td><code>E_vac</code></td><td>The field the very same free charges would produce with no material present at all.</td></tr>
+<tr><td><code>n̂</code></td><td>The unit normal pointing out of the material. On an inner surface of a shell this points towards the centre, which is what puts the opposite sign on the bound charge there.</td></tr>
+<tr><td><code>ε₀</code></td><td>The permittivity of empty space.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>The two bound-charge definitions assume nothing at all. They hold for any state of polarization whatever, including a polarization frozen permanently into the material.</li>
+<li>Linearity is assumed wherever a susceptibility or a permittivity appears. The stated condition is that the field must not be too strong, and no quantitative threshold of any kind accompanies it: no critical field strength, no error estimate, no correction term. The first correction for real materials is typically cubic in the field.</li>
+<li>Isotropy is implied everywhere the susceptibility is a single number, whether or not it is said. In a crystal it is an array of nine coefficients and the polarization need not point along the field at all.</li>
+<li>Uniformity of the material is additionally required by the whole-space reduction factor, by the proportionality between bound and free volume charge, by the sphere in a uniform field, and by the half-space geometry. Where the material's properties vary with position, none of those apply.</li>
+<li>The field in the linear relation is the total field, including the material's own contribution. You cannot feed in an applied field and a susceptibility and read off the polarization: the polarization changes the field that produces it. Only geometries whose self-consistent solution has already been worked out can be evaluated, and this module offers three of them.</li>
+<li>The displacement can be obtained from free charge alone only when the geometry has spherical, cylindrical or planar symmetry. Without one of those the displacement is not determined by the free charge, however much the flux law may look as though it is.</li>
+<li>The simple substitution that converts vacuum electrostatics between the two systems of units does not work for any relation involving material response. Each such relation has to be taken back to its definition, because displacement and susceptibility are defined differently in the two systems.</li>
+<li>Dielectric constants are quoted for particular conditions of temperature and pressure, and a few commonly listed entries are measured under quite different conditions from the rest of their list.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>There is no quantitative limit on the field strength for which linearity holds. The relation returns a number at any field strength and never complains. This is the largest missing guardrail in the module, and nothing in the material used supplies one.</li>
+<li>Where the polarization of a material is unknown, the field inside it cannot be determined. This is stated outright in the material and it is a result, not a failure of the method.</li>
+<li>The field outside a sphere of linear material in a uniform field, and the sphere's induced dipole moment, are not offered. The material gives only the coefficient of the outside expansion and does not assemble either expression, and assembling one here would be a derivation presented as a transcription.</li>
+<li>A cylinder of linear material in a uniform field is not offered. The question is posed in the material and no answer is printed.</li>
+<li>The field at the centre of a cavity carved out of a polarized material depends on the cavity's shape, and no closed forms for the shapes in question are available here.</li>
+<li>For a material with lossy molecular response, the notion of stored energy breaks down altogether: the work done depends on the path taken and can be made arbitrarily large.</li>
+<li>The proportionality between bound and free charge covers volume densities only, never surface densities.</li>
+<li>Checking the molecular-polarizability relation against measured dielectric constants needs number densities, which are not part of this module and must come from outside it.</li>
+<li>One useful degenerate check is available and worth running: letting the susceptibility grow without bound should turn every result in this module into the corresponding result for a conductor.</li>
+</ul><h2>Magnetostatics</h2><h3 id="biotSavart">Biot-Savart Law</h3>
+<p class="sub">Magnetostatics &middot; Seven closed-form current-source geometries</p>
+<p>A steady current makes a magnetic field, and for a handful of shapes that field can be written down in closed form. This module covers the general integral law and the specific geometries it can actually be carried out for: straight segments, circular loops on their axis, sheets, solenoids and toroids.</p>
+<p class="gap">No screenshot of this screen yet. Said here rather than left blank, because a blank space and "not done" look the same on a page.</p>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Straight wire: finite segment or infinite</td><td>Choose the segment when you have two end angles to give; the infinite case is the same relation with the angles opened out fully, not an unrelated formula.</td></tr>
+<tr><td>Circular loop: on the axis</td><td>The loop result is offered for axial points only. There is no off-axis option, because there is no closed form to offer — see the limits.</td></tr>
+<tr><td>Solenoid: inside or outside</td><td>You must say which side of the winding your point is on. The two sides give completely different answers and the field jumps across the boundary.</td></tr>
+<tr><td>Toroid: inside or outside the winding</td><td>Stated as a choice rather than computed from the geometry, because the cross-section may be any shape and there is no inner or outer radius to test against.</td></tr>
+<tr><td>Sheet of current: which side</td><td>The two sides have equal strength and opposite direction. The plane of the sheet itself is not covered by either case.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>I</code></td><td>The steady current in the wire: the same number everywhere along it, because nowhere is charge allowed to pile up.</td></tr>
+<tr><td><code>μ₀</code></td><td>The constant that fixes how much magnetic field a given current produces in empty space.</td></tr>
+<tr><td><code>s</code></td><td>Distance measured straight out from the wire or from the axis, at right angles to it. Never a distance from a point.</td></tr>
+<tr><td><code>dl′</code></td><td>A short piece of the wire, pointing the way the current flows through it.</td></tr>
+<tr><td><code>𝓇</code></td><td>The distance from the piece of wire doing the producing to the point where you want the field.</td></tr>
+<tr><td><code>θ₁</code></td><td>For a straight segment: the angle from the perpendicular dropped onto the wire, out to the upstream end of the segment. Measured from the perpendicular, not from the wire.</td></tr>
+<tr><td><code>θ₂</code></td><td>The same angle taken out to the downstream end of the segment. Positive on the downstream side of the foot of the perpendicular, negative on the upstream side.</td></tr>
+<tr><td><code>R</code></td><td>For a circular loop, the radius of the loop; for a solenoid, the radius of the cylinder.</td></tr>
+<tr><td><code>z</code></td><td>For a circular loop, how far along the axis you are from the centre of the loop.</td></tr>
+<tr><td><code>d</code></td><td>The separation between two parallel wires.</td></tr>
+<tr><td><code>K</code></td><td>Surface current density: current per unit width flowing across a surface.</td></tr>
+<tr><td><code>J</code></td><td>Volume current density: current per unit cross-sectional area flowing through a body.</td></tr>
+<tr><td><code>n</code></td><td>Turns per unit length of a solenoid winding. Not a total.</td></tr>
+<tr><td><code>N</code></td><td>The total number of turns on a toroid, counted right round the ring. Not a count per unit length.</td></tr>
+<tr><td><code>f</code></td><td>Force per unit length between two parallel wires. Only the force per unit length is finite; the total force on an infinite wire is not.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>Every result here is for a steady current: a flow that has been going on unchanged, with charge collecting nowhere. This is an idealisation, and the reference material says so plainly; it is nonetheless a good approximation whenever the current changes slowly, which includes ordinary mains-frequency currents.</li>
+<li>A finite straight segment cannot by itself carry a steady current — there would be nowhere for the charge to go at the ends. The segment result is the contribution one piece of a closed circuit makes to the total field, not the field of a standalone object. Treating it as a standalone object gives you the answer for a configuration that cannot exist.</li>
+<li>Fields add. For several sources, the net field is the vector sum of what each would produce alone.</li>
+<li>The solenoid result assumes a winding tight enough that each turn counts as a closed circle. The reference material argues at length that the leftover current running along the axis is a small refinement compared with the field inside, but gives no threshold for how tight is tight enough.</li>
+<li>The toroid result assumes a uniform, tight winding whose cross-section keeps the same shape all the way round the ring.</li>
+<li>No quantitative test is given anywhere for when a real wire is long enough to count as infinite. The condition is stated qualitatively, and this app does not invent a bound for it.</li>
+<li>A single moving point charge does not make a steady current, and the law here does not give its field. A formula of that shape exists and the reference material prints it only to say it is wrong; this app does not implement it.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>The circular loop is given on its axis only. The reference material poses the off-axis field as an exercise that asks merely for the integrals to be set up, and prints no closed form and no elliptic-integral expression. This is positive evidence that no closed form was taken, not a failure to find one; anything off-axis would have to come from somewhere else and be verified separately.</li>
+<li>The angles for a straight segment are measured from the perpendicular to the wire, and are signed: positive downstream of the foot of the perpendicular, negative upstream. This is the single most likely place to get a wrong answer that still looks reasonable.</li>
+<li>A finite-length solenoid is not covered. Neither is any solenoid field off the axis of a finite one.</li>
+<li>The interior field of a thick wire carrying current through its bulk is not covered here. The reference material poses it only as an exercise, without an answer.</li>
+<li>Square loops, regular polygons and composite arc-plus-straight shapes appear in the reference material only as exercises with no printed answers, so none of them is offered.</li>
+<li>At the boundaries of the piecewise results — the wall of a solenoid, the plane of a current sheet — the field is discontinuous and no value is defined. Ask for a point on one side or the other.</li>
+<li>Everything here is for empty space. Magnetic materials are not covered.</li>
+</ul><h3 id="ampereLaw">Ampere's Law</h3>
+<p class="sub">Magnetostatics &middot; Thick-wire H/B, vector potential, and toroid I_enc</p>
+<p>When a current arrangement is symmetric enough, the field can be had in one line instead of by integration: the circulation of the field round a closed loop is set by the current threading it. This module covers that law, the four shapes it actually solves, and the vector potential that plays the same role for the magnetic field that voltage plays for the electric one.</p>
+<p class="gap">No screenshot of this screen yet. Said here rather than left blank, because a blank space and "not done" look the same on a page.</p>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Solenoid: inside or outside</td><td>The magnetic field jumps across the winding; the two regions have nothing in common.</td></tr>
+<tr><td>Toroid: inside or outside the winding</td><td>This must be an explicit choice on screen. The reference material distinguishes the two regions in words only and gives no inequality, and the cross-section may be any shape whatever, so there is no inner or outer radius to compute the answer from.</td></tr>
+<tr><td>Sheet of current: which side</td><td>Equal strength, opposite direction; the plane itself has no defined value.</td></tr>
+<tr><td>Thick wire: inside or outside the conductor</td><td>The two pieces meet continuously at the surface, so the boundary itself is safe to evaluate on either branch.</td></tr>
+<tr><td>Which field you want: B or its auxiliary H</td><td>They differ inside magnetised matter. For the thick wire the printed result is for the auxiliary field only.</td></tr>
+<tr><td>Gauge of the vector potential</td><td>A silent choice that changes the answer: different gauges give different vector potentials for one and the same magnetic field. This app takes the divergence-free gauge and says so on screen wherever a vector potential is shown.</td></tr>
+<tr><td>Field or potential for a solenoid</td><td>Their regions behave oppositely: the field is zero outside and jumps at the wall, the potential is nonzero outside and is continuous. The two must never share a piece of explanatory text.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>B</code></td><td>The magnetic field itself: the thing a moving charge feels a sideways force from.</td></tr>
+<tr><td><code>H</code></td><td>An auxiliary field defined so that only the current you control — the free current — appears as its source. Inside magnetised matter it is not the same thing as the magnetic field divided by a constant.</td></tr>
+<tr><td><code>A</code></td><td>The vector potential: a vector field whose curl is the magnetic field. It is not unique; see the gauge choice below.</td></tr>
+<tr><td><code>I_enc</code></td><td>The total current passing through the surface bounded by the loop you are integrating round.</td></tr>
+<tr><td><code>I_f</code></td><td>Only the free current — the current driven by a source, not the microscopic circulation inside magnetised material.</td></tr>
+<tr><td><code>J</code></td><td>Volume current density: current per unit cross-sectional area.</td></tr>
+<tr><td><code>M</code></td><td>Magnetisation: the density of magnetic moment inside a material.</td></tr>
+<tr><td><code>Φ</code></td><td>Magnetic flux: the amount of magnetic field crossing a given surface.</td></tr>
+<tr><td><code>s</code></td><td>Distance out from the axis, measured at right angles to it.</td></tr>
+<tr><td><code>R</code></td><td>Radius of the solenoid, the wire, or the spherical shell, depending on which shape is in front of you.</td></tr>
+<tr><td><code>n</code></td><td>Turns per unit length of a solenoid winding.</td></tr>
+<tr><td><code>N</code></td><td>Total number of turns on a toroid.</td></tr>
+<tr><td><code>σ</code></td><td>Surface charge density on the rotating shell: charge per unit area.</td></tr>
+<tr><td><code>ω</code></td><td>Angular velocity of the rotating shell, as a vector along the spin axis.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>Steady currents throughout. The local form of the circulation law rests on the current density having no sources or sinks, which is exactly what steady means; the no-sources statement for the field is structural and needs less.</li>
+<li>The step that discards a surface term in the derivation assumes the current is safely inside the region, zero on its boundary. Every shape in this module has current extending to infinity, which the reference material flags as a case that still works out but calls for greater care — without saying what that care consists of. This app records the caveat rather than papering over it.</li>
+<li>The law is always true for steady currents but only useful when symmetry lets the field come outside the integral. That is why this module covers exactly four shapes: straight lines, planes, solenoids and toroids. Anything else falls back on direct integration.</li>
+<li>The direction of the field is settled in advance for each of the four shapes, by symmetry arguments and, for the toroid, by a full term-by-term cancellation. Direction is built-in knowledge here, not something the user supplies.</li>
+<li>The sense of the circulation and the sign of the enclosed current are tied together by the right hand; neither is meaningful alone.</li>
+<li>The result that the field vanishes outside a solenoid needs one premise beyond the circulation law itself: that the field dies away far from the winding. The law alone only shows the outside field is the same everywhere.</li>
+<li>Nothing here holds outside magnetostatics. The reference material poses as an exercise the demonstration that the circulation law cannot be generally valid once things change in time; the fix belongs to a later topic and is not in this module.</li>
+<li>The integral for the vector potential assumes the current dies away at infinity, so it cannot be used for any of the shapes here. Those are handled through the flux route instead.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>The magnetic field inside a thick current-carrying wire is not offered. The reference material gives the auxiliary field there and then states in as many words that the magnetic field itself cannot be determined at that stage, because the magnetisation of the material is unknown. Converting one to the other would silently import the premise that the material is non-magnetic — a practical concession, not a result. That premise would have to be stated on screen if this were ever added.</li>
+<li>The four shapes are the whole of what this module solves. There is no machine test for whether some other arrangement is symmetric enough; the reference material gives only a qualitative description and names these four.</li>
+<li>For the vector potential in cylindrical or spherical coordinates, the componentwise equation does not hold: the unit vectors themselves vary from place to place. Every shape in this module is naturally cylindrical, so this is a live trap rather than a footnote, and the safe route is through the identity for the vector Laplacian.</li>
+<li>The rule of thumb that the vector potential points along the current is hedged three ways in the reference material and is not a guarantee. An arbitrary constant vector can always be added to it; this app fixes that constant so the potential vanishes at infinity where it can.</li>
+<li>Which surface to use when counting the current through a loop is a question the reference material raises and leaves unanswered in this topic. For steady currents the answer does not depend on the choice, but that reasoning is not part of what was taken from the material.</li>
+<li>A magnetic scalar potential is not offered. It is incompatible with the circulation law except in regions with no current and no holes, and carries more guard rails than it is worth.</li>
+<li>The units of the vector potential and of magnetic flux are not stated in the reference material for this topic and have not been taken from it.</li>
+</ul><h3 id="inductance">Inductance &amp; Magnetic Energy</h3>
+<p class="sub">Magnetostatics &middot; Mutual and self inductance, and stored magnetic energy</p>
+<p>A changing current induces a voltage in a neighbouring circuit and in itself. The two constants of proportionality — mutual and self inductance — are purely geometric, and the work done in establishing a current ends up stored in the magnetic field. This module covers both, plus the three shapes for which the inductance can be written down in closed form.</p>
+<p class="gap">No screenshot of this screen yet. Said here rather than left blank, because a blank space and "not done" look the same on a page.</p>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Total or per unit length</td><td>For the cable and for long solenoids this is a real fork. The result given above is the total for a chosen length; the per-unit-length figure differs by that length and carries different units. The screen must say which one it is showing.</td></tr>
+<tr><td>Mutual inductance: which subscript order</td><td>If the subscripted form is displayed at all, the definition must be displayed with it. Showing a bare symbol leaves the user unable to tell which loop carries and which receives.</td></tr>
+<tr><td>Getting the mutual inductance: integral or reciprocity</td><td>The double loop integral is the definition and is best shown, not evaluated. In practice you compute the easy direction and use reciprocity for the other.</td></tr>
+<tr><td>Getting the self-inductance: from flux or from energy</td><td>The flux route is direct when the current follows a single well-defined path. When the current spreads over a surface or through a volume, different parts of it link different amounts of flux, and the energy route is the workable one.</td></tr>
+<tr><td>Energy: integrate over current or over field</td><td>Two equivalent bookkeepings of the same total. They differ only in where the energy is said to sit, and the total is the same either way.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>M</code></td><td>Mutual inductance: how much flux one loop throws through the other per ampere it carries. A purely geometrical quantity — sizes, shapes and relative position, nothing else.</td></tr>
+<tr><td><code>L</code></td><td>Self-inductance: how much flux a loop throws through itself per ampere it carries. Always a positive quantity.</td></tr>
+<tr><td><code>Φ</code></td><td>Magnetic flux through a loop: the amount of magnetic field crossing any surface bounded by it.</td></tr>
+<tr><td><code>ℰ</code></td><td>Induced electromotive force — the voltage driven round a loop by a changing flux. The minus sign in front of it is what makes the induced effect oppose the change that caused it.</td></tr>
+<tr><td><code>W</code></td><td>The work needed to raise the current from zero to its final value, which is also the energy stored once it is there.</td></tr>
+<tr><td><code>𝓇</code></td><td>In the double-loop integral, the distance between the two short pieces of wire being paired up, one taken from each loop.</td></tr>
+<tr><td><code>a, b (ring coil)</code></td><td>Inner and outer radius of a ring-shaped coil of rectangular cross-section.</td></tr>
+<tr><td><code>h</code></td><td>Height of that rectangular cross-section.</td></tr>
+<tr><td><code>N</code></td><td>Total number of turns on the ring coil, counted right round. Not a count per unit length.</td></tr>
+<tr><td><code>a, b (cable)</code></td><td>Radius of the inner conductor and of the outer sheath of a coaxial cable. Different quantities from the two radii of the ring coil, despite the same letters.</td></tr>
+<tr><td><code>l</code></td><td>The length of the piece of cable or solenoid you have chosen to consider. A variable you supply, not a property of the cable.</td></tr>
+<tr><td><code>n₁, n₂</code></td><td>Turns per unit length of the inner and of the outer solenoid in the nested pair.</td></tr>
+<tr><td><code>τ</code></td><td>Time constant of a resistive-inductive circuit: how long the current takes to reach a substantial fraction — roughly two-thirds — of its final value.</td></tr>
+<tr><td><code>R</code></td><td>Resistance in the circuit whose switch-on transient is given below.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>The definition of mutual inductance is set up for two loops at rest carrying a steady current. Both conditions are stated in the very first sentence of the treatment.</li>
+<li>Applying it to a changing current is admitted in the reference material to be a tacit approximation: the currents must change slowly enough for the arrangement to count as quasi-static at each instant. No numerical threshold is given — no frequency limit, no error bound. The formula returns a number at any rate of change whatever, which is precisely why this app shows the assumption rather than burying it.</li>
+<li>Only the permeability of empty space appears anywhere in this module. Nothing here covers a magnetic core, which is the most common practical use of an inductor; the reference material handles magnetic materials in a different topic and gives no bridge to this one.</li>
+<li>The nested-solenoid result treats the outer solenoid as very long, so that the field inside it is uniform.</li>
+<li>The coaxial cable result assumes current flowing along the surface of the inner cylinder and back along the outer one, with no field anywhere except between them.</li>
+<li>The energy of the field must be integrated over all space; over a merely large region a surface term survives.</li>
+<li>Self-inductance and mutual inductance are both intrinsically positive quantities.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>The self-inductance of a long solenoid is not offered. The reference material poses it only as an exercise asking for the per-unit-length value and prints no answer anywhere, and this app does not supply the familiar expression from memory.</li>
+<li>The mutual inductance of two coaxial circular loops is likewise not offered. It appears only as an exercise without an answer, and in particular no elliptic-integral form for it exists anywhere in the reference material. Adding it would require an independent source and its own verification.</li>
+<li>The self-inductance of a thin-wire loop diverges. The reference material names this as a snag characteristic of many self-inductance calculations and resolves it only by two artificial conventions — give the wire a tiny radius, and ignore the flux passing through the wire itself. It offers no general treatment. This is the single easiest way to get an infinite or absurd answer out of a self-inductance calculation.</li>
+<li>For the coaxial cable, the printed result is the total for a length you choose. Exercises in the same part of the reference material ask for the per-unit-length figure instead, so a reader arriving with that expectation will be out by a factor of the length unless the screen says otherwise.</li>
+<li>Magnetic cores are outside the scope. Everything assumes free space.</li>
+<li>This module carries no worked numerical example from the reference material. Every relation here is symbolic; the only numbers printed in this topic are inputs to unanswered exercises.</li>
+</ul><h2>Waves</h2><h3 id="planeWave">Plane Waves</h3>
+<p class="sub">Waves &middot; Kinematics, energy, Poynting vector and radiation pressure</p>
+<p>In empty space the electric and magnetic fields satisfy a wave equation, and the simplest solution is a single-frequency plane wave. This module gives that wave, the fixed relation between its two fields, the energy and momentum it carries — instant by instant and averaged over a cycle — and what polarization means for it.</p>
+<p class="gap">No screenshot of this screen yet. Said here rather than left blank, because a blank space and "not done" look the same on a page.</p>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Instantaneous or cycle-averaged</td><td>This must be a visible choice, not a default. The instantaneous and averaged quantities differ by a factor of two, and there is no way to tell them apart by looking at the magnitude of the answer.</td></tr>
+<tr><td>Absorbing or reflecting surface</td><td>For radiation pressure. A perfect reflector feels twice what a perfect absorber feels. Real surfaces lie between, and no interpolation rule is offered here.</td></tr>
+<tr><td>Vacuum or linear medium</td><td>In a medium the speed, the intensity and the ratio of the two field amplitudes all change. Momentum density and radiation pressure have no medium version in this module.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>E₀</code></td><td>The peak strength of the electric field in the wave.</td></tr>
+<tr><td><code>B₀</code></td><td>The peak strength of the magnetic field. In vacuum it is smaller than the electric peak by a factor of the speed of light.</td></tr>
+<tr><td><code>k</code></td><td>Wave number: how many radians of phase the wave advances per unit distance. As a vector it points the way the wave travels.</td></tr>
+<tr><td><code>ω</code></td><td>Angular frequency: how many radians of phase the wave advances per unit time.</td></tr>
+<tr><td><code>δ</code></td><td>A constant phase offset, fixing where the crest sits at the origin at time zero.</td></tr>
+<tr><td><code>n̂</code></td><td>Polarization direction: the direction the electric field oscillates along. Always at right angles to the direction of travel.</td></tr>
+<tr><td><code>θ</code></td><td>Polarization angle: the angle the polarization direction makes within the plane across the direction of travel.</td></tr>
+<tr><td><code>u</code></td><td>Energy per unit volume held in the fields at a given instant.</td></tr>
+<tr><td><code>S</code></td><td>Energy crossing unit area per unit time, and the direction it flows in.</td></tr>
+<tr><td><code>℘</code></td><td>Momentum per unit volume carried by the fields.</td></tr>
+<tr><td><code>I</code></td><td>Intensity: the energy flow per unit area averaged over a full cycle. Averaged by definition — there is no instantaneous version of it.</td></tr>
+<tr><td><code>P</code></td><td>Radiation pressure: the average force per unit area the wave exerts on a surface it hits.</td></tr>
+<tr><td><code>n</code></td><td>Refractive index: the factor by which a medium slows the wave down compared with vacuum.</td></tr>
+<tr><td><code>ε, μ</code></td><td>The permittivity and permeability of the medium the wave is travelling in; with a nought subscript, their values in vacuum.</td></tr>
+<tr><td><code>v</code></td><td>The speed of the wave in the medium.</td></tr>
+<tr><td><code>⟨ ⟩</code></td><td>An average taken over one complete cycle, or over many. Anything wearing these brackets is not an instantaneous value.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>The vacuum results hold in a region with no charge and no current anywhere in it.</li>
+<li>Every result past the wave equation is for a single-frequency plane wave: one frequency, and fields uniform across each plane perpendicular to the direction of travel.</li>
+<li>The energy density and the energy flow, as definitions, are general; the cosine-squared forms of them are not, and hold only for a plane wave.</li>
+<li>The cycle averages assume you are averaging over a complete cycle or many of them. For light this is automatic: any macroscopic measurement spans an enormous number of cycles.</li>
+<li>The absorber pressure assumes a perfectly absorbing surface and light arriving head-on.</li>
+<li>In a medium: linear, so that the two material constants are simple multipliers, and homogeneous, so that they do not vary from place to place.</li>
+<li>The medium is transparent. Both material constants are treated as real constants here; absorption and conduction belong to a different module, and so does any frequency dependence of the refractive index.</li>
+<li>The complex-amplitude shortcut for averaging a product of two waves requires both to share the same frequency and direction of travel; they may differ in amplitude and phase.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>Three different halves live in this module and they must never be merged. One belongs to the definition of the energy density; one is cancelled in a plane wave because the electric and magnetic contributions are equal; one comes from averaging a cosine squared over a cycle. Combining any two of them gives an answer wrong by a factor of two or four that still looks entirely plausible.</li>
+<li>Circular and elliptical polarization are not offered. The reference material introduces circular polarization only for a transverse wave on a stretched string, as an exercise, and prints no field expressions for it; elliptical polarization is not treated at all. Nothing here was reconstructed from memory to fill that gap.</li>
+<li>The pressure on a perfect reflector is our expression, following an argument the reference material makes in prose. The absorber case is the one taken as printed.</li>
+<li>No absorption and no conduction. The wave here never loses amplitude as it travels.</li>
+<li>No dispersion. The refractive index is treated as a single number, not as a function of frequency, so this module cannot say anything about a pulse spreading or about colours separating.</li>
+<li>In a medium, this module gives energy density, energy flow and intensity, but not momentum density and not radiation pressure — those have no counterpart in the reference material for a medium.</li>
+<li>Polarization here means linear polarization, defined by a fixed direction for the electric field. The sign of that direction and a half-turn phase shift are the same thing, so the two are one freedom.</li>
+</ul><h3 id="conductorPropagation">Waves in Conductors</h3>
+<p class="sub">Waves &middot; Wave number, attenuation and skin depth in an ohmic conductor</p>
+<p>Inside a conductor the wave equation picks up a damping term, the wave number becomes complex, and the wave dies away as it goes. This module gives the wave number's two parts, the depth the wave reaches, the lag the magnetic field falls into behind the electric one, and what happens when such a wave arrives at a conducting surface.</p>
+<p class="gap">No screenshot of this screen yet. Said here rather than left blank, because a blank space and "not done" look the same on a page.</p>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>General, good conductor, poor conductor, or perfect conductor</td><td>The general expressions cover everything and this app computes from them. The two approximations are offered as statements about limiting behaviour, with the dividing quantity being the conductivity against the permittivity times the frequency.</td></tr>
+<tr><td>Skin depth: amplitude or intensity</td><td>The definition used here is the depth at which the amplitude falls by a factor of e. Intensity falls twice as fast, so an intensity-based depth is half this one. Both names are in use in the literature.</td></tr>
+<tr><td>At the surface: reflected or transmitted wave</td><td>Both are complex, so both carry a phase shift as well as a change of size.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>σ</code></td><td>Conductivity: how freely charge flows in response to an electric field. Large for metals, small for poor conductors, infinite for the idealised perfect conductor.</td></tr>
+<tr><td><code>ε, μ</code></td><td>Permittivity and permeability of the conducting material itself.</td></tr>
+<tr><td><code>ω</code></td><td>Angular frequency of the wave being sent in.</td></tr>
+<tr><td><code>k</code></td><td>Real part of the complex wave number. This is what sets the wavelength, the speed and the refractive index inside the conductor.</td></tr>
+<tr><td><code>κ</code></td><td>Imaginary part of the complex wave number, and therefore the rate at which the amplitude dies away with distance. It has units of one over length. Not the same thing as the dimensionless extinction coefficient of the optics literature.</td></tr>
+<tr><td><code>d</code></td><td>Skin depth: the distance over which the amplitude falls by a factor of e, roughly to a third. A measure of how far the wave gets into the material.</td></tr>
+<tr><td><code>K</code></td><td>Magnitude of the complex wave number.</td></tr>
+<tr><td><code>φ</code></td><td>The phase angle of the complex wave number, and therefore the amount by which the magnetic field lags the electric one.</td></tr>
+<tr><td><code>τ</code></td><td>The permittivity divided by the conductivity. A characteristic time that tells you how good a conductor you are dealing with, relative to the period of the wave.</td></tr>
+<tr><td><code>ρ_f</code></td><td>Free charge density — the charge that can move, as distinct from charge bound into atoms.</td></tr>
+<tr><td><code>β̃</code></td><td>The medium ratio that governs reflection at the surface, here a complex number rather than a real one.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>The material is linear and homogeneous, and its three constants are treated as fixed numbers. In reality each depends to some extent on frequency; that dependence is a separate topic and is not modelled here.</li>
+<li>The current responds to the field in direct proportion. The reference material adds a footnote that this proportionality itself fails on time scales shorter than the interval between collisions in the material — about ten femtoseconds for copper — so the model has a floor in time that the formulas themselves do not show.</li>
+<li>All free charge in the bulk has already drained away. Every relation past the relaxation result assumes the free charge density is zero.</li>
+<li>Single-frequency plane waves.</li>
+<li>For the reflection results: the wave arrives head-on, the first medium is a non-conductor, and there is no free surface current. The reference material justifies the last of these by noting that an ohmic conductor cannot support one, since that would need an infinite field at the boundary.</li>
+<li>The two parts of the wave number are both taken positive. The defining equation has two roots; the other one corresponds to a wave running the other way, and the reference material neither states the choice nor discusses the other root.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>The decay coefficient here is the imaginary part of the wave number and has units of one over length. The optics literature commonly uses an extinction coefficient that is dimensionless and differs from this one by a factor of the frequency over the speed of light. The two are routinely confused, they are not interchangeable, and a comparison against tabulated optical constants will be wrong by orders of magnitude unless which one is in hand is settled first.</li>
+<li>The good-conductor approximation is not in the running text of the reference material at all. It appears only as an exercise, phrased as something to be shown, with the compact expression for the decay coefficient nowhere printed. This app computes from the exact relations and treats the approximation as a statement about limiting behaviour rather than as a formula taken from a source.</li>
+<li>At small conductivity the printed expression for the decay coefficient subtracts one from a square root that is nearly one, losing most of its significant digits. This app evaluates an algebraically identical rewrite instead. The reference material says nothing about this, because it is a matter of arithmetic rather than physics — but it is the difference between a right answer and a meaningless one.</li>
+<li>The fraction of energy reflected at a conducting surface is not printed in the reference material. It poses the calculation as an exercise and prints no answer, and there are several equivalent ways to write the modulus of a complex ratio. This app does not present a reflectance as though it came from the material.</li>
+<li>The characteristic time, permittivity over conductivity, is not the real time it takes free charge to disperse in a good metal: for copper it comes to a fraction of a femtosecond, far shorter than the model has any right to describe. The reference material says this plainly and then sets it aside, because nothing in the wave results depends on the number.</li>
+<li>The perfect conductor limit sits uneasily with the premise that there is no free surface current — a premise justified only for a conductor of finite conductivity. The reference material takes the limit anyway. Nothing in this app reports a surface current, and there is no material here from which one could be reported.</li>
+<li>Head-on incidence only. Oblique incidence onto a conductor is not covered.</li>
+<li>The three material constants are treated as frequency-independent, even though a conductor is in fact dispersive by virtue of these very relations.</li>
+</ul><h3 id="rectangularWaveguide">Rectangular Waveguide</h3>
+<p class="sub">Waves &middot; TE mode cutoff, propagation and dispersion</p>
+<p>A wave can be sent down a hollow metal pipe, but only in certain patterns and only above a frequency that depends on the pipe's cross-section. This module gives those patterns for a rectangular pipe, the frequency below which each one will not travel at all, and the two different speeds that a guided wave has.</p>
+<p class="gap">No screenshot of this screen yet. Said here rather than left blank, because a blank space and "not done" look the same on a page.</p>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Propagating or cut off</td><td>Above the mode's cut-off frequency you get a travelling wave; below it you get a field that dies away exponentially and carries nothing. This is the first thing to establish for any mode you ask about.</td></tr>
+<tr><td>Which mode</td><td>Two whole-number indices, one for each transverse direction. Each may be zero, but not both at once. The lowest cut-off belongs to the mode with a one on the larger side and a zero on the smaller.</td></tr>
+<tr><td>Kind of wave: transverse electric, transverse magnetic, or both</td><td>Named by which axial field component vanishes. This app offers the transverse-electric family only; see the limits.</td></tr>
+<tr><td>Phase velocity or group velocity</td><td>Both are speeds, they are different numbers, and one exceeds the speed of light while the other does not. Asking for the speed of a guided wave without saying which one is meaningless.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>a</code></td><td>The larger of the two cross-sectional dimensions of the pipe, measured along the first of the two transverse axes.</td></tr>
+<tr><td><code>b</code></td><td>The smaller cross-sectional dimension, along the second transverse axis. This app assumes the first dimension is the larger one.</td></tr>
+<tr><td><code>m</code></td><td>The mode index belonging to the larger dimension. A whole number counting half-wavelengths across that side.</td></tr>
+<tr><td><code>n</code></td><td>The mode index belonging to the smaller dimension. Same meaning, other side.</td></tr>
+<tr><td><code>k</code></td><td>Wave number along the pipe: how fast the phase advances per unit distance down the axis.</td></tr>
+<tr><td><code>ω</code></td><td>Angular frequency of the wave being sent down the pipe.</td></tr>
+<tr><td><code>ω_mn</code></td><td>Cut-off frequency of one particular mode, as an angular frequency. Below it that mode does not travel.</td></tr>
+<tr><td><code>c</code></td><td>The speed of light in the empty interior of the pipe.</td></tr>
+<tr><td><code>v</code></td><td>Phase velocity: the speed at which a point of constant phase moves down the pipe. Greater than the speed of light, and carrying nothing with it.</td></tr>
+<tr><td><code>v_g</code></td><td>Group velocity: the speed at which energy and signal actually travel down the pipe. Always less than the speed of light.</td></tr>
+<tr><td><code>E_z, B_z</code></td><td>The components of the two fields along the pipe's axis. Which of them is zero is what names the kind of wave.</td></tr>
+<tr><td><code>θ</code></td><td>In the bouncing-plane-wave picture, the angle between the underlying plane wave's direction and the axis of the pipe.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>The walls are perfect conductors, so both fields vanish inside the metal itself. Nothing here accounts for loss in the walls.</li>
+<li>The condition that the magnetic field has no component through the wall rests on one further premise that is easy to miss: that the magnetic field started out at zero. With the electric field zero inside a perfect conductor, the magnetic field cannot change there, so it stays at whatever it was.</li>
+<li>Free charges and currents appear on the wall surface as needed to enforce the wall conditions.</li>
+<li>Single-frequency waves, with a cross-sectional pattern that does not change as the wave goes down the pipe.</li>
+<li>The interior is empty. A pipe filled with a dielectric is not covered.</li>
+<li>The cross-section is rectangular. The general setting-up allows any cross-section, but only the rectangular case is solved.</li>
+<li>The larger dimension is taken first, and the first mode index belongs to it. This is a convention rather than a physical requirement, but the identification of the lowest mode depends on it.</li>
+<li>The wave number down the pipe is real for a propagating mode. Below cut-off it is imaginary instead, so this is a property of the propagating branch, not a blanket premise — the reference material states it as a blanket premise and then quietly relaxes it.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>Both mode indices may not be zero at the same time. The reference material asserts this in the running text and leaves the demonstration as an exercise: that combination would have no axial magnetic field either, making it a kind of wave a hollow pipe cannot carry at all.</li>
+<li>For the transverse-electric modes the reference material writes out only the axial magnetic component. The four transverse components are said to follow by differentiation, but that step is never carried out and no expressions for them are printed. This app does not present transverse field patterns as though they had been taken from the material.</li>
+<li>Transverse-magnetic modes are not covered at all. The reference material leaves the entire family as an exercise with no answer.</li>
+<li>The coaxial transmission line's characteristic impedance is not covered. The word does not appear anywhere in the reference material for this topic and no expression for it is printed. Neither are the higher modes of a coaxial line, nor their cut-off frequencies.</li>
+<li>The phase velocity comes out greater than the speed of light for every propagating mode. This is not a defect in the formula and nothing is being transported that fast: the energy travels at the group velocity, which stays below the speed of light, and the two multiply to the square of the speed of light.</li>
+<li>Perfect walls means no attenuation along the pipe and no quality factor for a cavity. Wall loss is not modelled.</li>
+<li>Only a rectangular, vacuum-filled cross-section is solved. Circular pipes, dielectric-filled pipes, mode orthogonality, how a mode is excited and how much power it carries are all outside what was taken.</li>
+<li>The resonant frequencies of a closed cavity appear in the reference material only in the statement of an exercise, with no worked answer and no field patterns.</li>
+</ul><h3 id="fresnel">Reflection &amp; Transmission</h3>
+<p class="sub">Waves &middot; Amplitude and power coefficients at a dielectric interface</p>
+<p>When a wave meets the boundary between two transparent media, part of it comes back and part goes on. This module gives the directions those two waves take, the fraction of the amplitude and of the energy in each, the angle at which one polarization is not reflected at all, and what happens past the angle at which nothing is transmitted.</p>
+<p class="gap">No screenshot of this screen yet. Said here rather than left blank, because a blank space and "not done" look the same on a page.</p>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Polarization: parallel or perpendicular to the plane of incidence</td><td>Always an explicit choice on screen. The two give genuinely different answers away from head-on incidence, and one of them has an angle of no reflection while the other never does. Any other polarization is a combination of these two.</td></tr>
+<tr><td>Sign convention for the reflected amplitude</td><td>Shown on screen as a labelled diagram of the three positive directions, not as a sentence. This is not a matter of taste that can be left implicit: it flips the sign of the parallel reflection coefficient.</td></tr>
+<tr><td>Head-on or at an angle</td><td>Head-on is the limiting case, and the angled relations reduce to it exactly.</td></tr>
+<tr><td>Which medium is denser</td><td>Going into the denser medium there is no critical angle and the transmitted wave always exists. Going the other way, everything past the critical angle is total reflection with a field that merely seeps into the second medium.</td></tr>
+<tr><td>Below or above the critical angle</td><td>Above it the refraction angle is no longer an angle, the transmitted wave is no longer a travelling wave, and the reflectance is exactly one.</td></tr>
+<tr><td>Phase of the reflected wave</td><td>Below the no-reflection angle and above it, the reflected wave comes back the right way up or inverted. Which way round depends on the two ratios, and on the convention above.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>medium 1</code></td><td>The medium the incident wave arrives through. Its properties carry subscript one.</td></tr>
+<tr><td><code>medium 2</code></td><td>The medium on the far side of the boundary, which the transmitted wave goes into.</td></tr>
+<tr><td><code>θ_I</code></td><td>Angle of incidence, measured from the normal to the surface — not from the surface.</td></tr>
+<tr><td><code>θ_R</code></td><td>Angle of reflection, likewise from the normal.</td></tr>
+<tr><td><code>θ_T</code></td><td>Angle of refraction, likewise from the normal. Past the critical angle it stops being an angle at all.</td></tr>
+<tr><td><code>n₁, n₂</code></td><td>Refractive index of each medium: the factor by which it slows the wave relative to vacuum.</td></tr>
+<tr><td><code>α</code></td><td>The ratio of the cosine of the refraction angle to the cosine of the incidence angle. It depends on the geometry and equals one at head-on incidence. This app defines it this way and never any other way.</td></tr>
+<tr><td><code>β</code></td><td>A ratio built from the two media alone — their permeabilities and their speeds — and independent of the angle. This app defines it this way and never any other way.</td></tr>
+<tr><td><code>r</code></td><td>Amplitude reflection coefficient: the reflected electric amplitude divided by the incident one. It carries a sign, and the sign depends on a convention. See the limits.</td></tr>
+<tr><td><code>t</code></td><td>Amplitude transmission coefficient: the transmitted electric amplitude divided by the incident one.</td></tr>
+<tr><td><code>R</code></td><td>Reflectance: the fraction of the arriving energy that comes back. Independent of any sign convention.</td></tr>
+<tr><td><code>T</code></td><td>Transmittance: the fraction of the arriving energy that goes on. Also convention-free.</td></tr>
+<tr><td><code>θ_B</code></td><td>The angle at which a wave polarized in the plane of incidence is not reflected at all.</td></tr>
+<tr><td><code>θ_c</code></td><td>The critical angle: beyond it, going from a denser to a thinner medium, nothing is transmitted.</td></tr>
+<tr><td><code>κ</code></td><td>The rate at which the field dies away with depth beyond the surface once the incidence angle is past critical.</td></tr>
+<tr><td><code>plane of incidence</code></td><td>The plane containing the incoming direction of travel and the normal to the surface. All three directions of travel lie in it.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>Both media are linear and homogeneous, so each is described by one permittivity and one permeability that do not vary from point to point.</li>
+<li>No free charge and no free current sits on the interface.</li>
+<li>Both media are transparent: no absorption and no conductivity. A conducting second medium is a different module.</li>
+<li>Single-frequency plane waves, and all three waves share the one frequency — it is set at the source and nothing at the boundary can change it.</li>
+<li>The reflected and transmitted waves are taken to have the same polarization as the incident one. The reference material calls this out as a tacit assumption and leaves its proof as an exercise.</li>
+<li>Equal permeabilities are not assumed in general. The amplitude coefficients and the energy fractions keep both permeabilities inside the medium ratio. The assumption is used only in the named places: the head-on energy fractions written in terms of indices, and the tangent form of the no-reflection angle.</li>
+<li>Head-on incidence is not a separate physical case; it is the angled case with the geometric ratio equal to one.</li>
+<li>Everything is in the unit system this app uses throughout. No source consulted prints any of these relations in the older Gaussian system, so nothing here has been converted.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>The signed parallel reflection coefficient depends on a convention, and the two conventions in circulation differ by a minus sign. This app takes the majority convention — the one used by three mutually independent sources consulted, differing in unit system, era and method — rather than the one used by a fourth, whose own author notes it agrees with some but not all standard optics texts. Consequence: for light going from air into glass head-on, this app reports a reflected amplitude ratio of one sign where one common textbook reports the other. The magnitude, the reflectance, the transmittance, the no-reflection angle and the critical angle are the same either way, and only the signed reflection coefficient is affected.</li>
+<li>The energy fractions for perpendicular polarization are assembled here, not taken. None of the four sources consulted prints them, so they are put together from printed amplitude coefficients and the printed definition of intensity at an angled surface.</li>
+<li>One of the sources that prints the four amplitude coefficients quietly assumes the two permeabilities are equal — it matches the wrong pair of field components across the boundary — without saying so. This app therefore keeps both permeabilities in the general expressions, and would give a silently wrong answer for a magnetic medium if it did not.</li>
+<li>Past the critical angle this app gives the magnitude of the reflection, which is one, and the shape of the field that seeps into the second medium. It does not give the phase shift on reflection, which differs between the two polarizations. The reference material treats this whole region only in exercises.</li>
+<li>The exact energy fractions at head-on incidence without assuming equal permeabilities are not printed in the reference material and are not offered.</li>
+<li>Absorbing or conducting media are out of scope, and so is anything with more than one boundary.</li>
+<li>The letters used for the two ratios in this module are used for entirely different quantities in other treatments — one of them for the incidence angle, another for a decay parameter in the total-reflection region. Anywhere these symbols appear, their definitions must appear with them.</li>
+</ul><h3 id="dispersion">Dispersion</h3>
+<p class="sub">Waves &middot; Lorentz oscillator model and Cauchy's formula</p>
+<p>A transparent material bends blue light more than red, and the reason is that the electrons inside it are bound to their molecules like masses on springs. Drive those springs at a frequency and they respond with an amplitude and a lag that both depend on how close you are to their own natural frequency. This module builds that picture into a refractive index and an absorption that vary with frequency, shows what happens as you sweep through a resonance, and ends with the simple two-constant formula that covers the ordinary case far from any resonance.</p>
+<p class="gap">No screenshot of this screen yet. Said here rather than left blank, because a blank space and "not done" look the same on a page.</p>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Below a resonance</td><td>The driven electrons keep nearly in step with the field, the absorption is small, and the index climbs slowly as the frequency rises. This is the ordinary case, and it is where every transparent material is used.</td></tr>
+<tr><td>At a resonance</td><td>The electrons are being driven at the frequency they most readily move at. The amplitude of their motion is large, the damping dissipates a correspondingly large amount of energy, and the absorption peaks. The material may be effectively opaque through this range. The index does not peak here; it passes through this point on its way down.</td></tr>
+<tr><td>Above a resonance</td><td>The response has reversed: the electrons move against the field rather than with it, and the contribution of that resonance to the index turns negative. The index can fall below one, which means a crest travels faster than light — see the limits for why that is not a contradiction.</td></tr>
+<tr><td>Ordinary or anomalous dispersion</td><td>Whether the index is rising or falling with frequency. The falling stretch straddles a resonance and coincides with the region of strongest absorption. This app plots the index and the absorption together so the two can be read against each other, and marks where each resonance sits; it does not mark the edges of the falling region, because no expression for them is available.</td></tr>
+<tr><td>With damping or without</td><td>Setting every damping rate to zero gives no absorption at all and an index that diverges at each resonance. That divergence is an artefact of dropping the damping, not a prediction. This app computes with whatever damping rates are supplied and reports the point where a resonance is hit with no damping as a named refusal rather than returning an infinity.</td></tr>
+<tr><td>One resonance or several</td><td>A single resonance is the sum with one term in it. Nothing in the reference material prints a single-resonance form of the index or the absorption, so this is our own specialisation rather than a separate published result, and the plots of a single resonance leave out a background contribution from the others that in a real material often keeps the index above one on both sides.</td></tr>
+<tr><td>Thin gas, or anything denser</td><td>The explicit formulas for the index and the absorption are gas formulas twice over. This app computes the wave number by exact complex arithmetic rather than by the expansion, which removes the second of those two dependencies but not the first. Nothing here is valid for a solid or a liquid.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>x</code></td><td>Displacement of a bound electron from where it would sit at rest.</td></tr>
+<tr><td><code>m</code></td><td>Mass of the electron. The nuclei are far heavier and are treated as not moving at all.</td></tr>
+<tr><td><code>q</code></td><td>Charge of the electron. It appears squared in every relation that matters here, so its sign never affects an answer.</td></tr>
+<tr><td><code>k_spring</code></td><td>Stiffness of the effective spring holding the electron in place — the curvature of its potential well at the bottom.</td></tr>
+<tr><td><code>ω₀</code></td><td>Natural frequency of that one bound electron: the frequency it would ring at if you displaced it and let go, with no damping and nothing driving it.</td></tr>
+<tr><td><code>γ</code></td><td>Damping rate. It measures how fast the oscillation loses energy, and it is written as a rate per unit time rather than as a force constant — the force it produces is this rate times the mass times the velocity.</td></tr>
+<tr><td><code>ω</code></td><td>Angular frequency of the wave being sent in — the frequency the electrons are driven at, not one of their own.</td></tr>
+<tr><td><code>E₀</code></td><td>Amplitude of the driving electric field at the place where the electron sits.</td></tr>
+<tr><td><code>p</code></td><td>Dipole moment of one driven electron: its charge times its displacement.</td></tr>
+<tr><td><code>P</code></td><td>Polarization: the density of dipole moment in the material. Written with a tilde it is the complex quantity the real one is the real part of.</td></tr>
+<tr><td><code>N</code></td><td>Number of molecules in each unit of volume.</td></tr>
+<tr><td><code>f_j</code></td><td>How many electrons in each molecule share the natural frequency and damping rate labelled j. A count, not a weight, and no normalising condition on the counts is available — see the limits.</td></tr>
+<tr><td><code>ω_j</code></td><td>Natural frequency of the j-th group of electrons — one resonance of the material.</td></tr>
+<tr><td><code>γ_j</code></td><td>Damping rate of that same group.</td></tr>
+<tr><td><code>χ̃_e</code></td><td>Complex electric susceptibility: the constant relating the complex polarization to the complex field. It has to be complex here precisely because the polarization does not keep step with the field.</td></tr>
+<tr><td><code>ε̃</code></td><td>Complex permittivity of the material at this one frequency.</td></tr>
+<tr><td><code>ε̃_r</code></td><td>The same quantity expressed as a multiple of the vacuum value, so that empty space gives one.</td></tr>
+<tr><td><code>ε₀</code></td><td>Permittivity of empty space.</td></tr>
+<tr><td><code>μ₀</code></td><td>Permeability of empty space. This module uses the vacuum value throughout — see the assumptions.</td></tr>
+<tr><td><code>k̃</code></td><td>Complex wave number. Its two parts do different jobs and are not interchangeable.</td></tr>
+<tr><td><code>k</code></td><td>Real part of the wave number: what sets the wavelength inside the material, the speed of the wave, and the refractive index.</td></tr>
+<tr><td><code>κ</code></td><td>Imaginary part of the wave number, and therefore the rate at which the amplitude dies away with distance. It has units of one over length. It is not the dimensionless extinction coefficient that carries the same letter elsewhere — see the limits.</td></tr>
+<tr><td><code>α</code></td><td>Absorption coefficient: twice the decay rate of the amplitude, because what a detector measures is intensity and intensity falls twice as fast. Units of one over length.</td></tr>
+<tr><td><code>n</code></td><td>Refractive index — a real number here. This module never defines a complex one.</td></tr>
+<tr><td><code>v</code></td><td>Speed at which a crest of the wave moves. It can come out greater than the speed of light without anything being wrong; see the limits.</td></tr>
+<tr><td><code>v_g</code></td><td>Group velocity: the speed at which a pulse, and therefore the energy, actually travels.</td></tr>
+<tr><td><code>c</code></td><td>Speed of light in vacuum.</td></tr>
+<tr><td><code>λ</code></td><td>Wavelength in vacuum, not the wavelength inside the material. Every relation below that mentions a wavelength means this one.</td></tr>
+<tr><td><code>A</code></td><td>Coefficient of refraction: the constant that sets how much a material bends light overall. Dimensionless.</td></tr>
+<tr><td><code>B</code></td><td>Coefficient of dispersion: the constant that sets how much more it bends short wavelengths than long ones. It has units of area.</td></tr>
+<tr><td><code>z</code></td><td>Distance travelled into the material, measured along the direction the wave is going.</td></tr>
+<tr><td><code>I</code></td><td>Intensity: the power the wave carries across unit area.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>The material does not conduct. Everything here describes electrons bound to particular molecules; the frequency dependence a conductor shows comes from a different mechanism and is a separate topic.</li>
+<li>The model is classical, and the reference material says of it plainly that it is at best an approximation to the truth, offering a plausible mechanism and qualitatively satisfactory results. Nothing here should be read as giving quantitatively accurate optical constants for a real material.</li>
+<li>Displacements are small enough that the binding force is proportional to them.</li>
+<li>The damping force is taken proportional to the velocity, which is the simplest thing that opposes the motion. What actually causes the damping is left open.</li>
+<li>The nuclei do not move.</li>
+<li>Only the steady state is kept. Whatever happens while the wave is arriving has already finished.</li>
+<li>The material is a thin gas. This enters at the point where the polarization is written as a sum over resonances, so every relation from there on carries it — including the general complex dielectric constant, which is easy to mistake for an assumption-free result. Denser materials need a correction that lies outside this module entirely.</li>
+<li>A second and independent gas assumption enters later, where the square root is expanded to first order. The two explicit formulas for the index and the absorption rest on it. Supplying the first correction would not rescue them: they would still need the expansion, which is a separate step.</li>
+<li>The permeability is taken to be the vacuum value, which amounts to assuming the material is not magnetic. The reference material never states this; it is visible only from which constant appears in the wave equation.</li>
+<li>One frequency at a time. Every relation here describes a single-frequency wave, and a pulse is a mixture whose shape this module says nothing about.</li>
+<li>The counts of electrons per molecule, the natural frequencies and the damping rates are inputs. Nothing here derives them, and the model contains no mechanism that would.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>There is no complex refractive index in this module, and this is deliberate. What is defined here is a complex wave number whose imaginary part has units of one over length, and a refractive index that is a real number. The optics literature commonly uses a complex index whose imaginary part is a dimensionless extinction coefficient, and defines the absorption coefficient with the frequency and the speed of light in it. The two conventions differ by a factor of the frequency over the speed of light, and — more dangerously — by a change of dimension. They are routinely confused. Comparing this app's decay rate against a tabulated extinction coefficient without converting will be wrong by orders of magnitude.</li>
+<li>The two constants in the simple wavelength formula are inputs, and this app offers no way to compute them from the oscillator parameters. That relationship can be obtained by comparing two published relations, but no source consulted actually performs the comparison or writes the two constants down, and one of them poses it as an exercise with no answer printed. Presenting a result we assembled as though it came from the material would be exactly the kind of claim this app does not make.</li>
+<li>The region of anomalous dispersion has no computable boundary here. Where it begins and ends appears in the reference material only as two marks on a sketch with no numbers on either axis, and the expression for its width is posed as an exercise whose answer is not printed. This app shows the index falling and shows where the resonance is; it does not draw the edges of the region or report its width.</li>
+<li>A refractive index below one, and therefore a crest moving faster than light, is a genuine prediction of this model and this app displays it rather than clamping it. Energy does not travel at the speed of a crest; it travels at the speed of a pulse, which stays below the speed of light. This app does not compute that pulse speed — deriving it from the model is posed as an exercise and no result is printed.</li>
+<li>The general case of a dense material is not solved. Splitting the complex wave number into its two parts by exact complex arithmetic — which is what this app does — is our own step, since no source consulted prints that split; but that only removes one of the two gas assumptions in the chain. The other one is built into the dielectric constant itself and cannot be removed from inside this module.</li>
+<li>No material data ships with this app. There is no table of natural frequencies, damping rates or electron counts anywhere in the reference material — not one table in the entire treatment — and the sketches it does contain carry no numbers on their axes. Every oscillator parameter has to be supplied by the reader.</li>
+<li>The counts of electrons per resonance have no normalising condition available. Nothing states that they should add up to the number of electrons in the molecule, or that they must be whole numbers, so this app applies no such check; there would be nothing behind it.</li>
+<li>The damping rate's units are nowhere stated. They follow unambiguously from the force it appears in, and that is how this app treats it, but the reader should know that the quantity is a rate and not a force constant.</li>
+<li>Absorption is reported as a decay rate per unit length. The engineering conventions that quote absorption in decibels per centimetre, or per centimetre rather than per metre, are not covered and no conversion between them is offered.</li>
+<li>This is not the complete account of dispersion even for materials that do not conduct. The reference material says so of itself. What it does is show how the damped motion of bound electrons can account for the index varying with frequency at all, and explain why that variation is usually slow and upward with occasional steep drops.</li>
+</ul><h2>Radiation</h2><h3 id="dipoleRadiation">Dipole Radiation</h3>
+<p class="sub">Radiation &middot; Electric/magnetic dipole power and angular distribution</p>
+<p>An oscillating electric or magnetic dipole radiates energy away to infinity. This module gives the angular distribution of that radiation and the total power it carries.</p>
+<p class="gap">No screenshot of this screen yet. Said here rather than left blank, because a blank space and "not done" look the same on a page.</p>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Electric dipole</td><td>The source is an oscillating separation of charge. θ is measured from the electric dipole moment.</td></tr>
+<tr><td>Magnetic dipole</td><td>The source is an oscillating current loop. θ is measured from the magnetic moment, which is a different axis from the electric case and must not be shared with it.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>p₀</code></td><td>Peak electric dipole moment of the oscillating source: charge times separation, at the instant the separation is largest.</td></tr>
+<tr><td><code>m₀</code></td><td>Peak magnetic dipole moment: current times loop area, at the instant the current is largest.</td></tr>
+<tr><td><code>ω</code></td><td>Angular frequency of the oscillation, in radians per second.</td></tr>
+<tr><td><code>r</code></td><td>Distance from the dipole to the point where the radiation is observed.</td></tr>
+<tr><td><code>θ</code></td><td>Angle between the dipole's own axis and the direction you are observing from. Zero means looking along the dipole; ninety degrees means looking side-on.</td></tr>
+<tr><td><code>⟨S⟩</code></td><td>Energy crossing unit area per unit time, averaged over a full cycle of the oscillation.</td></tr>
+<tr><td><code>⟨P⟩</code></td><td>Total energy radiated per unit time, averaged over a full cycle, summed over every direction.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>The source is small compared with the distance at which you observe it.</li>
+<li>The source is small compared with the wavelength it emits.</li>
+<li>You are observing far outside the near field: many wavelengths away.</li>
+<li>The last two conditions together imply the first. Every result in this module needs all three; a formula for the potentials alone needs only the first two.</li>
+<li>No numerical threshold is given for how small 'small' must be. The conditions are qualitative, and this app does not invent a bound for them.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>Valid only in the radiation zone; closer in, terms that fall off faster than 1/r dominate and are not included here.</li>
+<li>The two dipole types are treated separately. A source with both an electric and a magnetic moment is not handled by simply adding these results, because the two patterns are measured from different axes.</li>
+</ul><h3 id="pointChargeRadiation">Moving Point Charge</h3>
+<p class="sub">Radiation &middot; Radiated power and angular pattern for an accelerating charge</p>
+<p>A single charge radiates only when it accelerates. This module gives how much power it radiates, how that power is spread over direction, and the recoil force the radiation exerts back on the charge. How fast the charge is already moving, and whether it is speeding up along its own line of travel or being pushed sideways, change the answer by orders of magnitude — so the case is something you choose, never something assumed for you.</p>
+<figure><img src="screenshots/03-moving-point-charge.png" alt="The Moving Point Charge screen on iPad"><figcaption>Moving Point Charge, on iPad.</figcaption></figure>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Speed small compared with light speed</td><td>The charge is barely moving on the scale set by light speed. Total power depends on the acceleration alone; the pattern is a doughnut about the acceleration and θ is measured from the acceleration's direction.</td></tr>
+<tr><td>Acceleration along the velocity</td><td>The charge is speeding up or slowing down along its own line of travel. Total power carries the sixth power of γ. θ is measured from the velocity's direction.</td></tr>
+<tr><td>Acceleration across the velocity</td><td>The charge is being steered sideways — circular motion is the important case. Total power carries the fourth power of γ, a factor of γ squared below the along-the-velocity case at the same speed and acceleration. Two angles are needed for the pattern.</td></tr>
+<tr><td>Neither, in general</td><td>Velocity and acceleration make some other angle. Enter both as directions; the total power follows from the general relation, and no angular pattern is offered for this case.</td></tr>
+<tr><td>Which direction the angle is measured from</td><td>Not a free choice — it is fixed by the case above, and the cases disagree. Carrying an angle measured from the acceleration into a relation that measures it from the velocity turns the radiation pattern by a right angle while still producing plausible-looking numbers. The app never shares one angle between cases.</td></tr>
+<tr><td>A flux, or a power per solid angle</td><td>The low-speed relation gives energy crossing unit area per second and needs a distance; the relativistic ones give power per unit of direction and need none. They are different physical quantities with different units and must not be compared or plotted against each other.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>q</code></td><td>The charge that is radiating. Only its square ever appears, so a negative charge radiates exactly as a positive one of the same size does.</td></tr>
+<tr><td><code>a</code></td><td>How fast the charge's velocity is changing, as a plain size with no direction attached. Used wherever a relation needs only the magnitude.</td></tr>
+<tr><td><code>𝐚</code></td><td>The same acceleration kept as a direction and a size together. Needed when the angle between acceleration and velocity is not fixed in advance.</td></tr>
+<tr><td><code>v</code></td><td>How fast the charge is going, as a plain size. Must stay strictly below the speed of light; nothing here has a meaning at or beyond it.</td></tr>
+<tr><td><code>𝐯</code></td><td>The charge's velocity kept as a direction and a size together.</td></tr>
+<tr><td><code>β</code></td><td>The speed written as a fraction of the speed of light. Zero for a charge at rest, approaching one for a charge near light speed.</td></tr>
+<tr><td><code>γ</code></td><td>The factor that grows without bound as the speed approaches light speed. It is what turns a modest acceleration into an enormous radiated power at high speed.</td></tr>
+<tr><td><code>c</code></td><td>The speed of light in vacuum.</td></tr>
+<tr><td><code>μ₀</code></td><td>The magnetic constant of empty space, which sets the overall size of every power below.</td></tr>
+<tr><td><code>θ</code></td><td>The angle between the direction you are observing from and a reference direction — but the reference direction is NOT the same in every relation here. In the low-speed relation it is the acceleration's direction; in each relativistic relation it is the velocity's direction. Every relation below says which, and they must never be shared.</td></tr>
+<tr><td><code>φ</code></td><td>Used only in the sideways-acceleration case: the angle swept around the velocity, starting from the acceleration's direction. It is what makes that pattern lopsided rather than circular about the line of travel.</td></tr>
+<tr><td><code>r</code></td><td>Distance from the charge, at the instant the radiation left it, out to where you are measuring. It appears only in the low-speed relation, which gives a flux crossing an area rather than a power per unit of direction.</td></tr>
+<tr><td><code>𝐫̂</code></td><td>A unit arrow pointing from the charge out towards the observation point: the direction the radiation is travelling.</td></tr>
+<tr><td><code>P</code></td><td>Total power radiated — energy leaving the charge per second, added up over every direction.</td></tr>
+<tr><td><code>𝐒_rad</code></td><td>The radiated energy crossing unit area per second at a given place, carried outward along 𝐫̂. A flux density, so it falls off with distance.</td></tr>
+<tr><td><code>dP/dΩ</code></td><td>Power radiated per unit of solid angle: how much of the total goes into a narrow cone in a given direction. Unlike a flux, it does not depend on how far away you stand.</td></tr>
+<tr><td><code>Ω</code></td><td>Solid angle — the two-dimensional measure of 'how much direction' a cone covers, the way an ordinary angle measures how much of a circle an arc covers.</td></tr>
+<tr><td><code>𝐅_rad</code></td><td>The recoil force the radiation exerts back on the charge that emitted it.</td></tr>
+<tr><td><code>𝐚̇</code></td><td>The rate at which the acceleration itself is changing. The recoil force depends on this, not on the acceleration — so a charge can feel the recoil at an instant when it is not radiating at all.</td></tr>
+<tr><td><code>m</code></td><td>The mass of the radiating particle. It enters only the characteristic time below.</td></tr>
+<tr><td><code>τ</code></td><td>The characteristic time built from the charge and its mass: the time scale on which the recoil force acts. For an electron it is around six parts in ten thousand million million million million of a second — far shorter than anything classical mechanics otherwise describes.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>A single point charge, treated classically: no quantum effects, and no internal structure.</li>
+<li>The speed is strictly below the speed of light. At or above it there is nothing to compute, and the app says so by name rather than returning a number.</li>
+<li>Velocity and acceleration are both taken at the instant the radiation left the charge, not at the instant it arrives. These are different instants whenever the charge is moving.</li>
+<li>The app takes that emission instant as given. Working out when it was, for a charge on an arbitrary path, is a separate problem this module does not solve.</li>
+<li>The low-speed relations were obtained for a charge momentarily at rest and hold approximately while the speed is small compared with light speed. No numerical threshold for 'small' exists in the material, and none is invented here.</li>
+<li>Every total power here is energy leaving the charge, which is not the same as energy crossing a distant sphere per second while the charge is moving. The two differ by a geometric factor, in the same way that bullets leave a moving gun at a different rate from the rate they strike a fixed target.</li>
+<li>Only the square of the charge ever appears, so sign plays no part.</li>
+<li>All quantities are in SI. Accelerations, rates of change of acceleration and powers per solid angle are entered and read in SI regardless of the unit system shown elsewhere, because no honest conversion factor for them is available here.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>No angular pattern is given for a general angle between velocity and acceleration — only the two special cases have one here. For the general case the app gives total power only.</li>
+<li>The full electric and magnetic fields of a moving charge, including the part that falls off as the square of distance and carries no energy to infinity, are outside this module. Only the radiated part is here.</li>
+<li>Finding when the radiation left the charge, for an arbitrary path, is not solved here. Any method for doing so — a starting guess, a stopping rule, a way of discarding spurious solutions — would be this app's invention, not something the material supports.</li>
+<li>The recoil force fixes nothing about its own component at right angles to the velocity. Treating the expression above as a complete vector force goes beyond what the argument behind it establishes.</li>
+<li>The recoil force has two known pathologies and they cannot both be removed: insisting the motion not run away exponentially forces the particle to begin responding before the force that moves it is applied, and forbidding that response restores the runaway. This is a stated either-or, not an artefact of approximation or of arithmetic.</li>
+<li>Those pathologies survive into the relativistic version of the recoil force, which is not offered here.</li>
+<li>The damping of a charge oscillating on a spring is a related but separate result. It uses a damping factor that is conventionally written with the same Greek letter as the Lorentz factor and is a completely different quantity; it is not part of this module, and nothing here should be read as applying to it.</li>
+<li>Everything here is in SI. No conversion of these relations into the other common system of electromagnetic units is offered, because the substitution rule that works for the electrostatic relations does not cover the mixture of constants that appears here.</li>
+</ul><h2>Magnetostatics</h2><h3 id="magneticMaterials">Magnetic Materials</h3>
+<p class="sub">Magnetostatics &middot; Linear media, bound current, and fields across an interface</p>
+<p>Matter responds to a magnetic field: the tiny current loops inside every atom line up, a little or a lot, and the material becomes a source of magnetic field in its own right. This module gives the quantity that measures that alignment, the two genuine currents it amounts to, the auxiliary field that lets you work from the current you control rather than the current you cannot see, what happens to each field as you cross a surface, and the one-parameter description that covers the materials whose response is proportional to the field they are in.</p>
+<p class="gap">No screenshot of this screen yet. Said here rather than left blank, because a blank space and "not done" look the same on a page.</p>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Pulled into a field, or pushed out of it</td><td>The sign of the susceptibility, and nothing else, decides which. Positive means the magnetization lines up with the field, the relative permeability sits above one, the bound surface current runs the same way as the driving current, and a sample placed in a field that varies from place to place is drawn towards the strong region. Negative means all four the other way round. This app treats a negative susceptibility as an ordinary input, not an error, and shows which case is in hand.</td></tr>
+<tr><td>Materials that hold their own magnetization</td><td>Some materials keep a magnetization after the field that made it is removed, and what they do next depends on everything that has happened to them before. For these the linear description is not approximate, it is inapplicable: there is no single susceptibility and no single permeability, because the quantities that go by those names are slopes that themselves vary with the field. This app does not model that case and offers no value for it. Feeding a remembered susceptibility for such a material into the linear relations here produces a number with nothing behind it.</td></tr>
+<tr><td>Describing the medium by its susceptibility or by its relative permeability</td><td>Two ways into the same one-parameter description, related by adding or subtracting one. This app accepts either and says which was supplied, because the two are easy to confuse at values close to one — a relative permeability just below one and a small negative susceptibility are the same material.</td></tr>
+<tr><td>Which field you are being given</td><td>The magnetic field and the auxiliary field are different things inside magnetized matter, and only one of them is what a given relation returns. Where symmetry lets a field be had from the driving current alone, that field is the auxiliary one; getting the magnetic field from it requires knowing the material as well.</td></tr>
+<tr><td>Which component crosses the interface</td><td>Normal or tangential is not a presentation choice, it is a choice between different relations with different right-hand sides. The magnetic field's normal component is continuous and its tangential component steps by the total surface current; the auxiliary field is the other way round, with a discontinuous normal component and a tangential step set by the free current alone.</td></tr>
+<tr><td>Uniform magnetization or not</td><td>A magnetization that is the same everywhere has no volume bound current at all — the curl of a constant is zero — and everything is on the surface. This app computes the volume bound current only for that case, and does not silently report zero for a magnetization that varies.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>M</code></td><td>Magnetization: the density of magnetic moment inside the material — how much magnetic moment sits in each unit of volume, and which way it points. Throughout this module it is an input, not something solved for.</td></tr>
+<tr><td><code>m</code></td><td>Magnetic dipole moment: the strength and axis of one small current loop, or of a whole body treated as one.</td></tr>
+<tr><td><code>B</code></td><td>The magnetic field itself — the total one, counting every current there is, whether you put it there or the material did.</td></tr>
+<tr><td><code>H</code></td><td>An auxiliary field, defined so that only the current you drive appears as its source. It is not the magnetic field divided by a constant, and inside magnetized matter the difference is the whole point.</td></tr>
+<tr><td><code>A</code></td><td>Vector potential: a vector field whose curl is the magnetic field.</td></tr>
+<tr><td><code>J_b</code></td><td>Bound volume current density: current per unit cross-sectional area arising from the atomic loops failing to cancel inside the material. No single charge travels far, but the field it makes is the field of an ordinary current.</td></tr>
+<tr><td><code>K_b</code></td><td>Bound surface current density: current per unit width running along the surface of the magnetized body.</td></tr>
+<tr><td><code>J_f</code></td><td>Free volume current density — the current that is there because something drove it there, as distinct from the atomic circulation.</td></tr>
+<tr><td><code>K_f</code></td><td>Free surface current density: free current per unit width flowing in the surface itself.</td></tr>
+<tr><td><code>K</code></td><td>Total surface current density — bound plus free. Written without a qualifier, it means the whole of it, and one boundary relation below needs exactly that rather than the free part alone.</td></tr>
+<tr><td><code>I_f,enc</code></td><td>The total free current threading the loop you are integrating round.</td></tr>
+<tr><td><code>χ_m</code></td><td>Magnetic susceptibility: the single dimensionless number describing how strongly a linear material magnetizes in a given auxiliary field. Positive for materials pulled into a field, negative for those pushed out. It is a different number under a different system of units even though the equation defining it is written identically — see the limits.</td></tr>
+<tr><td><code>μ</code></td><td>Permeability of the material: the constant relating the magnetic field to the auxiliary field once the material is known to be linear.</td></tr>
+<tr><td><code>μ₀</code></td><td>The permeability of empty space: the value the permeability takes when there is nothing there to magnetize.</td></tr>
+<tr><td><code>μ_r</code></td><td>Relative permeability: the material's permeability expressed as a multiple of the empty-space value, so that one means no response at all.</td></tr>
+<tr><td><code>n̂</code></td><td>Unit normal to a surface. For a magnetized body it is the outward-drawn normal; for an interface it points from the side labelled below towards the side labelled above. Only its direction carries meaning.</td></tr>
+<tr><td><code>above, below</code></td><td>The two sides of an interface. Which side is which is a labelling choice, but it must be the same choice in every relation on the page, because the normal direction is tied to it.</td></tr>
+<tr><td><code>⊥</code></td><td>The component perpendicular to the interface — along the normal, not along the surface.</td></tr>
+<tr><td><code>∥</code></td><td>The component lying in the interface.</td></tr>
+<tr><td><code>𝓇</code></td><td>The distance from the point where the source sits to the point where you want the field. The hat on it means the unit vector along that separation.</td></tr>
+<tr><td><code>r′</code></td><td>A point inside the source, swept over by the integration, as distinct from the field point r.</td></tr>
+<tr><td><code>τ</code></td><td>Volume, as the variable of integration; a′ is the corresponding area.</td></tr>
+<tr><td><code>R</code></td><td>Radius of the sphere.</td></tr>
+<tr><td><code>θ</code></td><td>Angle measured from the axis the magnetization points along.</td></tr>
+<tr><td><code>φ̂</code></td><td>The direction you would travel going round that axis, at right angles to both the axis and the outward direction.</td></tr>
+<tr><td><code>ẑ</code></td><td>The direction along the solenoid's axis.</td></tr>
+<tr><td><code>n</code></td><td>Turns per unit length of a solenoid winding. Not to be confused with the unit normal, which always carries a hat.</td></tr>
+<tr><td><code>I</code></td><td>The current in the winding.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>The magnetization is supplied, not solved for. Nothing in this module works out how strongly a given material magnetizes in a given field from anything more fundamental; the susceptibility, or the magnetization itself, is an input.</li>
+<li>The relations for the bound currents, for the auxiliary field, and for all four interface conditions hold for any material whatever. They need no linearity, no uniformity and no symmetry. Only the group beginning with the susceptibility adds assumptions.</li>
+<li>Linearity means the magnetization is proportional to the auxiliary field. The reference material states this holds for most substances provided the field is not too strong, and never prints a threshold for what too strong means. This app therefore applies no field-strength check: there is no number to check against.</li>
+<li>The susceptibility is written as a single number rather than as a table of numbers, which quietly assumes the material responds the same way whatever direction the field comes from. The reference material does not state this assumption for magnetic materials even though it states the corresponding one for the electric case, so it is recorded here rather than inherited.</li>
+<li>The relation between the bound and the free volume current needs the material to be homogeneous as well as linear — its susceptibility the same at every point.</li>
+<li>Every relation here is steady-state magnetostatics. Nothing changes in time.</li>
+<li>The bound currents are real currents. They are called bound because each charge stays attached to its own atom, not because they are a bookkeeping fiction; they make a magnetic field in exactly the way any other current does.</li>
+<li>Cross products are taken with the normal pointing outward from a magnetized body, and at an interface with the normal pointing from the side labelled below towards the side labelled above. Only the direction of the normal matters; this app scales whatever length is supplied to one and reports the unit vector it used, so the scaling is never silent.</li>
+<li>This app works in one system of units throughout and converts nothing that it cannot convert by a published factor. The susceptibility, the relative permeability, the magnetization and the surface current densities are reported in the same system in either display mode, because no conversion for them was available to take.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>The susceptibility is a different number for the same material under a different system of units, and the equation defining it is written identically in both — the difference hides inside the definition of the auxiliary field, which is not the same in the two systems. This is a worse trap than its electric counterpart, where the two forms of the defining equation differ visibly. No conversion factor between the two susceptibilities appears in any source consulted, so this app performs no such conversion, reports the susceptibility in one system only, and labels it.</li>
+<li>The magnetic field inside a current-carrying conductor is not offered. What symmetry gives there is the auxiliary field; converting it to the magnetic field needs the conductor's own magnetization, which is not known at this stage. For an ordinary metal wire that magnetization is slight enough to ignore in practice, but ignoring it is a practical concession, not a result, and it would have to be stated on screen if this were ever added.</li>
+<li>Two of the four interface conditions are not computed by this app, and this is a decision rather than an omission: the auxiliary field's normal step and the magnetic field's tangential step are stated here but are not evaluated anywhere. Nothing reports them as zero.</li>
+<li>A sphere of linear magnetic material placed in an otherwise uniform external field is not solved. The corresponding electric problem has a published closed-form solution; this one is posed as an exercise and no answer is printed for it anywhere in the material consulted. Transcribing the electric answer across by the correspondence between the two subjects would be our own derivation, not a result taken from anywhere, so nothing of the kind is offered.</li>
+<li>The named geometries in this module — the uniformly magnetized sphere, the filled solenoid — are given as worked closed cases, not as things this app solves. What this app computes are the general relations: the bound currents from a magnetization you supply, the linear-medium quantities from a susceptibility you supply, and the two interface steps named above.</li>
+<li>Even in a linear material the auxiliary field does not behave like a rescaled magnetic field. At a boundary between two materials of different permeability the divergence of the magnetization can be infinite — at the end face of a rod it is zero on one side and not on the other — so the parallel between the two fields fails exactly where boundaries are, which is where the interesting problems are.</li>
+<li>Susceptibility values are not shipped with this app. The compilations they would come from do not state which system of units their numbers are in, and the two candidate readings differ by a factor of about twelve. A number whose unit system is unverified is not a fixture, and is not presented as one.</li>
+<li>The mechanism by which materials come to be magnetized is outside this module entirely. The simple picture that accounts for materials being pushed out of a field is acknowledged in the reference material itself to be fundamentally wrong — the real effect is quantum mechanical — and is kept there only as a qualitative account. No such model is implemented here.</li>
+</ul><h2>Relativity</h2><h3 id="fieldTransformation">Moving Frames</h3>
+<p class="sub">Relativity &middot; E and B between inertial frames, and the two invariants</p>
+<p>Electric and magnetic fields are not separate things that each observer agrees on: one observer's magnetic field is partly another's electric field, and which is which depends on how the two observers are moving relative to each other. This module turns a pair of fields measured in one frame into the pair measured in a frame moving past it, gives the two combinations of the fields that every frame agrees on, and gives the rule for adding velocities that makes all of it consistent.</p>
+<figure><img src="screenshots/04-moving-frames.png" alt="The Moving Frames screen on iPad"><figcaption>Moving Frames, on iPad.</figcaption></figure>
+<h4>What you must choose</h4><p>Each of these is a control on the screen. The app never picks one for you: a branch chosen silently is the easiest way for a correct calculation to hand you a wrong answer.</p><div class='scroll'><table><tr><th>Choice</th><th>Use it when</th></tr>
+<tr><td>Which way the boost runs</td><td>Going from the first frame to the second, or from the second back to the first. The two differ only by the sign of the relative velocity, which means picking the wrong one silently returns a number that looks entirely reasonable. It has to be an explicit choice, never a default.</td></tr>
+<tr><td>Motion along an axis, or in a general direction</td><td>If the relative velocity lies along one of the coordinate axes, the component relations apply as published. If it points in some general direction, what the app evaluates is the vector form — which, as its provenance says, is worked out here rather than taken from a source. Both give the same answer where they overlap; they do not have the same standing.</td></tr>
+<tr><td>One of the two fields is zero in some frame</td><td>If there is no magnetic field at a point in one frame, or no electric field there, the two fields in every other frame are related by a single cross product instead of the full six-component rule. Worth recognising, because it is the situation a charge moving at constant velocity actually presents.</td></tr>
+<tr><td>Whether a frame exists that removes one of the fields</td><td>Decided by the second invariant's sign, and by the first invariant being zero or not — not by trial. If the fields are not perpendicular, no frame removes either one. This is a question to settle before hunting for a boost that cannot exist.</td></tr>
+</table></div>
+<h4>What the fields and results mean</h4><div class='scroll'><table><tr><th>Symbol</th><th>What it is</th></tr>
+<tr><td><code>S</code></td><td>The frame the fields are measured in to begin with — 'where you are standing'.</td></tr>
+<tr><td><code>S′</code></td><td>The second frame, moving past the first at a steady velocity. Primed quantities are the ones measured in it.</td></tr>
+<tr><td><code>𝐯</code></td><td>The velocity of the second frame as measured in the first. This one vector defines what 'along the motion' and 'across the motion' mean everywhere below — it has nothing to do with the direction of the fields themselves.</td></tr>
+<tr><td><code>v</code></td><td>The size of that relative velocity. Must be strictly below the speed of light: above it there is no such frame, and the app says so instead of producing a number.</td></tr>
+<tr><td><code>u</code></td><td>The velocity of a particle, as distinct from the velocity of a frame. The two are kept under separate names throughout, because confusing them is the easiest way to get a right-looking wrong answer.</td></tr>
+<tr><td><code>u′</code></td><td>That same particle's velocity as measured in the second frame.</td></tr>
+<tr><td><code>β</code></td><td>The relative speed of the two frames written as a fraction of the speed of light.</td></tr>
+<tr><td><code>γ</code></td><td>The factor set by the relative speed of the two frames. It multiplies every field component across the motion and leaves every component along it alone.</td></tr>
+<tr><td><code>c</code></td><td>The speed of light in vacuum.</td></tr>
+<tr><td><code>𝐄, 𝐁</code></td><td>The electric and magnetic fields at one place and one moment, as measured in the first frame. Note that the same letter E is conventionally also used for relativistic energy; here it only ever means the electric field.</td></tr>
+<tr><td><code>𝐄′, 𝐁′</code></td><td>The same two fields at the same event, as measured in the second frame.</td></tr>
+<tr><td><code>𝐄∥, 𝐄⊥</code></td><td>The parts of the electric field along and across the relative velocity of the two frames. 'Along' means along 𝐯, never along anything to do with the field itself.</td></tr>
+<tr><td><code>𝐁∥, 𝐁⊥</code></td><td>The same split applied to the magnetic field.</td></tr>
+<tr><td><code>x, y, z, t</code></td><td>Position and time of an event in the first frame, with the x direction chosen along the relative motion. Primed versions are the same event's coordinates in the second frame.</td></tr>
+<tr><td><code>𝐄·𝐁</code></td><td>The two fields multiplied together in the way that measures how nearly parallel they are. Every frame gets the same number for it.</td></tr>
+<tr><td><code>E² − c²B²</code></td><td>The other combination every frame agrees on: which of the two fields is, in a definite sense, the larger one. Its sign cannot be changed by any choice of frame.</td></tr>
+</table></div>
+<h4>What this screen assumes</h4><ul>
+<li>Both frames are inertial and their relative velocity is constant. Nothing here applies to a frame that is accelerating or rotating — a rotating frame is not an inertial frame, and no part of this module has anything to say about one.</li>
+<li>Charge is the same number for every observer. Unlike energy, it does not depend on how fast the thing carrying it is moving. Everything below rests on this.</li>
+<li>The transformation rules do not depend on how the fields were produced. A field made by a changing magnetic field transforms exactly as one made by charges sitting still — a field is fully described by its value at a point, with no record of its origin attached.</li>
+<li>'Along' and 'across' always mean along and across the relative velocity of the two frames. They never refer to the direction of the field being transformed. This is the single most common way to get these relations wrong, and the app removes the opportunity by resolving the split against the relative velocity itself.</li>
+<li>The two fields being compared are at the same event: the same place at the same moment, described twice. They are not two fields at two different points.</li>
+<li>The relative speed of the frames is strictly below the speed of light, and so is any particle speed handed to the velocity rule.</li>
+<li>For the velocity rule only: the particle and the frame move along the same straight line.</li>
+<li>All quantities are in SI, which is why the electric and magnetic relations above do not look symmetric.</li>
+</ul>
+<h4>Where it stops</h4><ul>
+<li>The general-direction field transformation is this app's generalisation of a relation published only for motion along one axis. It is checked against the published relation where they overlap, and against an independent source's vector form written in another system of units, but it is not itself a published result and is not presented as one.</li>
+<li>Neither invariant is published as a result in either source consulted. Both are worked out here from the transformation relations, and the app displays each one computed twice — once in each frame — so the reader can see the agreement rather than be told about it.</li>
+<li>Velocity addition is offered only for motion along a single line. A particle moving across the line the frames separate along is outside what this module covers, even though a relation for it exists.</li>
+<li>The unified four-dimensional machinery — a single object holding both fields, and the four-dimensional form of the force law — is not implemented here. This module works entirely with the two fields as separate three-dimensional vectors.</li>
+<li>The specific arrangement of a combined field object differs between authors, with different placements and different signs, so any such object would be this app's convention rather than a universal one. That is a further reason it is left out rather than shown.</li>
+<li>The field of a charge moving at constant velocity, which can be obtained from these relations, belongs to the module on radiation from a moving charge and is not duplicated here.</li>
+<li>The two invariants have real physical units even though they are pure numbers to the app's unit machinery: no conversion row exists for either, so both are shown in SI whichever unit system is selected, with their units named alongside them rather than silently assumed.</li>
+</ul><h2>Reference</h2><h3 id="unitsConstants">Units &amp; Constants</h3>
+<p class="sub">Reference &middot; Convert any quantity between SI and Gaussian</p>
+<figure><img src="screenshots/05-units-constants.png" alt="The Units &amp; Constants screen on iPad"><figcaption>Units &amp; Constants, on iPad.</figcaption></figure>
+<p>This screen is a reference tool rather than a physics module: it converts any quantity between the two systems of units and lists the constants every other screen computes with. There is nothing here to assume and nothing to choose.</p>
+
+<footer>
+Generated from the same canon the app is built against, joined to the module
+list the app actually ships &mdash; both checked in each direction, so a screen
+without an entry, or an entry without a screen, stops this file being written at
+all. Screenshots: 5 of 19 screens, taken from the Release
+build by real interaction.
+</footer>
+</div></body></html>

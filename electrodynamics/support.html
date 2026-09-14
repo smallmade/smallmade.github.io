@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support &mdash; VoltOne</title>
+<style>
+:root {
+  --ink: #14171c; --dim: #5b626c; --line: #dfe3e8; --bg: #ffffff;
+  --panel: #f6f8fa; --accent: #1f5fa8; --accent-ink: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e6e9ee; --dim: #9aa1ab; --line: #2b3038; --bg: #16181c;
+    --panel: #1e2126; --accent: #6fa8e8; --accent-ink: #16181c;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+header { padding: 72px 0 40px; }
+h1 { font-size: 2.6rem; line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.02em; }
+.lede { font-size: 1.2rem; color: var(--dim); margin: 0 0 28px; max-width: 60ch; }
+h2 { font-size: 1.5rem; margin: 56px 0 14px; letter-spacing: -0.01em; }
+h3 { font-size: 1.05rem; margin: 28px 0 8px; }
+p, ul, ol { max-width: 68ch; }
+a { color: var(--accent); }
+nav { padding: 20px 0 0; color: var(--dim); font-size: 0.94rem; }
+.panel {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 18px 22px; margin: 22px 0;
+}
+table { border-collapse: collapse; width: 100%; margin: 18px 0; font-size: 0.94rem; }
+.scroll { overflow-x: auto; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--dim); font-weight: 600; }
+code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.92em; }
+footer { margin: 72px 0 48px; padding-top: 24px; border-top: 1px solid var(--line);
+         color: var(--dim); font-size: 0.9rem; }
+footer a { color: var(--dim); }
+</style>
+</head>
+<body><div class="wrap">
+<nav aria-label="Main"><a href="index.html">VoltOne</a> &middot; <a href="support.html">Support</a> &middot; <a href="privacy.html">Privacy</a></nav>
+<header><h1>Support</h1>
+<p class="lede">What the application covers, how to work it, and what to do when
+a number looks wrong.</p></header>
+
+<h2>Getting a result</h2>
+
+<p>The application opens on a working configuration &mdash; a module is already
+selected and a result is already computed. You do not have to create a document
+or pick anything first. Change an input and the outputs and plots update with
+it.</p>
+
+<p>Every screen corresponds to one topic. The list on the left switches between
+them; on a narrow window the list becomes the first screen and a back control
+returns to it.</p>
+
+<h2>Entering numbers</h2>
+
+<ul>
+<li>Plain decimals, scientific notation (<code>1.6e-19</code>) and a leading
+minus sign are all accepted.</li>
+<li>A value you are part-way through typing is kept exactly as you typed it
+until you commit it; it is not rewritten under the cursor.</li>
+<li>If a value is outside what the relation admits, the field says so in words
+and the affected outputs stop rather than showing a misleading number.</li>
+</ul>
+
+<h2>SI and Gaussian</h2>
+
+<p>The unit system is a toolbar control, not a per-screen setting, because it is
+a property of how you read rather than of what you are computing. Switching it
+re-spells the numbers; it never changes the physical situation you set up.</p>
+
+<p>A few quantities are not merely rescaled between the two systems &mdash;
+their definitions differ. Where that is the case the screen says so instead of
+presenting a bare conversion factor as if it were a simple change of units.</p>
+
+<h2>Branches are yours to choose</h2>
+
+<p>Where a relation has more than one physically distinct case &mdash; the two
+polarisations at an interface, acceleration along versus across the velocity,
+the good-conductor approximation versus the full expression, inside versus
+outside a boundary &mdash; the choice appears on screen as a control you set.
+The application never picks one silently. This is deliberate: a quietly chosen
+branch is the easiest way for a correct calculator to hand you a wrong
+answer.</p>
+
+<h2>Plots and export</h2>
+
+<p>Profiles are plotted against position or angle, with axes labelled in the
+unit system currently selected. Where a quantity is genuinely discontinuous at a
+boundary, the curve breaks there; it does not draw a vertical line across the
+jump.</p>
+
+<p>Plots export as images and result tables as CSV, through the system share
+sheet. CSV files are written to the comma-separated convention, with fields
+quoted whenever their contents would otherwise be ambiguous &mdash; including
+when a field contains a carriage return, which is the case that silently
+corrupts most hand-written CSV writers.</p>
+
+<h2>Scope &mdash; what is deliberately not here</h2>
+
+<div class="panel">
+<p><strong>Included:</strong> linear, isotropic, homogeneous media; closed-form
+and series solutions.</p>
+<p><strong>Not included:</strong> numerical field solvers, meshing or
+finite-element methods; material property tables; non-linear, anisotropic or
+inhomogeneous media; quantum electrodynamics.</p>
+</div>
+
+<p>These are boundaries of the product, not defects. If you need a numerical
+field solution on an arbitrary geometry, this is the wrong tool and no future
+version is planned to become the right one.</p>
+
+<h2>What &ldquo;verified&rdquo; means here, precisely</h2>
+
+<p>The relations in this application are covered by an automated test suite, and
+it is worth being exact about what that suite does, because it is not the usual
+arrangement.</p>
+
+<p>The theory this application implements is developed symbolically in its source
+material: it derives relations and prints very few worked numerical examples.
+There is therefore no large published answer table to check against, and this
+application does not claim one exists.</p>
+
+<p>What is checked instead is each relation against its own structure: limiting
+cases, symmetry, conservation and orthogonality identities, agreement between
+independently derived forms of the same quantity, and round-trips through the
+unit conversion. Where two independent treatments of the same physics both cover
+a result, they are cross-checked against each other.</p>
+
+<p>Those checks are strong against algebraic errors, sign errors and
+transcription errors. They cannot prove a relation was read correctly off the
+page to begin with. That limit is stated here rather than left for you to
+find.</p>
+
+<h2>If a number looks wrong</h2>
+
+<p>Please report it, and if you can, include:</p>
+
+<ol>
+<li>which screen you were on, and which branch was selected;</li>
+<li>every input value, and the unit system you were reading in;</li>
+<li>the number you got and the number you expected;</li>
+<li>where your expected number came from.</li>
+</ol>
+
+<p>The fourth item is the one that matters most. A disagreement between this
+application and a source is worth chasing in either direction, and it cannot be
+chased at all without knowing what it is being compared to.</p>
+
+<h2>Requirements and offline use</h2>
+
+<p>The application runs on Mac and iPad. It requires no network connection,
+because it never uses one &mdash; it works identically on a plane, in an exam
+hall, or in a basement laboratory.</p>
+
+<h2>Contact</h2>
+
+<p>Write to the address on the App Store listing for this application. There is
+no account system and no login; nothing about your copy needs to be recovered or
+transferred.</p>
+
+<footer>&copy; 2026 Yu Dehai &middot; <a href="../index.html">All applications</a></footer>
+</div></body>
+</html>

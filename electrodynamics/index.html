@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoltOne &mdash; classical electrodynamics for Mac and iPad</title>
+<style>
+:root {
+  --ink: #14171c; --dim: #5b626c; --line: #dfe3e8; --bg: #ffffff;
+  --panel: #f6f8fa; --accent: #1f5fa8; --accent-ink: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e6e9ee; --dim: #9aa1ab; --line: #2b3038; --bg: #16181c;
+    --panel: #1e2126; --accent: #6fa8e8; --accent-ink: #16181c;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+header { padding: 72px 0 40px; }
+h1 { font-size: 2.6rem; line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.02em; }
+.lede { font-size: 1.2rem; color: var(--dim); margin: 0 0 28px; max-width: 60ch; }
+h2 { font-size: 1.5rem; margin: 56px 0 14px; letter-spacing: -0.01em; }
+h3 { font-size: 1.05rem; margin: 28px 0 8px; }
+p, ul, ol { max-width: 68ch; }
+a { color: var(--accent); }
+nav { padding: 20px 0 0; color: var(--dim); font-size: 0.94rem; }
+.panel {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 18px 22px; margin: 22px 0;
+}
+table { border-collapse: collapse; width: 100%; margin: 18px 0; font-size: 0.94rem; }
+.scroll { overflow-x: auto; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--dim); font-weight: 600; }
+code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.92em; }
+footer { margin: 72px 0 48px; padding-top: 24px; border-top: 1px solid var(--line);
+         color: var(--dim); font-size: 0.9rem; }
+footer a { color: var(--dim); }
+</style>
+</head>
+<body><div class="wrap">
+<nav aria-label="Main"><a href="index.html">VoltOne</a> &middot; <a href="support.html">Support</a> &middot; <a href="privacy.html">Privacy</a></nav>
+<header><h1>VoltOne</h1>
+<p class="lede">Classical electrodynamics on Mac and iPad. Nineteen modules,
+from point charges to the relativistic transformation of fields, each showing
+the relation it is evaluating beside the number it produced.</p></header>
+
+<h2>What it covers</h2>
+
+<div class="scroll"><table>
+<tr><th>Electrostatics</th><td>Point-charge fields and potentials &middot; symmetric
+solutions of Gauss&rsquo;s law &middot; multipole expansion against the exact
+potential &middot; method of images &middot; capacitance and stored energy
+&middot; linear dielectrics and bound charge</td></tr>
+<tr><th>Magnetostatics</th><td>Biot&ndash;Savart in closed form &middot; symmetric
+solutions of Amp&egrave;re&rsquo;s law &middot; self and mutual inductance
+&middot; linear magnetic media, diamagnetic and paramagnetic</td></tr>
+<tr><th>Waves</th><td>Plane waves, polarisation, energy and radiation pressure
+&middot; propagation in a conductor and skin depth &middot; rectangular
+waveguide modes &middot; reflection and transmission at an interface &middot;
+the Lorentz oscillator model of dispersion</td></tr>
+<tr><th>Radiation and relativity</th><td>Electric and magnetic dipole radiation
+&middot; radiation from a moving point charge &middot; Lorentz transformation of
+E and B</td></tr>
+<tr><th>Units</th><td>Every quantity readable in SI or Gaussian, with the
+computation always carried out in SI</td></tr>
+</table></div>
+
+<h2>Three things it does that a chat answer cannot</h2>
+
+<div class="panel">
+<p><strong>It updates as you drag.</strong> Change one input and every output
+and every plot moves with it in the same frame. A static answer to a static
+question is a different thing from watching a quantity cross a boundary.</p>
+<p><strong>It makes you choose the branch.</strong> Two polarisations, two
+acceleration geometries, inside versus outside, approximation versus full
+expression &mdash; each is a visible control, never a silent default.</p>
+<p><strong>It works with no network.</strong> There is no network code in it at
+all.</p>
+</div>
+
+<h2>Honest about its own limits</h2>
+
+<p>Linear, isotropic, homogeneous media; closed-form and series solutions only.
+No numerical field solver, no meshing, no material property tables, no quantum
+electrodynamics. The <a href="support.html">support page</a> also sets out
+exactly what the automated verification does and does not establish &mdash;
+including what it cannot establish.</p>
+
+<h2>Pages</h2>
+
+<p><a href="support.html">Support</a> &middot;
+<a href="privacy.html">Privacy</a></p>
+
+<footer>&copy; 2026 Yu Dehai &middot; <a href="../index.html">All applications</a></footer>
+</div></body>
+</html>
