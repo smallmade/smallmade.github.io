@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Thermodynamics Calculator</title>
-<meta name="description" content="State, cycle and exergy calculations for iPadOS and macOS, verified against IAPWS-IF97 and NIST reference data. Interactive T-s and p-v diagrams. Fully offline.">
+<title>ThermalOne — Engineering Thermodynamics</title>
+<meta name="description" content="54 textbook-based thermodynamics calculations for iPadOS and macOS, with live diagrams, visible formulas, exportable readings and offline operation.">
 <style>
 :root {
   --ink: #14171c; --dim: #5b626c; --line: #dfe3e8; --bg: #ffffff;
@@ -49,29 +49,30 @@ footer a { color: var(--dim); }
 <body><div class="wrap">
 <header>
   <h1>Fix a state. Run a cycle.<br>See where the work goes.</h1>
-  <p class="lede">Thermodynamics Calculator computes water/steam and
-    ideal-gas states, control-volume devices, and power and refrigeration
-    cycles live &mdash; from the IAPWS-IF97 industrial water formulation and
-    NASA ideal-gas polynomials, not a printed table.</p>
+  <p class="lede">ThermalOne brings 54 engineering thermodynamics
+    calculations to iPad and Mac: states, devices, cycles, exergy, moist air,
+    real fluids, combustion and equilibrium.</p>
   <p class="platforms">iPadOS 17+ and macOS 14+ &middot; one-time purchase &middot; fully offline</p>
 </header>
 
 <h2>What it covers</h2>
 <div class="grid">
-  <div class="card"><h3>State &amp; properties</h3><p>Water/steam from any two of p, T, x, h, s. Ideal-gas properties. Real-gas cubic equations of state.</p></div>
+  <div class="card"><h3>State &amp; properties</h3><p>Water and steam states, ideal-gas properties and mixtures, real-gas cubic equations of state, departure functions and phase equilibrium.</p></div>
   <div class="card"><h3>First law</h3><p>Process paths, closed-system energy balances, and cycle energy accounting, solved for the unknown term.</p></div>
   <div class="card"><h3>Control-volume devices</h3><p>Nozzles, diffusers, turbines, compressors, pumps, heat exchangers, throttles, transient charging.</p></div>
   <div class="card"><h3>Second law &amp; exergy</h3><p>Entropy balances, isentropic efficiency, and a per-component exergy audit that ranks where work potential is destroyed.</p></div>
-  <div class="card"><h3>Power cycles</h3><p>Rankine with reheat and regeneration; Otto, Diesel, Dual; Brayton with regeneration, reheat and intercooling.</p></div>
-  <div class="card"><h3>Refrigeration &amp; heat pumps</h3><p>Vapour-compression refrigeration and heat pump cycles.</p></div>
+  <div class="card"><h3>Power cycles</h3><p>Rankine, combined, Otto, Diesel, Dual, Brayton and turbojet cycles, including reheat, regeneration and intercooling.</p></div>
+  <div class="card"><h3>Refrigeration &amp; heat pumps</h3><p>Vapour-compression, heat-pump, gas, cascade and multistage refrigeration, plus liquefaction.</p></div>
+  <div class="card"><h3>Moist air</h3><p>Psychrometric states, air-conditioning processes and cooling-tower calculations.</p></div>
+  <div class="card"><h3>Reacting systems</h3><p>Combustion, reacting energy and entropy, flame temperature, fuel cells and chemical equilibrium.</p></div>
 </div>
 
 <h2>Why it's not a printed table</h2>
 <ul class="pillars">
-  <li><strong>Interactive.</strong> Drag an input and every output, and every point on the T-s or p-v diagram, updates in the same frame.</li>
-  <li><strong>Verifiable.</strong> Every property routine is checked against IAPWS-IF97's own published verification tables and against NIST reference data &mdash; public sources, cited on screen.</li>
+  <li><strong>Interactive.</strong> Drag supported inputs and watch results and diagrams update as the value changes.</li>
+  <li><strong>Explainable.</strong> Every calculator shows its governing relation, units, assumptions and model limits.</li>
   <li><strong>Offline.</strong> No network connection of any kind. Works in a lab basement, an exam hall, or mid-flight.</li>
-  <li><strong>Honest about limits.</strong> Where a result leaves a validated range, or differs from an older table's formulation, the app says so on screen instead of staying quiet.</li>
+  <li><strong>Portable.</strong> Export readings as CSV, copy values into a spreadsheet and export supported plots.</li>
 </ul>
 
 <h2>Read more</h2>
@@ -80,7 +81,7 @@ footer a { color: var(--dim); }
   <a href="manual/index.html">Usage manual</a>
 </div>
 
-<footer><p><a href="support.html">Support</a> &middot;
+<footer><p>ThermalOne &middot; <a href="support.html">Support</a> &middot;
 <a href="privacy.html">Privacy</a></p></footer>
 </div></body>
 </html>
