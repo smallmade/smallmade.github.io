@@ -2,7 +2,7 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Using — Truss &amp; Frame — StructureOne</title>
+<title>Using — Truss &amp; Frame — TrussOne</title>
 <style>
 :root {
   --ink: #1a1815; --dim: #6b6459; --rule: #ddd7cd; --paper: #fbf9f6;
@@ -88,7 +88,7 @@ table.verify td.num { text-align: right; font-variant-numeric: tabular-nums; }
 <h2>Statics</h2>
 <h3 id="force_systems">Force Systems &amp; Resultants</h3>
 <p>Resolve a single coplanar force into its resultant magnitude and direction, and find the perpendicular offset of its line of action from a reference point.</p>
-<p><strong>You give:</strong> <code>F_x</code>, <code>F_y</code>, <code>theta_F</code>, <code>x</code>, <code>y</code></p>
+<p><strong>You give:</strong> <code>F_x</code>, <code>F_y</code>, <code>x</code>, <code>y</code></p>
 <p><strong>It gives back:</strong> <code>R_resultant</code>, <code>theta_resultant</code>, <code>d_line</code>, <code>M_about</code></p>
 <p><strong>Choose:</strong> single force · couple · balanced<br><span style='color:var(--dim)'>These three outcomes look alike numerically near the transition; picking one silently hides a couple.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#force_systems'>Why it computes this →</a></p>
@@ -96,6 +96,8 @@ table.verify td.num { text-align: right; font-variant-numeric: tabular-nums; }
 <p>Solve the reactions at every support of a planar beam or frame for any combination of loads.</p>
 <p><strong>You give:</strong> <code>L</code>, <code>supports_type</code>, <code>load_type</code>, <code>W</code>, <code>a</code>, <code>q</code></p>
 <p><strong>It gives back:</strong> <code>R_vec</code>, <code>status_det</code></p>
+<p><strong>Choose:</strong> simply supported at both ends · cantilever, built in at the left<br><span style='color:var(--dim)'>A cantilever of the same span under the same load carries four times the moment of a simply supported beam and deflects nine and a half times as far. Nothing on the screen says which one the numbers are for unless this does.</span></p>
+<p><strong>Choose:</strong> uniform over the whole span · a single point load at a<br><span style='color:var(--dim)'>The same total load spread out and put at one place are different problems: the point load fixes the largest moment at a, the uniform load puts it where the shear crosses zero, and a is read only by one of them.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#support_reactions'>Why it computes this →</a></p>
 <h3 id="determinacy">Determinacy &amp; Stability</h3>
 <p>Classify the model as a mechanism, statically determinate, or indeterminate, and say by how much.</p>
@@ -105,9 +107,10 @@ table.verify td.num { text-align: right; font-variant-numeric: tabular-nums; }
 <p style='font-size:.87rem'><a href='../theory/index.html#determinacy'>Why it computes this →</a></p>
 <h2>Sections</h2>
 <h3 id="section_properties">Section Builder &amp; Properties</h3>
-<p>Every geometric property of a section, from a parametric outline or a polygon you draw yourself.</p>
-<p><strong>You give:</strong> <code>shape</code>, <code>vertices</code>, <code>b</code>, <code>h</code>, <code>t</code>, <code>d</code>, <code>d_i</code></p>
+<p>Geometric properties of a rectangular, solid circular, or hollow circular section from its dimensions.</p>
+<p><strong>You give:</strong> <code>shape</code>, <code>b</code>, <code>h</code>, <code>d</code>, <code>d_i</code></p>
 <p><strong>It gives back:</strong> <code>A</code>, <code>x_c</code>, <code>y_c</code>, <code>I_x</code>, <code>I_y</code>, <code>I_xy</code>, <code>r_x</code>, <code>r_y</code>, <code>Z_t</code>, <code>Z_b</code>, <code>J</code></p>
+<p><strong>Choose:</strong> rectangle · solid circle · hollow circle<br><span style='color:var(--dim)'>Each preset uses different dimensions and a different torsion relation. Choosing the outline must change the properties, not merely redraw the figure.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#section_properties'>Why it computes this →</a></p>
 <h3 id="principal_axes">Principal Axes &amp; Inertia Circle</h3>
 <p>The two axes about which the section bends without twisting sideways, and the circle that produces them.</p>
@@ -116,13 +119,14 @@ table.verify td.num { text-align: right; font-variant-numeric: tabular-nums; }
 <p style='font-size:.87rem'><a href='../theory/index.html#principal_axes'>Why it computes this →</a></p>
 <h3 id="shear_flow">Shear Flow &amp; Shear Centre</h3>
 <p>How shear travels around a thin-walled section, and the one point a load must pass through to avoid twist.</p>
-<p><strong>You give:</strong> <code>V</code>, <code>shape</code>, <code>t</code>, <code>I_x</code>, <code>s</code></p>
+<p><strong>You give:</strong> <code>V</code>, <code>t</code>, <code>b</code>, <code>h</code>, <code>I_x</code>, <code>s</code></p>
 <p><strong>It gives back:</strong> <code>Q</code>, <code>q_flow</code>, <code>tau</code>, <code>e_sc</code>, <code>C_w</code></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#shear_flow'>Why it computes this →</a></p>
 <h3 id="plastic_section">Plastic Section &amp; Shape Factor</h3>
 <p>The equal-area axis, the fully plastic moment, and how much reserve the section has past first yield.</p>
-<p><strong>You give:</strong> <code>shape</code>, <code>vertices</code>, <code>sigma_y</code></p>
+<p><strong>You give:</strong> <code>shape</code>, <code>b</code>, <code>h</code>, <code>d</code>, <code>sigma_y</code></p>
 <p><strong>It gives back:</strong> <code>x_na</code>, <code>Z_p</code>, <code>f_shape</code>, <code>M_p</code></p>
+<p><strong>Choose:</strong> rectangle · solid circle<br><span style='color:var(--dim)'>The plastic modulus and shape factor depend on where the area lies relative to the bending axis; a rectangle and a solid circle therefore have different reserves past first yield.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#plastic_section'>Why it computes this →</a></p>
 <h2>Stress &amp; Strain</h2>
 <h3 id="axial_members">Axial Members</h3>
@@ -133,22 +137,23 @@ table.verify td.num { text-align: right; font-variant-numeric: tabular-nums; }
 <h3 id="plane_stress_mohr">Plane Stress &amp; Mohr's Circle</h3>
 <p>Turn a state of stress to any angle you like, and read the principal values straight off the circle.</p>
 <p><strong>You give:</strong> <code>sigma_x</code>, <code>sigma_y_stress</code>, <code>tau_xy</code>, <code>theta_cut</code></p>
-<p><strong>It gives back:</strong> <code>sigma_1</code>, <code>sigma_2</code>, <code>tau_max</code>, <code>theta_p</code></p>
+<p><strong>It gives back:</strong> <code>sigma_1</code>, <code>sigma_2</code>, <code>tau_max</code>, <code>theta_p</code>, <code>sigma_theta</code>, <code>tau_theta</code></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#plane_stress_mohr'>Why it computes this →</a></p>
 <h3 id="strain_rosette">Strain Rosette</h3>
 <p>Work back from three gauge readings to the full strain state, then to the stresses that caused it.</p>
 <p><strong>You give:</strong> <code>eps_a</code>, <code>eps_b</code>, <code>eps_c</code>, <code>theta_a</code>, <code>theta_b</code>, <code>theta_c</code>, <code>E</code>, <code>nu</code></p>
 <p><strong>It gives back:</strong> <code>eps_1</code>, <code>eps_2</code>, <code>gamma</code>, <code>theta_p</code>, <code>sigma_1</code>, <code>sigma_2</code></p>
-<p><strong>Choose:</strong> rectangular 0/45/90 · delta 0/60/120 · arbitrary angles<br><span style='color:var(--dim)'>The first two have closed-form solutions and the third needs least squares. Which route ran changes how much you should trust the answer.</span></p>
+<p><strong>Choose:</strong> rectangular 0/45/90 · delta 0/60/120 · arbitrary angles<br><span style='color:var(--dim)'>The first two use their closed forms; every other nonsingular three-angle layout uses the general three-equation inverse.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#strain_rosette'>Why it computes this →</a></p>
 <h3 id="elastic_constants">Elastic Constants</h3>
 <p>Give any two isotropic constants and get the other two, plus the plane stress and plane strain matrices.</p>
-<p><strong>You give:</strong> <code>E</code>, <code>nu</code>, <code>G</code>, <code>K_bulk</code></p>
+<p><strong>You give:</strong> <code>E</code>, <code>nu</code>, <code>G</code>, <code>given_pair</code></p>
 <p><strong>It gives back:</strong> <code>E</code>, <code>nu</code>, <code>G</code>, <code>K_bulk</code></p>
+<p><strong>Choose:</strong> E and nu · E and G · G and nu<br><span style='color:var(--dim)'>An isotropic material has two independent constants and four common names for them, and which two you were handed depends on how the material was measured: a tensile test gives E and nu, a torsion test gives G. Every pair fixes the other two exactly, so there is no approximation in the choice -- but there is no way to guess it either, and a screen that assumed one silently would ignore whichever boxes the reader actually filled in.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#elastic_constants'>Why it computes this →</a></p>
 <h3 id="yield_criteria">Yield Criteria</h3>
 <p>Compare a stress state against four different pictures of failure, and see how close each says you are.</p>
-<p><strong>You give:</strong> <code>sigma_1</code>, <code>sigma_2</code>, <code>sigma_3</code>, <code>sigma_y</code>, <code>criterion</code></p>
+<p><strong>You give:</strong> <code>sigma_1</code>, <code>sigma_2</code>, <code>sigma_3</code>, <code>sigma_y</code>, <code>sigma_yc</code>, <code>criterion</code></p>
 <p><strong>It gives back:</strong> <code>sigma_eq</code>, <code>FoS</code></p>
 <p><strong>Choose:</strong> maximum shear · distortion energy · maximum normal stress · Mohr-Coulomb<br><span style='color:var(--dim)'>These disagree by up to fifteen per cent in shear-dominated states. Showing one number without naming the criterion hides that spread.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#yield_criteria'>Why it computes this →</a></p>
@@ -164,10 +169,13 @@ table.verify td.num { text-align: right; font-variant-numeric: tabular-nums; }
 <p><strong>You give:</strong> <code>L</code>, <code>supports_type</code>, <code>load_type</code>, <code>W</code>, <code>q</code>, <code>a</code>, <code>release</code></p>
 <p><strong>It gives back:</strong> <code>diagram_N</code>, <code>diagram_V</code>, <code>diagram_M</code>, <code>diagram_T</code>, <code>M_max</code>, <code>x_contra</code></p>
 <p><strong>Choose:</strong> where the shear passes through zero · at a load, where the shear jumps across zero<br><span style='color:var(--dim)'>Both happen and they are different questions. Under distributed load the shear crosses zero and the moment has a stationary point. Under point loads alone the shear jumps across zero, there is no stationary point anywhere, and the largest moment sits at the load. A search for a stationary point finds nothing on the second kind of beam, and differentiating across the jump finds the jump.</span></p>
+<p><strong>Choose:</strong> simply supported at both ends · cantilever, built in at the left<br><span style='color:var(--dim)'>A cantilever of the same span under the same load carries four times the moment of a simply supported beam and deflects nine and a half times as far. Nothing on the screen says which one the numbers are for unless this does.</span></p>
+<p><strong>Choose:</strong> uniform over the whole span · a single point load at a<br><span style='color:var(--dim)'>The same total load spread out and put at one place are different problems: the point load fixes the largest moment at a, the uniform load puts it where the shear crosses zero, and a is read only by one of them.</span></p>
+<p><strong>Choose:</strong> continuous member with the selected end supports · Gerber beam: fixed left, roller right, midspan internal hinge<br><span style='color:var(--dim)'>An internal hinge forces its bending moment to zero. The released preset also supplies the fixed left end and right roller needed to keep the beam stable; inserting the same hinge into a pin-pin beam would make a mechanism rather than a solvable beam.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#beam_diagrams'>Why it computes this →</a></p>
 <h3 id="bending_stress">Bending Stress</h3>
 <p>Direct stress from bending, about one axis or two, with the neutral axis found for you.</p>
-<p><strong>You give:</strong> <code>M_x</code>, <code>M_y</code>, <code>I_x</code>, <code>I_y</code>, <code>c_t</code>, <code>c_b</code>, <code>c_z</code>, <code>y</code></p>
+<p><strong>You give:</strong> <code>M_x</code>, <code>M_y</code>, <code>I_x</code>, <code>I_y</code>, <code>c_t</code>, <code>c_b</code>, <code>c_z</code></p>
 <p><strong>It gives back:</strong> <code>sigma_max</code>, <code>sigma_min</code>, <code>beta_na</code>, <code>kappa</code></p>
 <p><strong>Choose:</strong> about a principal axis · about a non-principal axis<br><span style='color:var(--dim)'>The second case moves the neutral axis and the point of peak stress. Defaulting to the first silently understates the stress.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#bending_stress'>Why it computes this →</a></p>
@@ -178,13 +186,13 @@ table.verify td.num { text-align: right; font-variant-numeric: tabular-nums; }
 <p style='font-size:.87rem'><a href='../theory/index.html#transverse_shear'>Why it computes this →</a></p>
 <h3 id="transformed_section">Transformed Section</h3>
 <p>Two materials sharing one section: swap one for an equivalent area of the other and bend it as usual.</p>
-<p><strong>You give:</strong> <code>E_1</code>, <code>E_2</code>, <code>b</code>, <code>h</code>, <code>A_s</code>, <code>d_eff</code>, <code>M</code></p>
+<p><strong>You give:</strong> <code>E_1</code>, <code>E_2</code>, <code>b</code>, <code>h</code>, <code>A_s</code>, <code>d_eff</code>, <code>M</code>, <code>section_state</code></p>
 <p><strong>It gives back:</strong> <code>n_ratio</code>, <code>x_na</code>, <code>I_x</code>, <code>sigma_kept</code>, <code>sigma_replaced</code></p>
 <p><strong>Choose:</strong> uncracked, whole section active · cracked, tension zone ignored<br><span style='color:var(--dim)'>The two give different neutral axis depths and different stresses. Defaulting silently to the cracked model is wrong below the cracking moment.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#transformed_section'>Why it computes this →</a></p>
 <h3 id="combined_axial_bending">Combined Axial + Bending</h3>
 <p>Stack a direct force onto bending, find every corner stress, and see whether any of the section lifts.</p>
-<p><strong>You give:</strong> <code>P</code>, <code>M_x</code>, <code>M_y</code>, <code>A</code>, <code>Z_t</code>, <code>Z_b</code>, <code>e</code></p>
+<p><strong>You give:</strong> <code>P</code>, <code>M_x</code>, <code>M_y</code>, <code>A</code>, <code>Z_t</code>, <code>Z_b</code></p>
 <p><strong>It gives back:</strong> <code>sigma_max</code>, <code>sigma_min</code>, <code>core</code>, <code>e_res</code></p>
 <p><strong>Choose:</strong> whole section in contact · partial contact, section lifting<br><span style='color:var(--dim)'>The linear formula quietly returns a negative stress where the material cannot pull; that number looks plausible and is meaningless.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#combined_axial_bending'>Why it computes this →</a></p>
@@ -192,12 +200,15 @@ table.verify td.num { text-align: right; font-variant-numeric: tabular-nums; }
 <p>Slope and deflection for the standard span, support and load combinations, superposed as you like.</p>
 <p><strong>You give:</strong> <code>L</code>, <code>supports_type</code>, <code>load_type</code>, <code>W</code>, <code>a</code>, <code>E</code>, <code>I_x</code>, <code>h</code></p>
 <p><strong>It gives back:</strong> <code>delta_max</code>, <code>delta_pos</code>, <code>theta_rot</code>, <code>delta</code></p>
+<p><strong>Choose:</strong> simply supported at both ends · cantilever, built in at the left<br><span style='color:var(--dim)'>A cantilever of the same span under the same load carries four times the moment of a simply supported beam and deflects nine and a half times as far. Nothing on the screen says which one the numbers are for unless this does.</span></p>
+<p><strong>Choose:</strong> uniform over the whole span · a single point load at a<br><span style='color:var(--dim)'>The same total load spread out and put at one place are different problems: the point load fixes the largest moment at a, the uniform load puts it where the shear crosses zero, and a is read only by one of them.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#deflection_cases'>Why it computes this →</a></p>
 <h3 id="deflection_integration">Deflection — Integration</h3>
 <p>Integrate the moment twice for the whole deflected shape, with discontinuous loads handled cleanly.</p>
 <p><strong>You give:</strong> <code>L</code>, <code>E</code>, <code>I_x</code>, <code>load_type</code>, <code>W</code>, <code>a</code>, <code>method</code>, <code>h</code></p>
 <p><strong>It gives back:</strong> <code>delta</code>, <code>theta_rot</code>, <code>delta_max</code>, <code>delta_pos</code></p>
 <p><strong>Choose:</strong> double integration · singularity functions · moment-area · conjugate beam<br><span style='color:var(--dim)'>All four give the same answer, and seeing which one is running is the point of the screen.</span></p>
+<p><strong>Choose:</strong> uniform over the whole span · a single point load at a<br><span style='color:var(--dim)'>The same total load spread out and put at one place are different problems: the point load fixes the largest moment at a, the uniform load puts it where the shear crosses zero, and a is read only by one of them.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#deflection_integration'>Why it computes this →</a></p>
 <h3 id="energy_methods">Energy Methods</h3>
 <p>Get the movement of one chosen point by putting a unit load there, or by differentiating the strain energy.</p>
@@ -207,14 +218,14 @@ table.verify td.num { text-align: right; font-variant-numeric: tabular-nums; }
 <p><strong>Choose:</strong> unit load · Castigliano<br><span style='color:var(--dim)'>They share nothing but the solver: one sums a product of two force systems, the other differences a stored energy. For a linear elastic structure they agree to the last digit, and flipping between them on a structure the reader built is the check -- a single number would have to be taken on trust.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#energy_methods'>Why it computes this →</a></p>
 <h2>Trusses &amp; Frames</h2>
-<h3 id="truss_hand">Truss — Joints &amp; Sections</h3>
-<p>Member forces in a statically determinate truss, by joints, by a section cut, or by tension coefficients.</p>
+<h3 id="truss_hand">Truss — Joints &amp; Coefficients</h3>
+<p>Member forces in a statically determinate truss, by joints and by tension coefficients.</p>
 <p><strong>You give:</strong> <code>nodes</code>, <code>members</code>, <code>supports</code>, <code>loads</code>, <code>method</code></p>
 <p><strong>It gives back:</strong> <code>N_forces</code>, <code>zero_members</code>, <code>R_vec</code></p>
-<p><strong>Choose:</strong> method of joints · method of sections · tension coefficients<br><span style='color:var(--dim)'>Seeing which route produced a number is most of the teaching value; a single unlabelled answer teaches nothing.</span></p>
+<p><strong>Choose:</strong> method of joints · tension coefficients<br><span style='color:var(--dim)'>Seeing which route produced a number is most of the teaching value; a single unlabelled answer teaches nothing.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#truss_hand'>Why it computes this →</a></p>
 <h3 id="force_diagram">Force Diagram</h3>
-<p>The truss drawn to scale, each member coloured for tension or compression and weighted by its share of the largest force.</p>
+<p>Construct reciprocal member-force vectors and a closed equilibrium polygon at every resolvable joint.</p>
 <p><strong>You give:</strong> <code>nodes</code>, <code>members</code>, <code>loads</code></p>
 <p><strong>It gives back:</strong> <code>force_diagram</code>, <code>N_forces</code></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#force_diagram'>Why it computes this →</a></p>
@@ -298,6 +309,7 @@ table.verify td.num { text-align: right; font-variant-numeric: tabular-nums; }
 <p><strong>You give:</strong> <code>E</code>, <code>I_x</code>, <code>L</code>, <code>shape_fn</code>, <code>n_grid</code>, <code>method</code></p>
 <p><strong>It gives back:</strong> <code>P_cr</code>, <code>bracket</code></p>
 <p><strong>Choose:</strong> Rayleigh-Ritz · Galerkin · finite differences<br><span style='color:var(--dim)'>Each converges differently and from a different side; an unlabelled number hides which one you are trusting.</span></p>
+<p><strong>Choose:</strong> a parabola · a half sine wave<br><span style='color:var(--dim)'>An assumed shape can only overestimate the critical load, and how far it overestimates by is the whole lesson: the parabola lands twenty-one per cent high, the half sine wave is the exact mode and lands on the answer. Which one is running has to be visible or the error looks like the method's rather than the guess's.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#approximate_buckling'>Why it computes this →</a></p>
 <h3 id="model_buckling">Buckling of the Model</h3>
 <p>The load factor at which the drawn truss or frame goes unstable, and the shape it goes unstable in.</p>
@@ -306,11 +318,11 @@ table.verify td.num { text-align: right; font-variant-numeric: tabular-nums; }
 <p style='font-size:.87rem'><a href='../theory/index.html#model_buckling'>Why it computes this →</a></p>
 <h3 id="beam_columns">Beam-Columns</h3>
 <p>Bending and compression together, where the axial force magnifies the deflection that bending caused.</p>
-<p><strong>You give:</strong> <code>P</code>, <code>P_cr</code>, <code>W</code>, <code>q</code>, <code>L</code>, <code>E</code>, <code>I_x</code>, <code>M_p</code></p>
-<p><strong>It gives back:</strong> <code>delta_max</code>, <code>M_max</code>, <code>amp</code>, <code>FoS</code></p>
+<p><strong>You give:</strong> <code>P</code>, <code>q</code>, <code>L</code>, <code>E</code>, <code>I_x</code>, <code>M_p</code></p>
+<p><strong>It gives back:</strong> <code>P_cr</code>, <code>delta_max</code>, <code>M_max</code>, <code>amp</code>, <code>FoS</code>, <code>util</code></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#beam_columns'>Why it computes this →</a></p>
 <h3 id="frame_effective_length">Frame Effective Length</h3>
-<p>The effective length factor for a column inside a frame, solved from the equation the chart came from.</p>
+<p>The effective length factor for a column inside a frame, from the published closed form that stands in for reading the alignment chart.</p>
 <p><strong>You give:</strong> <code>G_A</code>, <code>G_B</code>, <code>sway</code>, <code>E</code>, <code>I_x</code>, <code>L</code></p>
 <p><strong>It gives back:</strong> <code>K_eff</code>, <code>P_cr</code>, <code>L_eff</code></p>
 <p><strong>Choose:</strong> braced against sway · free to sway<br><span style='color:var(--dim)'>The two equations are different and their answers differ by a factor of two or more. Defaulting to one is the single most consequential silent choice in the whole stability family.</span></p>
@@ -348,7 +360,7 @@ table.verify td.num { text-align: right; font-variant-numeric: tabular-nums; }
 <p><strong>Choose:</strong> resultant inside the middle third, full contact · resultant outside, base partly lifted<br><span style='color:var(--dim)'>The linear formula quietly returns tension under a footing, which is meaningless and always non-conservative.</span></p>
 <p style='font-size:.87rem'><a href='../theory/index.html#retaining_wall'>Why it computes this →</a></p>
 <footer>
-<p>Truss &amp; Frame — StructureOne. Runs entirely on your device: no network, no accounts,
+<p>Truss &amp; Frame — TrussOne. Runs entirely on your device: no network, no accounts,
 no analytics.</p>
 <p>These pages are generated from the app's own specification, so what they
 describe is what the app computes.</p>
